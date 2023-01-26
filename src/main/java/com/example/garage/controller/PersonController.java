@@ -3,6 +3,7 @@ package com.example.garage.controller;
 import com.example.garage.exception.PersonNotFound;
 import com.example.garage.model.Person;
 import com.example.garage.service.PersonService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,13 +32,15 @@ public class PersonController {
     }
 
     @GetMapping("persons/{personId}")
-    public @ResponseBody void getPersonById(@PathVariable int personId) throws PersonNotFound {
-        this.personService.getPersonById(personId);
+    @Cacheable(value = "persons", key = "#personId")
+    public @ResponseBody Person getPersonById(@PathVariable int personId) throws PersonNotFound {
+        System.out.println("not cached");
+        return this.personService.getPersonById(personId);
     }
 
     @PutMapping("persons")
-    public @ResponseBody void savePerson(@RequestBody Person person) {
-        personService.addPerson(person);
+    public @ResponseBody Person savePerson(@RequestBody Person person) {
+        return personService.addPerson(person);
     }
 
     @DeleteMapping("persons/{personId}")
