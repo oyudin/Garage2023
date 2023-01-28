@@ -34,7 +34,6 @@ public class PersonController {
     @GetMapping("persons/{personId}")
     @Cacheable(value = "persons", key = "#personId")
     public @ResponseBody Person getPersonById(@PathVariable int personId) throws PersonNotFound {
-        System.out.println("not cached");
         return this.personService.getPersonById(personId);
     }
 
