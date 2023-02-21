@@ -3,6 +3,7 @@ package com.example.garage.controller;
 import com.example.garage.model.User;
 import com.example.garage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,8 @@ public class UserController {
         return "Users";
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("users/{username}")
+    @Cacheable(value = "users", key = "#username")
     public String getUserByUsername(Model model, @PathVariable String username) {
         model.addAttribute("user", userService.getUserByUsername(username));
         return "User";

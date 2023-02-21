@@ -33,8 +33,3 @@ public class RegistrationController {
         return "redirect:/login";
     }
 }
-
-////        user.setRole("USER");
-//        userService.saveUser(user);
-//        return "redirect:/login";
-//    }
