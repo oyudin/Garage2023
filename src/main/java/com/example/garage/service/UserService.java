@@ -1,16 +1,21 @@
 package com.example.garage.service;
 
+import com.example.garage.config.EncoderConfig;
 import com.example.garage.model.User;
 import com.example.garage.repository.dao.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final EncoderConfig encoderConfig;
 
-    public UserService(UserRepository userRepository) {
+    @Autowired
+    public UserService(UserRepository userRepository, EncoderConfig encoderConfig) {
         this.userRepository = userRepository;
+        this.encoderConfig = encoderConfig;
     }
 
     public Iterable<User> getAllUsers() {
@@ -22,15 +27,12 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+        user.setPassword(encoderConfig.passwordEncoder().encode(user.getPassword()));
+        user.setRole("USER");
         return userRepository.save(user);
     }
 
-    public void deleteUser(int userId) {
-        userRepository.deleteById(userId);
+    public void deleteUser(Integer id) {
+        userRepository.deleteById(id);
     }
-
-//    public User updateUser(User user, int userId) {
-//        userRepository.updateUser(user, userId);
-//        return user;
-//    }
 }

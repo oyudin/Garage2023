@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -26,14 +27,24 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests()
-                .requestMatchers("/garage/**").hasAnyAuthority("ADMIN", "USER")
-                .requestMatchers("/users/**").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().defaultSuccessUrl("/garage")
-                .and()
-                .logout().permitAll();
+                .authorizeHttpRequests((authorize) ->
+                        authorize
+                                .requestMatchers("/registration").permitAll()
+                                .requestMatchers("/garage/**").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers("/user**", "/users/**").hasAuthority("ADMIN")
+                                .anyRequest().authenticated()
+                                .and()
+                ).formLogin(
+                        form -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/garage")
+                                .permitAll()
+                ).logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                );
         return http.build();
     }
 
