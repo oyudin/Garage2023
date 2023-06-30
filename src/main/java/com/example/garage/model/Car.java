@@ -17,4 +17,5 @@ public class Car {
     private String model;
     private String color;
     private int personId;
+    private int autoPartId;
 }

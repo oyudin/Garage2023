@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS users
     PRIMARY KEY (id)
 );
 
-INSERT INTO users
-VALUES (DEFAULT, 'user2', '$2a$12$qMMkBmFDBJGl2jqXH1nb5eqhrx4P.VYdHuMWYYm9ntEEEc3thH8/C', 'ADMIN');
+-- INSERT INTO users
+-- VALUES (DEFAULT, 'user2', '$2a$12$qMMkBmFDBJGl2jqXH1nb5eqhrx4P.VYdHuMWYYm9ntEEEc3thH8/C', 'ADMIN');

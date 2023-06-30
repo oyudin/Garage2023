@@ -22,7 +22,7 @@
 <div class="container">
     <h1 class="text-center mb-4">Auto Parts List</h1>
     <div id="partsList">
-        <div th:each="part : ${autoPartsByCar}">
+        <div th:each="part : ${autoPart}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${part.autoPartName}"></h5>
@@ -32,7 +32,9 @@
             </div>
         </div>
     </div>
+
 </div>
+<a th:href="@{'/garage/persons/' + ${personId} + '/cars'}" class="btn btn-primary create-car-button">Back to Cars</a>
 
 <script>
     window.addEventListener("load", function() {

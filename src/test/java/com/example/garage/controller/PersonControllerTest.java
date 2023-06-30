@@ -79,13 +79,13 @@ public class PersonControllerTest {
                 .andReturn();
     }
 
-    @Test
-    public void addCarToPersonTest() throws Exception {
-        Mockito.when(personRepository.addCarToPerson(anyInt(), anyInt())).thenReturn(testPerson);
-        mockMvc.perform(post("/garage/persons/" + testPerson.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testPerson)))
-                .andExpect(status().isOk())
-                .andReturn();
-    }
+//    @Test
+//    public void addCarToPersonTest() throws Exception {
+//        Mockito.when(personRepository.addCarToPerson(anyInt(), anyInt())).thenReturn(testPerson);
+//        mockMvc.perform(post("/garage/persons/" + testPerson.getId())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(testPerson)))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//    }
 }

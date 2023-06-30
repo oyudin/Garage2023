@@ -2,6 +2,7 @@ package com.example.garage.service;
 
 import com.example.garage.exception.CarNotFound;
 import com.example.garage.model.Car;
+import com.example.garage.model.Person;
 import com.example.garage.repository.dao.CarRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class CarService {
         return carRepository.findAllCars();
     }
 
-    public Car addCar(Car car) {
-        carRepository.saveCar(car);
+    public Car addCar(int personId, Car car) {
+        carRepository.saveCar(personId, car);
         return car;
     }
 

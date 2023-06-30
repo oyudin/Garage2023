@@ -12,6 +12,7 @@ public interface AutoPartRepository extends CrudRepository<AutoPart, Integer> {
 
     AutoPart findAutoPartByAutoPartName(String userSurname);
 
+    List<AutoPart> findAutoPartByAutoPartCarId(int carId);
     AutoPart save(AutoPart autoPart);
 
     AutoPart deleteAutoPartByAutoPartName(String autoPartName);

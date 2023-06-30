@@ -16,6 +16,7 @@ public class CarMapper implements RowMapper<Car> {
                 .model(rows.getString("model"))
                 .color(rows.getString("color"))
                 .personId(rows.getInt("person_id"))
+                .autoPartId(rows.getInt("autopart_id"))
                 .build();
     }
 //    @Override

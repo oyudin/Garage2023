@@ -2,6 +2,7 @@ package com.example.garage.service;
 
 import com.example.garage.config.EncoderConfig;
 import com.example.garage.model.AutoPart;
+import com.example.garage.model.Car;
 import com.example.garage.model.User;
 import com.example.garage.repository.dao.AutoPartRepository;
 import com.example.garage.repository.dao.UserRepository;
@@ -23,6 +24,11 @@ public class AutoPartService {
     public List<AutoPart> getAllAutoParts() {
         return autoPartRepository.findAll();
     }
+
+    public List<AutoPart> getListOfAutoPartsByCar(int carId) {
+        return autoPartRepository.findAutoPartByAutoPartCarId(carId);
+    }
+
 
     public AutoPart getAutoPartByName(String autoPartName) {
         return autoPartRepository.findAutoPartByAutoPartName(autoPartName);

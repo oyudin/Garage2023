@@ -18,6 +18,10 @@ public class AutoPart {
     private Integer id;
     @Column("auto_part_name")
     private String autoPartName;
+    @Column("auto_part_price")
     private double autoPartPrice;
-    private String AutoPartDescription;
+    @Column("auto_part_description")
+    private String autoPartDescription;
+    @Column("auto_part_car_id")
+    private int autoPartCarId;
 }

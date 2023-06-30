@@ -13,6 +13,7 @@ public class PersonMapper implements RowMapper<Person> {
                 .id(rows.getInt("id"))
                 .name(rows.getString("name"))
                 .surname(rows.getString("surname"))
+                .phoneNumber(rows.getLong("phoneNumber"))
                 .build();
     }
 //    @Override

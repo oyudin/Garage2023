@@ -37,15 +37,15 @@ public class CarControllerTest {
         mockMvc.perform(get("/garage/cars")).andExpect(status().is(200)).andReturn();
     }
 
-    @Test
-    public void saveCarTest() throws Exception {
-        Mockito.when(carRepository.saveCar(any())).thenReturn(testCar);
-        mockMvc.perform(put("/garage/cars")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testCar)))
-                .andExpect(status().isOk())
-                .andReturn();
-    }
+//    @Test
+//    public void saveCarTest() throws Exception {
+//        Mockito.when(carRepository.saveCar(any())).thenReturn(testCar);
+//        mockMvc.perform(put("/garage/cars")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(testCar)))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//    }
 
     @Test
     public void updateCarTest() throws Exception {
