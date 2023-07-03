@@ -16,13 +16,27 @@
         .card {
             margin-bottom: 20px;
         }
+
+        #partsList {
+            max-height: 550px;
+            overflow-y: auto;
+        }
+
+        .create-car-button {
+            width: 120px;
+            margin-top: 10px;
+        }
+
+        .float-right {
+            float: right;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1 class="text-center mb-4">Auto Parts List</h1>
     <div id="partsList">
-        <div th:each="part : ${autoPart}">
+        <div th:each="part : ${autoPartListByCar}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${part.autoPartName}"></h5>
@@ -32,16 +46,18 @@
             </div>
         </div>
     </div>
+    <a th:href="@{'/garage/persons/' + ${personId} + '/cars'}" class="btn btn-primary create-car-button">Back to
+        Cars</a>
+    <div class="float-right">
+        <a th:href="@{/garage/persons/{personId}/cars/{carId}/create(personId=${personId}, carId=${carId})}"
+           class="btn btn-primary create-car-button">Add Auto Part</a>
+    </div>
+
+    <script>
+        window.addEventListener("load", function () {
+        });
+    </script>
 
 </div>
-<a th:href="@{'/garage/persons/' + ${personId} + '/cars'}" class="btn btn-primary create-car-button">Back to Cars</a>
-
-<script>
-    window.addEventListener("load", function () {
-        // No need to make an additional request to fetch parts list, as the data is already passed from the controller.
-        // The parts list will be rendered directly on the page.
-    });
-</script>
-
 </body>
 </html>

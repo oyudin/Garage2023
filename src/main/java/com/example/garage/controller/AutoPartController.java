@@ -49,10 +49,10 @@ public class AutoPartController {
 //        return "AutoPartsByCar";
 //    }
     @GetMapping("/garage/persons/{personId}/cars/{carId}")
-    @ResponseBody
-    public List<AutoPart> getListAutoPartsByCarId(Model model, @PathVariable int personId, @PathVariable int carId) {
-        return autoPartService.getListOfAutoPartsByCar(carId);
-//        model.addAttribute("autoPartListByCar", autoPartListByCar);
+//    @ResponseBody
+    public String getListAutoPartsByCarId(Model model, @PathVariable int personId, @PathVariable int carId) {
+        model.addAttribute("autoPartListByCar", autoPartService.getListOfAutoPartsByCar(carId));
+        return "AutoPartsByCar";
     }
 
 

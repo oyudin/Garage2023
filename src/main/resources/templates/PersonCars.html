@@ -43,6 +43,10 @@
         .float-end {
             float: right;
         }
+
+        .btn-group {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -59,13 +63,17 @@
                 <span th:text="${car.model}"></span>
                 <span th:text="${car.color}"></span>
             </p>
-            <a th:href="@{/garage/persons/{personId}/cars/{carId}(personId=${personId}, carId=${car.Id})}"
-               class="btn btn-primary create-car-button float-end">View Details</a>
+            <div class="btn-group float-end">
+                <a th:href="@{/garage/persons/{personId}/cars/{carId}(personId=${personId}, carId=${car.Id})}"
+                   class="btn btn-primary create-car-button">View Details</a>
+            </div>
         </div>
     </div>
-
     <a th:href="@{'/garage/persons'}" class="btn btn-primary create-car-button">Clients List</a>
-    <a th:href="@{/garage/persons/{personId}/newCar(personId=${personId})}" class="btn btn-primary create-car-button">Create Car</a>
+<div class="float-end">
+    <a th:href="@{/garage/persons/{personId}/newCar(personId=${personId})}"
+       class="btn btn-primary create-car-button">Create Car</a>
+</div>
 </div>
 </body>
 </html>
