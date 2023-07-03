@@ -1,6 +1,7 @@
 package com.example.garage.controller;
 
 import com.example.garage.exception.PersonNotFound;
+import com.example.garage.model.Car;
 import com.example.garage.model.Person;
 import com.example.garage.service.CarService;
 import com.example.garage.service.PersonService;
@@ -22,7 +23,7 @@ public class PersonController {
         this.carService = carService;
     }
 
-    private int lastCreatedPerson(){
+    private int lastCreatedPerson() {
         System.out.println(personService.getTheLastCreatedPerson().getId());
         return personService.getTheLastCreatedPerson().getId();
     }
@@ -39,27 +40,27 @@ public class PersonController {
         return "Persons";
     }
 
+    @GetMapping("persons/{personId}/cars")
+    public String findCarsByPerson(Model model, @PathVariable int personId) {
+        model.addAttribute("carByPerson", personService.getListOfPersonCars(personId));
+        return "PersonCars";
+    }
+
     @GetMapping("persons/{personId}")
     @Cacheable(value = "persons", key = "#personId")
     public @ResponseBody Person getPersonById(@PathVariable int personId) throws PersonNotFound {
         return this.personService.getPersonById(personId);
     }
 
-
-//    @PostMapping("persons")
-//    public Person savePerson(@ModelAttribute Person person) {
-//        return personService.addPerson(person);
-//    }
+    @GetMapping("persons/registration")
+    public String showRegistrationClientPage() {
+        return "RegisterClient";
+    }
 
     @PostMapping("persons")
     public String savePerson(@ModelAttribute Person person) {
         personService.addPerson(person);
         return "redirect:/garage/persons/" + lastCreatedPerson() + "/cars";
-    }
-
-    @GetMapping("persons/registration")
-    public String showRegistrationClientPage() {
-        return "RegisterClient";
     }
 
 
@@ -69,23 +70,16 @@ public class PersonController {
     }
 
 
-//    @PostMapping("persons/{personId}")
-//    public @ResponseBody void updatePerson(@PathVariable int personId, @RequestBody Person person) throws PersonNotFound {
-//        this.personService.updatePerson(person, personId);
+//    @GetMapping("/persons/{personId}/newCar")
+//    public String showCarCreatingPage() {
+//        return "CarCreatingPage";
 //    }
-
-
-    @GetMapping("persons/{personId}/cars")
-    public String findCarsByPerson(Model model, @PathVariable int personId) {
-        model.addAttribute("carByPerson", personService.getListOfPersonCars(personId));
-        return "PersonCars";
-    }
-
-
-    //    @PostMapping("/persons/{personId}/addCar")
-//    public @ResponseBody void createCarToPerson(@PathVariable int personId, @RequestBody Car car) {
+//
+//    @PostMapping("/persons/{personId}/addCar")
+//    public String createCarToPerson(@PathVariable int personId, @RequestBody Car car) {
 //        carService.addCar(personId, car);
+//        return "redirect:/garage/persons/" + personId + "/cars";
+//
 //    }
-
 
 }

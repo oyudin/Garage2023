@@ -32,21 +32,40 @@ public class AutoPartController {
         return autoPartService.getAutoPartByName(autoPartName);
     }
 
-    @GetMapping("/autopart/create")
-    public String registration() {
+    // Working version
+
+//    @GetMapping("/garage/autopart/car/{carId}")
+//    public String getListAutoPartsByCarId(Model model, @PathVariable int carId) {
+//        List<AutoPart> autoPartListByCar = autoPartService.getListOfAutoPartsByCar(carId);
+//        model.addAttribute("autoPartListByCar", autoPartListByCar);
+//        return "AutoParts";
+//    }
+
+    //    @GetMapping("/garage/persons/{personId}/cars/{carId}")
+////    @ResponseBody
+//    public String getListAutoPartsByCarId(Model model, @PathVariable int personId, @PathVariable int carId) {
+//        List<AutoPart> autoPartListByCar = autoPartService.getListOfAutoPartsByCar(carId);
+//        model.addAttribute("autoPartListByCar", autoPartListByCar);
+//        return "AutoPartsByCar";
+//    }
+    @GetMapping("/garage/persons/{personId}/cars/{carId}")
+    @ResponseBody
+    public List<AutoPart> getListAutoPartsByCarId(Model model, @PathVariable int personId, @PathVariable int carId) {
+        return autoPartService.getListOfAutoPartsByCar(carId);
+//        model.addAttribute("autoPartListByCar", autoPartListByCar);
+    }
+
+
+    @GetMapping("garage/persons/{personId}/cars/{carId}/create")
+    public String showAutoPartCreatingPage(@PathVariable int personId, @PathVariable int carId) {
         return "CreateAutoPart";
     }
 
-    @PostMapping("/garage/person/car/{carId}/autopart/create")
-    @ResponseBody
-    public String createAutoPart(@RequestBody AutoPart autoPart, @PathVariable int carId) {
-        autoPart.setAutoPartCarId(carId);
-        AutoPart createdAutoPart = autoPartService.createAutoPart(autoPart);
-        if (createdAutoPart != null) {
-            return "success";
-        } else {
-            return "error";
-        }
+
+    @PostMapping("garage/persons/{personId}/cars/{carId}/createAutoPart")
+    public String createAutoPart(@RequestBody AutoPart autoPart, @PathVariable int personId, @PathVariable int carId) {
+        autoPartService.save(autoPart, carId);
+        return "redirect:/garage/persons/" + personId + "/cars";
     }
 
     @DeleteMapping("/autopart/{autoPartName}")
@@ -57,17 +76,11 @@ public class AutoPartController {
 
     /*-------------Auto Parts By Car------------*/
 
-//    @GetMapping("autopart/car/{carId}")
+//    @GetMapping("garage/persons/{personId}/cars/{carId}")
 //    @ResponseBody
-//    public List<AutoPart> getListAutoPartsByCarId(@PathVariable int carId) {
+//    public List<AutoPart> getListAutoPartsByCarId(@PathVariable int carId, @PathVariable int personId) {
 //        return autoPartService.getListOfAutoPartsByCar(carId);
 //    }
 
-    @GetMapping("/garage/autopart/car/{carId}")
-    public String getListAutoPartsByCarId(Model model, @PathVariable int carId) {
-        List<AutoPart> autoPartListByCar = autoPartService.getListOfAutoPartsByCar(carId);
-        model.addAttribute("autoPartListByCar", autoPartListByCar);
-        return "AutoParts";
-    }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("/garage/cars")
+@RequestMapping("/garage")
 public class CarController {
 
     private final CarService carService;
@@ -18,18 +18,30 @@ public class CarController {
         this.carService = carService;
     }
 
-    @GetMapping
+    @GetMapping("/cars")
     public String getAllCars(Model model) {
         model.addAttribute("cars", carService.getAllCars());
         return "Cars";
     }
 
-    @PostMapping("/{carId}")
+    @PostMapping("/cars/{carId}")
     public @ResponseBody void updateCar(@PathVariable int carId, @RequestBody Car car) throws CarNotFound {
         this.carService.updateCar(car, carId);
     }
 
-    @DeleteMapping("/{carId}")
+    @GetMapping("/persons/{personId}/newCar")
+    public String showCarCreatingPage() {
+        return "CarCreatingPage";
+    }
+
+    @PostMapping("/persons/{personId}/addCar")
+    public String createCarToPerson(@PathVariable int personId, @RequestBody Car car) {
+        carService.addCar(personId, car);
+        return "redirect:/garage/persons/" + personId + "/cars";
+
+    }
+
+    @DeleteMapping("/cars/{carId}")
     public @ResponseBody void deleteCar(@PathVariable int carId) {
         this.carService.deleteCar(carId);
     }

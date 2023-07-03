@@ -7,6 +7,7 @@ import com.example.garage.model.User;
 import com.example.garage.repository.dao.AutoPartRepository;
 import com.example.garage.repository.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,11 @@ public class AutoPartService {
 
     private final AutoPartRepository autoPartRepository;
 
-    @Autowired
-    public AutoPartService(AutoPartRepository autoPartRepository) {
+    private final JdbcTemplate jdbcTemplate;
+
+    public AutoPartService(AutoPartRepository autoPartRepository, JdbcTemplate jdbcTemplate) {
         this.autoPartRepository = autoPartRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<AutoPart> getAllAutoParts() {
@@ -34,12 +37,22 @@ public class AutoPartService {
         return autoPartRepository.findAutoPartByAutoPartName(autoPartName);
     }
 
-    public AutoPart createAutoPart(AutoPart autoPart) {
-        return autoPartRepository.save(autoPart);
-    }
+//    public AutoPart createAutoPart(AutoPart autoPart, int carId) {
+//        return autoPartRepository.save(autoPart, carId);
+//    }
 
     public void deleteAutoPartByName(String autoPartName) {
         autoPartRepository.deleteAutoPartByAutoPartName(autoPartName);
+    }
+
+    public AutoPart save(AutoPart autoPart, int autoPartCarId) {
+        jdbcTemplate.update("INSERT INTO  auto_parts (auto_part_name, auto_part_description, auto_part_price, auto_part_car_id) " +
+                        "VALUES (?, ?, ?, ?)",
+                autoPart.getAutoPartName(),
+                autoPart.getAutoPartDescription(),
+                autoPart.getAutoPartPrice(),
+                autoPartCarId);
+        return autoPart;
     }
 
 }

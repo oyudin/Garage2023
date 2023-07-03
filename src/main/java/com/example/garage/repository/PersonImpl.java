@@ -67,7 +67,5 @@ public class PersonImpl implements PersonRepository {
     @Override
     public Person getTheLastCreatedPerson() {
         return jdbcTemplate.queryForObject("SELECT * FROM persons ORDER BY id DESC LIMIT 1", new PersonMapper());
-//        assert person != null;
-//        return person.getId();
     }
 }

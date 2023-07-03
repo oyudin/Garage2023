@@ -1,110 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Create Auto Part</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        .container {
-            margin-top: 50px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .alert {
-            margin-top: 20px;
-        }
-
-        /* Добавленные стили */
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .form-title {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .form-wrapper {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary {
-            width: 100%;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Create an Auto Part</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
-    <div class="form-wrapper">
-        <h1 class="form-title">Create Auto Part</h1>
-        <form id="autoPartForm">
-            <div class="form-group">
-                <label for="autoPartName">Name:</label>
-                <input type="text" class="form-control" id="autoPartName" name="autoPartName" required>
-            </div>
-            <div class="form-group">
-                <label for="autoPartPrice">Price:</label>
-                <input type="number" class="form-control" id="autoPartPrice" name="autoPartPrice" required>
-            </div>
-            <div class="form-group">
-                <label for="autoPartDescription">Description:</label>
-                <textarea class="form-control" id="autoPartDescription" name="autoPartDescription" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-
-        <div id="message" class="alert alert-success mt-3" role="alert" style="display: none;"></div>
-    </div>
+    <form class="form-signin" id="autoPartForm">
+        <h2 class="form-signin-heading">Create an Auto Part</h2>
+        <input type="hidden" id="carId" value="">
+        <input type="hidden" id="personId" value="">
+        <p>
+            <label class="form-label" for="autoPartName">Auto Part Name</label>
+            <input class="form-control" id="autoPartName" name="autoPartName" type="text"
+                   placeholder="Enter auto part name" required>
+        </p>
+        <p>
+            <label class="form-label" for="autoPartPrice">Auto Part Price</label>
+            <input class="form-control" id="autoPartPrice" name="autoPartPrice" type="number" step="0.01"
+                   placeholder="Enter auto part price" required>
+        </p>
+        <p>
+            <label class="form-label" for="autoPartDescription">Auto Part Description</label>
+            <input class="form-control" id="autoPartDescription" name="autoPartDescription" type="text"
+                   placeholder="Enter auto part description" required>
+        </p>
+        <button class="btn btn-primary mb-3" type="submit">Create</button>
+    </form>
 </div>
 
 <script>
-    function showMessage(message) {
-        const messageElement = document.getElementById("message");
-        messageElement.innerHTML = message;
-        messageElement.style.display = "block";
-    }
+    window.addEventListener('DOMContentLoaded', function () {
+        var urlParts = window.location.pathname.split('/');
+        var carId = parseInt(urlParts[urlParts.length - 2]); // Изменено: -3 на -2
+        var personId = parseInt(urlParts[urlParts.length - 4]); // Изменено: -5 на -4
+        var autoPartForm = document.querySelector('#autoPartForm');
+        var carIdField = document.querySelector('#carId');
+        var personIdField = document.querySelector('#personId');
 
-    document.getElementById("autoPartForm").addEventListener("submit", function (event) {
-        event.preventDefault();
+        carIdField.value = carId;
+        personIdField.value = personId;
 
-        const autoPartName = document.getElementById("autoPartName").value;
-        const autoPartPrice = document.getElementById("autoPartPrice").value;
-        const autoPartDescription = document.getElementById("autoPartDescription").value;
+        autoPartForm.addEventListener('submit', function (event) {
+            event.preventDefault();
 
-        const autoPartData = {
-            autoPartName: autoPartName,
-            autoPartPrice: autoPartPrice,
-            autoPartDescription: autoPartDescription
-        };
+            function trimURL() {
+                var currentURL = window.location.pathname;
+                var trimmedURL = currentURL;
+                return trimmedURL;
+            }
 
-        fetch("/garage/autopart/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(autoPartData)
-        })
-            .then(function(response) {
-                if (response.ok) {
-                    showMessage("Auto part created successfully!");
-                    setTimeout(function() {
-                        window.location.href = "/garage/autopart";
-                    }, 3000);
-                } else {
-                    showMessage("Error occurred while creating auto part.");
+            var trimmedPath = trimURL().replace('create', "createAutoPart");
+            console.log(trimmedPath);
+
+            var formData = new FormData(autoPartForm);
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', trimmedPath);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    console.log('Auto part created successfully!');
+                    showSuccessMessage();
+                    setTimeout(redirectToAutoPartsPage, 2000);
                 }
-            })
-            .catch(function(error) {
-                showMessage("Error occurred while creating auto part.");
-            });
+            };
+            xhr.send(JSON.stringify(Object.fromEntries(formData)));
+        });
+
+        function showSuccessMessage() {
+            var successAlert = document.createElement('div');
+            successAlert.classList.add('alert', 'alert-success');
+            successAlert.textContent = 'A new auto part added';
+
+            var container = document.querySelector('.container');
+            container.insertBefore(successAlert, autoPartForm.nextSibling);
+        }
+
+        function redirectToAutoPartsPage() {
+            window.location.href = '/garage/persons/' + personId + '/cars/' + carId;
+        }
     });
 </script>
 

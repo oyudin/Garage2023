@@ -22,7 +22,7 @@
 <div class="container">
     <h1 class="text-center mb-4">Auto Parts List</h1>
     <div id="partsList">
-        <div th:each="part : ${autoPartsByCar}">
+        <div th:each="part : ${autoPart}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${part.autoPartName}"></h5>
@@ -32,13 +32,17 @@
             </div>
         </div>
     </div>
+
+    <button onclick="trimURL()" class="btn btn-primary create-car-button">Back to Cars</button>
+    <a th:href="@{${carId} + '/create'}" class="btn btn-primary create-car-button">Add AutoPart</a>
 </div>
 
 <script>
-    window.addEventListener("load", function() {
-        // No need to make an additional request to fetch parts list, as the data is already passed from the controller.
-        // The parts list will be rendered directly on the page.
-    });
+    function trimURL() {
+        var currentURL = window.location.href;
+        var trimmedURL = currentURL.replace(/\/\d+$/, '');
+        window.location.href = trimmedURL;
+    }
 </script>
 
 </body>
