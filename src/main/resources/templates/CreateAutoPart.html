@@ -31,6 +31,7 @@
             <input class="form-control" id="autoPartDescription" name="autoPartDescription" type="text"
                    placeholder="Enter auto part description" required>
         </p>
+        <button class="btn btn-primary mb-3" id="backToAutoPartsBtn">Back to Auto Parts</button>
         <button class="btn btn-primary mb-3" type="submit">Create</button>
     </form>
 </div>
@@ -38,8 +39,8 @@
 <script>
     window.addEventListener('DOMContentLoaded', function () {
         var urlParts = window.location.pathname.split('/');
-        var carId = parseInt(urlParts[urlParts.length - 2]); // Изменено: -3 на -2
-        var personId = parseInt(urlParts[urlParts.length - 4]); // Изменено: -5 на -4
+        var carId = parseInt(urlParts[urlParts.length - 2]);
+        var personId = parseInt(urlParts[urlParts.length - 4]);
         var autoPartForm = document.querySelector('#autoPartForm');
         var carIdField = document.querySelector('#carId');
         var personIdField = document.querySelector('#personId');
@@ -87,6 +88,11 @@
         function redirectToAutoPartsPage() {
             window.location.href = '/garage/persons/' + personId + '/cars/' + carId;
         }
+
+        var backToAutoPartsBtn = document.querySelector('#backToAutoPartsBtn');
+        backToAutoPartsBtn.addEventListener('click', function () {
+            redirectToAutoPartsPage();
+        });
     });
 </script>
 
