@@ -12,9 +12,9 @@ public class CarMapper implements RowMapper<Car> {
         return Car.builder()
                 .id(rows.getInt("car_id"))
                 .number(rows.getString("number"))
+                .vinCode(rows.getString("vincode"))
                 .brand(rows.getString("brand"))
                 .model(rows.getString("model"))
-                .color(rows.getString("color"))
                 .personId(rows.getInt("person_id"))
                 .autoPartId(rows.getInt("autopart_id"))
                 .build();

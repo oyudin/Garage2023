@@ -17,9 +17,9 @@
         <tr style="color: #91c5ff">
             <th>Car ID</th>
             <th>Number</th>
+            <th>Vin Code</th>
             <th>Brand</th>
             <th>Model</th>
-            <th>Color</th>
             <th>Owner ID</th>
         </tr>
         </thead>
@@ -28,9 +28,9 @@
         <tr style="color: lightslategray">
             <td th:text="${car.id}"></td>
             <td th:text="${car.number}"></td>
+            <td th:text="${car.vinCode}"></td>
             <td th:text="${car.brand}"></td>
             <td th:text="${car.model}"></td>
-            <td th:text="${car.color}"></td>
             <td th:text="${car.personId}"></td>
         </tr>
         </tbody>

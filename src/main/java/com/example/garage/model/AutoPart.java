@@ -16,12 +16,14 @@ import org.springframework.data.relational.core.mapping.Table;
 public class AutoPart {
     @Id
     private Integer id;
-    @Column("auto_part_name")
-    private String autoPartName;
+    @Column("repairmentdate")
+    private String repairmentDate;
     @Column("auto_part_price")
     private double autoPartPrice;
     @Column("auto_part_description")
     private String autoPartDescription;
+    @Column("millage")
+    private int millage;
     @Column("auto_part_car_id")
     private int autoPartCarId;
 }

@@ -10,11 +10,11 @@ public interface AutoPartRepository extends CrudRepository<AutoPart, Integer> {
 
     List<AutoPart> findAll();
 
-    AutoPart findAutoPartByAutoPartName(String userSurname);
+//    AutoPart findAutoPartByVinCode(String vinCode);
 
     List<AutoPart> findAutoPartByAutoPartCarId(int carId);
 
     //AutoPart save(AutoPart autoPart, int autoPartCarId);
 
-    AutoPart deleteAutoPartByAutoPartName(String autoPartName);
+//    AutoPart deleteAutoPartByAutoPartName(String autoPartName);
 }

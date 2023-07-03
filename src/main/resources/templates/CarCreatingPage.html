@@ -13,25 +13,25 @@
 <body>
 <div class="container">
     <form class="form-signin" id="carForm">
-        <h2 class="form-signin-heading">Create a Car</h2>
+        <h2 class="form-signin-heading">Нове авто</h2>
         <input type="hidden" id="personId" value="">
         <p>
-            <label class="form-label" for="number">Number</label>
+            <label class="form-label" for="number">Номер авто</label>
             <input class="form-control" id="number" name="number" type="text" placeholder="Enter number" required>
         </p>
         <p>
-            <label class="form-label" for="brand">Brand</label>
+            <label class="form-label" for="vinCode">Він код</label>
+            <input class="form-control" id="vinCode" name="vin code" type="text" placeholder="Enter vin code" required>
+        </p>
+        <p>
+            <label class="form-label" for="brand">Бренд</label>
             <input class="form-control" id="brand" name="brand" type="text" placeholder="Enter brand" required>
         </p>
         <p>
-            <label class="form-label" for="model">Model</label>
+            <label class="form-label" for="model">Модель</label>
             <input class="form-control" id="model" name="model" type="text" placeholder="Enter model" required>
         </p>
-        <p>
-            <label class="form-label" for="color">Color</label>
-            <input class="form-control" id="color" name="color" type="text" placeholder="Enter color" required>
-        </p>
-        <button class="btn btn-primary mb-3" type="submit">Create</button>
+        <button class="btn btn-primary mb-3" type="submit">Додати</button>
     </form>
 </div>
 
@@ -60,7 +60,7 @@
                     // Действия при успешной отправке формы
                     console.log('Car created successfully!');
                     showSuccessMessage();
-                    setTimeout(redirectToCarsPage, 3000);
+                    setTimeout(redirectToCarsPage, 1500);
                 }
             };
             xhr.send(JSON.stringify(Object.fromEntries(formData)));

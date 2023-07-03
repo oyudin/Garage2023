@@ -4,65 +4,65 @@ import com.example.garage.exception.PersonNotFound;
 import com.example.garage.model.Car;
 import com.example.garage.model.Person;
 import com.example.garage.model.Garage;
-import com.example.garage.repository.dao.PersonRepository;
+import com.example.garage.repository.dao.ClientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PersonService {
+public class ClientService {
 
-    private final PersonRepository personRepository;
+    private final ClientRepository clientRepository;
 
-    public PersonService(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    public ClientService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
 
     public List<Garage> getAllPersonsAndCars() {
-        return personRepository.getPersonsWithCars();
+        return clientRepository.getPersonsWithCars();
     }
 
 
     public List<Person> getAllPersons() {
-        return personRepository.getAllPersons();
+        return clientRepository.getAllPersons();
     }
 
 
     public Person getPersonById(int personId) throws PersonNotFound {
-        Person person = personRepository.getPersonById(personId);
+        Person person = clientRepository.getPersonById(personId);
         if (person == null) throw new PersonNotFound(personId);
         return person;
     }
 
 
     public Person addPerson(Person person) {
-        personRepository.savePerson(person);
+        clientRepository.savePerson(person);
         return person;
     }
 
 
     public Person updatePerson(Person person, int personId) throws PersonNotFound {
-        personRepository.updatePerson(person, personId);
+        clientRepository.updatePerson(person, personId);
         if (person == null) throw new PersonNotFound(personId);
         return person;
     }
 
     public Person deletePerson(int id) {
-        personRepository.deletePerson(id);
+        clientRepository.deletePerson(id);
         return null;
     }
 
 
     public List<Car> getListOfPersonCars(int personId) {
-        return personRepository.getListOfPersonCars(personId);
+        return clientRepository.getListOfPersonCars(personId);
     }
 
     public Person getTheLastCreatedPerson() {
-        return personRepository.getTheLastCreatedPerson();
+        return clientRepository.getTheLastCreatedPerson();
     }
 
     public List<Person> searchByPersonName(String personName) {
-        return personRepository.searchPersonByName(personName);
+        return clientRepository.searchPersonByName(personName);
     }
 }

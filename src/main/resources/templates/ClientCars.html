@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авто клієнта</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        #partsList {
+            max-height: 550px;
+            overflow-y: auto;
+        }
+
+        .card-title {
+            font-weight: bold;
+        }
+
+        .card-text {
+            color: #6c757d;
+        }
+
+        .create-car-button {
+            margin-top: 20px;
+            width: 120px;
+        }
+
+        .float-right {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mb-4">Авто клієнта</h1>
+    <div id="partsList">
+        <!-- Loop through the list of cars and display them -->
+        <div th:each="car : ${carByPerson}" class="card">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${car.number}"></h5>
+                <p class="card-text" th:text="'VIN-код: ' + ${car.vinCode}"></p>
+                <p class="card-text" th:text="'Бренд: ' + ${car.brand}"></p>
+                <div class="float-right">
+                    <a th:href="@{/garage/persons/{personId}/cars/{carId}(personId=${personId}, carId=${car.Id})}"
+                       class="btn btn-primary create-car-button stretched-link">Деталі</a>
+                </div>
+                <p class="card-text" th:text="'Модель: ' + ${car.model}"></p>
+
+            </div>
+        </div>
+    </div>
+    <div class="float-right">
+        <a th:href="@{/garage/persons/{personId}/newCar(personId=${personId})}"
+           class="btn btn-primary create-car-button">Додати авто</a>
+    </div>
+    <a th:href="@{'/garage/persons'}" class="btn btn-primary create-car-button">Повернутися до списку клієнтів</a>
+</div>
+</body>
+</html>

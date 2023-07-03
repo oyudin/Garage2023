@@ -34,23 +34,24 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center mb-4">Auto Parts List</h1>
+    <h1 class="text-center mb-4">Історія обслуговування авто</h1>
     <div id="partsList">
         <div th:each="part : ${autoPartListByCar}">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${part.autoPartName}"></h5>
-                    <p class="card-text" th:text="'Price: $' + ${part.autoPartPrice}"></p>
-                    <p class="card-text" th:text="${part.autoPartDescription}"></p>
+                    <h5 class="card-title" th:text="${part.repairmentDate}"></h5>
+                    <p class="card-text" th:text="'Пробіг авто: ' + ${part.millage} + ' км'"></p>
+                    <p class="card-text" th:text="'Деталі: ' + ${part.autoPartDescription}"></p>
+                    <p class="card-text" th:text="'Ціна: ' + ${part.autoPartPrice} + ' грн'"></p>
                 </div>
             </div>
         </div>
     </div>
-    <a th:href="@{'/garage/persons/' + ${personId} + '/cars'}" class="btn btn-primary create-car-button">Back to
-        Cars</a>
+    <a th:href="@{'/garage/persons/' + ${personId} + '/cars'}" class="btn btn-primary create-car-button">Повернутися до
+        списку авто</a>
     <div class="float-right">
         <a th:href="@{/garage/persons/{personId}/cars/{carId}/create(personId=${personId}, carId=${carId})}"
-           class="btn btn-primary create-car-button">Add Auto Part</a>
+           class="btn btn-primary create-car-button">Створити обслуговування</a>
     </div>
 
     <script>

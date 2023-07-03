@@ -18,21 +18,21 @@
             margin-bottom: 30px;
         }
 
-        .list-group {
+        .card-body {
             max-height: 550px;
             overflow-y: auto;
         }
 
-        .list-group-item {
-            background-color: #fff;
+        .card {
             margin-bottom: 10px;
         }
 
-        .list-group-item-heading {
+        .card-header {
+            background-color: #fff;
             font-weight: bold;
         }
 
-        .list-group-item-text {
+        .card-body p {
             color: #6c757d;
         }
 
@@ -57,8 +57,10 @@
 
         .view-cars-button {
             width: 120px;
-            margin-left: auto; /* Added CSS */
-            display: block; /* Added CSS */
+            margin-left: auto;
+            display: block;
+            margin-bottom: 10px; /* Добавлено свойство margin-bottom */
+
         }
 
         .new-client-button {
@@ -71,29 +73,31 @@
 </head>
 <body>
 <div class="container">
-    <h3 class="form-title">Persons</h3>
+    <h3 class="form-title">Мої клієнти</h3>
 
     <div class="search-container">
         <form class="search-form" th:action="@{/garage/persons}" method="get">
             <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search"
                    name="search">
         </form>
-        <button class="btn btn-outline-primary search-button" type="submit">Search</button>
+        <button class="btn btn-outline-primary search-button" type="submit">Пошук</button>
     </div>
 
-    <div class="list-group">
+    <div class="card-body">
         <!-- Loop through the list of persons and display them -->
-        <div th:each="person : ${persons}" class="list-group-item">
-            <h5 class="list-group-item-heading" th:text="${person.id}"></h5>
-            <p class="list-group-item-text" th:text="${person.name} + ' ' + ${person.surname}"></p>
-            <p class="list-group-item-text" th:text="${person.phoneNumber}"></p>
-            <a th:href="@{/garage/persons/{personId}/cars(personId=${person.id})}"
-               class="btn btn-primary view-cars-button">View Cars</a>
+        <div th:each="person : ${persons}" class="card">
+            <div class="card-body">
+                <h5 th:text="${person.id}"></h5>
+                <p th:text="'Імʼя: ' + ${person.name}"></p>
+                <p th:text="'Прізвище: ' + ${person.surname}"></p>
+                <p th:text="'Номер телефону: ' + ${person.phoneNumber}"></p>
+                <a th:href="@{/garage/persons/{personId}/cars(personId=${person.id})}"
+                   class="btn btn-primary view-cars-button">Авто клієнта</a>
+            </div>
         </div>
     </div>
 
-    <a th:href="@{/garage/persons/registration}" class="btn btn-primary new-client-button" style="margin-top: 0px;">New
-        Client</a>
+    <a th:href="@{/garage/persons/registration}" class="btn btn-primary new-client-button">Новий клієнт</a>
 </div>
 </body>
 </html>

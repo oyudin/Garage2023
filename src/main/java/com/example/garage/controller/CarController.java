@@ -38,7 +38,6 @@ public class CarController {
     public String createCarToPerson(@PathVariable int personId, @RequestBody Car car) {
         carService.addCar(personId, car);
         return "redirect:/garage/persons/" + personId + "/cars";
-
     }
 
     @DeleteMapping("/cars/{carId}")

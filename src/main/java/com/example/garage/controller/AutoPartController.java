@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller()
 public class AutoPartController {
 
@@ -26,11 +24,11 @@ public class AutoPartController {
         return "AutoParts";
     }
 
-    @GetMapping("/autopart/{autoPartName}")
-    @ResponseBody
-    public AutoPart getAutoPartByName(@PathVariable String autoPartName) {
-        return autoPartService.getAutoPartByName(autoPartName);
-    }
+//    @GetMapping("/autopart/{autoPartName}")
+//    @ResponseBody
+//    public AutoPart getAutoPartByName(@PathVariable String autoPartName) {
+//        return autoPartService.getAutoPartByVinCode(autoPartName);
+//    }
 
     // Working version
 
@@ -68,11 +66,11 @@ public class AutoPartController {
         return "redirect:/garage/persons/" + personId + "/cars";
     }
 
-    @DeleteMapping("/autopart/{autoPartName}")
-    @ResponseBody
-    public void deleteAutoPartByName(@PathVariable String autoPartName) {
-        autoPartService.deleteAutoPartByName(autoPartName);
-    }
+//    @DeleteMapping("/autopart/{autoPartName}")
+//    @ResponseBody
+//    public void deleteAutoPartByName(@PathVariable String autoPartName) {
+//        autoPartService.deleteAutoPartByName(autoPartName);
+//    }
 
     /*-------------Auto Parts By Car------------*/
 

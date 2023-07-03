@@ -1,7 +1,7 @@
 package com.example.garage.controller;
 
 import com.example.garage.model.Person;
-import com.example.garage.repository.dao.PersonRepository;
+import com.example.garage.repository.dao.ClientRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,11 +21,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("dev")
-public class PersonControllerTest {
+public class ClientControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private PersonRepository personRepository;
+    private ClientRepository clientRepository;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -45,7 +45,7 @@ public class PersonControllerTest {
 
     @Test
     public void getPersonByIdTest() throws Exception {
-        Mockito.when(personRepository.getPersonById(anyInt())).thenReturn(testPerson);
+        Mockito.when(clientRepository.getPersonById(anyInt())).thenReturn(testPerson);
         mockMvc.perform(get("/garage/persons/" + anyInt()))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -53,7 +53,7 @@ public class PersonControllerTest {
 
     @Test
     public void savePersonTest() throws Exception {
-        Mockito.when(personRepository.savePerson(any())).thenReturn(testPerson);
+        Mockito.when(clientRepository.savePerson(any())).thenReturn(testPerson);
         mockMvc.perform(put("/garage/persons")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testPerson)))
@@ -63,7 +63,7 @@ public class PersonControllerTest {
 
     @Test
     public void deletePersonTest() throws Exception {
-        Mockito.when(personRepository.deletePerson(anyInt())).thenReturn(testPerson);
+        Mockito.when(clientRepository.deletePerson(anyInt())).thenReturn(testPerson);
         mockMvc.perform(delete("/garage/persons/" + anyInt()))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -71,7 +71,7 @@ public class PersonControllerTest {
 
     @Test
     public void updatePersonTest() throws Exception {
-        Mockito.when(personRepository.updatePerson(any(), anyInt())).thenReturn(testPerson);
+        Mockito.when(clientRepository.updatePerson(any(), anyInt())).thenReturn(testPerson);
         mockMvc.perform(post("/garage/persons/" + testPerson.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testPerson)))

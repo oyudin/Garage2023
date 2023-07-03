@@ -14,14 +14,14 @@ public enum SQLQueries {
 
     UPDATE_PERSON("UPDATE persons SET name = ?, surname = ?, phoneNumber WHERE id = "),
 
-//    ADD_CAR_TO_PERSON("UPDATE cars SET person_id = ? WHERE car_id = ?"),
+    //    ADD_CAR_TO_PERSON("UPDATE cars SET person_id = ? WHERE car_id = ?"),
     ADD_CAR_TO_PERSON("UPDATE cars SET person_id = ? WHERE car_id = ?"),
 
     SELECT_ALL_CARS("SELECT * FROM cars"),
 
-    SAVE_CAR("INSERT INTO cars (number, brand, model, color, person_id) VALUES (?, ?, ?, ?, ?)"),
+    SAVE_CAR("INSERT INTO cars (number, vincode, brand, model, person_id) VALUES ( ?, ?, ?, ?, ?)"),
 
-    UPDATE_CAR("UPDATE cars SET number = ?, brand = ?, model = ?, color = ? WHERE car_id = "),
+    UPDATE_CAR("UPDATE cars SET number = ?, vincode = ?, brand = ?, model = ? WHERE car_id = "),
     CHANGE_CAR_OWNER("UPDATE cars SET person_id = ? WHERE car_id = "),
 
     DELETE_CAR("DELETE FROM cars WHERE car_id = "),

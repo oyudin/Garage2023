@@ -3,10 +3,10 @@ package com.example.garage.repository;
 import com.example.garage.model.Car;
 import com.example.garage.model.Person;
 import com.example.garage.model.Garage;
-import com.example.garage.repository.dao.PersonRepository;
+import com.example.garage.repository.dao.ClientRepository;
 import com.example.garage.repository.mapper.CarMapper;
 import com.example.garage.repository.mapper.GarageMapper;
-import com.example.garage.repository.mapper.PersonMapper;
+import com.example.garage.repository.mapper.ClientMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,11 +15,11 @@ import java.util.List;
 import static com.example.garage.repository.SQLQueries.*;
 
 @Repository
-public class PersonImpl implements PersonRepository {
+public class ClientImpl implements ClientRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public PersonImpl(JdbcTemplate jdbcTemplate) {
+    public ClientImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -30,18 +30,18 @@ public class PersonImpl implements PersonRepository {
 
     @Override
     public List<Person> getAllPersons() {
-        return jdbcTemplate.query(SELECT_ALL_PERSONS.query, new PersonMapper());
+        return jdbcTemplate.query(SELECT_ALL_PERSONS.query, new ClientMapper());
     }
 
     @Override
     public List<Person> searchPersonByName(String personName) {
         return jdbcTemplate.query("SELECT * FROM persons WHERE name LIKE ? OR surname LIKE ?",
-                new Object[]{"%" + personName + "%", "%" + personName + "%"}, new PersonMapper());
+                new Object[]{"%" + personName + "%", "%" + personName + "%"}, new ClientMapper());
     }
 
     @Override
     public Person getPersonById(int personId) {
-        return jdbcTemplate.queryForObject(SELECT_PERSON_BY_ID.query + personId, new PersonMapper());
+        return jdbcTemplate.queryForObject(SELECT_PERSON_BY_ID.query + personId, new ClientMapper());
     }
 
     @Override
@@ -72,6 +72,6 @@ public class PersonImpl implements PersonRepository {
 
     @Override
     public Person getTheLastCreatedPerson() {
-        return jdbcTemplate.queryForObject("SELECT * FROM persons ORDER BY id DESC LIMIT 1", new PersonMapper());
+        return jdbcTemplate.queryForObject("SELECT * FROM persons ORDER BY id DESC LIMIT 1", new ClientMapper());
     }
 }

@@ -13,26 +13,31 @@
 <body>
 <div class="container">
     <form class="form-signin" id="autoPartForm">
-        <h2 class="form-signin-heading">Новий ремонт</h2>
+        <h2 class="form-signin-heading">Нове обслуговування</h2>
         <input type="hidden" id="carId" value="">
         <input type="hidden" id="personId" value="">
         <p>
-            <label class="form-label" for="autoPartName">Auto Part Name</label>
-            <input class="form-control" id="autoPartName" name="autoPartName" type="text"
-                   placeholder="Enter auto part name" required>
+        </p>
+        <label class="form-label" for="repairmentDate">Дата ремонту авто</label>
+        <input class="form-control" id="repairmentDate" name="repairmentDate" type="text"
+               placeholder="Enter date">
+        </p>
+        <label class="form-label" for="millage">Пробіг авто</label>
+        <input class="form-control" id="millage" name="millage" type="number"
+               placeholder="Enter car millage">
         </p>
         <p>
-            <label class="form-label" for="autoPartPrice">Auto Part Price</label>
-            <input class="form-control" id="autoPartPrice" name="autoPartPrice" type="number" step="0.01"
-                   placeholder="Enter auto part price" required>
-        </p>
-        <p>
-            <label class="form-label" for="autoPartDescription">Auto Part Description</label>
+            <label class="form-label" for="autoPartDescription">Детальна інформація про ремонт</label>
             <input class="form-control" id="autoPartDescription" name="autoPartDescription" type="text"
                    placeholder="Enter auto part description" required>
         </p>
-        <button class="btn btn-primary mb-3" id="backToAutoPartsBtn">Back to Auto Parts</button>
-        <button class="btn btn-primary mb-3" type="submit">Create</button>
+        <p>
+            <label class="form-label" for="autoPartPrice">Ціна</label>
+            <input class="form-control" id="autoPartPrice" name="autoPartPrice" type="number"
+                   placeholder="Enter auto part price">
+        </p>
+        <button class="btn btn-primary mb-3" id="backToAutoPartsBtn">Повернутися до списку авто</button>
+        <button class="btn btn-primary mb-3" type="submit">Створити</button>
     </form>
 </div>
 

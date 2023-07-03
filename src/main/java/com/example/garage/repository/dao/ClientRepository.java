@@ -6,7 +6,7 @@ import com.example.garage.model.Garage;
 
 import java.util.List;
 
-public interface PersonRepository {
+public interface ClientRepository {
 
     List<Garage> getPersonsWithCars();
 
