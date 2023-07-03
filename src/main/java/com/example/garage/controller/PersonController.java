@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/garage")
@@ -34,11 +36,11 @@ public class PersonController {
         return "Garage";
     }
 
-    @GetMapping("/persons")
-    public String getAllPersons(Model model) {
-        model.addAttribute("persons", personService.getAllPersons());
-        return "Persons";
-    }
+//    @GetMapping("/persons")
+//    public String getAllPersons(Model model) {
+//        model.addAttribute("persons", personService.getAllPersons());
+//        return "Persons";
+//    }
 
     @GetMapping("persons/{personId}/cars")
     public String findCarsByPerson(Model model, @PathVariable int personId) {
@@ -51,6 +53,21 @@ public class PersonController {
     public @ResponseBody Person getPersonById(@PathVariable int personId) throws PersonNotFound {
         return this.personService.getPersonById(personId);
     }
+
+
+    @GetMapping("/persons")
+    public String searchPersons(@RequestParam(name = "search", required = false) String searchTerm, Model model) {
+        List<Person> persons;
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            persons = personService.searchByPersonName(searchTerm); // Ваш метод для выполнения поиска
+        } else {
+            persons = personService.getAllPersons(); // Ваш метод для получения всех персон
+        }
+        model.addAttribute("persons", persons);
+        return "Persons"; // Возвращаем имя шаблона Thymeleaf для отображения результатов поиска
+    }
+
+
 
     @GetMapping("persons/registration")
     public String showRegistrationClientPage() {

@@ -58,7 +58,11 @@ public class PersonService {
         return personRepository.getListOfPersonCars(personId);
     }
 
-    public Person getTheLastCreatedPerson(){
+    public Person getTheLastCreatedPerson() {
         return personRepository.getTheLastCreatedPerson();
+    }
+
+    public List<Person> searchByPersonName(String personName) {
+        return personRepository.searchPersonByName(personName);
     }
 }

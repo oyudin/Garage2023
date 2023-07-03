@@ -10,6 +10,8 @@ public interface PersonRepository {
 
     List<Garage> getPersonsWithCars();
 
+    List<Person> searchPersonByName(String personName);
+
     Person getPersonById(int personId);
 
     List<Person> getAllPersons();

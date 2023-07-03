@@ -34,6 +34,12 @@ public class PersonImpl implements PersonRepository {
     }
 
     @Override
+    public List<Person> searchPersonByName(String personName) {
+        return jdbcTemplate.query("SELECT * FROM persons WHERE name LIKE ? OR surname LIKE ?",
+                new Object[]{"%" + personName + "%", "%" + personName + "%"}, new PersonMapper());
+    }
+
+    @Override
     public Person getPersonById(int personId) {
         return jdbcTemplate.queryForObject(SELECT_PERSON_BY_ID.query + personId, new PersonMapper());
     }
