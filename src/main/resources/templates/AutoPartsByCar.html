@@ -23,7 +23,7 @@
         }
 
         .create-car-button {
-            width: 120px;
+            width: 130px;
             margin-top: 10px;
         }
 
@@ -43,6 +43,14 @@
                     <p class="card-text" th:text="'Пробіг авто: ' + ${part.millage} + ' км'"></p>
                     <p class="card-text" th:text="'Деталі: ' + ${part.autoPartDescription}"></p>
                     <p class="card-text" th:text="'Ціна: ' + ${part.autoPartPrice} + ' грн'"></p>
+
+                    <form th:action="@{'/garage/persons/' + ${personId} + '/cars/' + ${carId} + '/autoPart/' + ${part.id} + '/delete'}"
+                          method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цю деталь?')">
+                        <!-- Add the hidden input to override the method to DELETE -->
+                        <input type="hidden" th:name="_method" th:value="DELETE" />
+                        <!-- Use the DELETE method for the form -->
+                        <button type="submit" class="btn btn-danger">Видалити</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -51,7 +59,7 @@
         списку авто</a>
     <div class="float-right">
         <a th:href="@{/garage/persons/{personId}/cars/{carId}/create(personId=${personId}, carId=${carId})}"
-           class="btn btn-primary create-car-button">Створити обслуговування</a>
+           class="btn btn-primary create-car-button">Нове обслуговування</a>
     </div>
 
     <script>

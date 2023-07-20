@@ -36,9 +36,10 @@ public class AutoPartService {
 //        return autoPartRepository.save(autoPart, carId);
 //    }
 
-//    public void deleteAutoPartByName(String autoPartName) {
-//        autoPartRepository.deleteAutoPartByAutoPartName(autoPartName);
-//    }
+    public void deleteAutoPartById(int autoPartId) {
+//        autoPartRepository.deleteAutoPartById(autoPartId);
+        jdbcTemplate.execute("DELETE  FROM auto_parts WHERE id = " + autoPartId);
+    }
 
     public AutoPart save(AutoPart autoPart, int autoPartCarId) {
         jdbcTemplate.update("INSERT INTO  auto_parts (repairmentDate, auto_part_description, auto_part_price, auto_part_car_id, millage) " +

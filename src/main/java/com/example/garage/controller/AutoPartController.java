@@ -61,9 +61,22 @@ public class AutoPartController {
 
 
     @PostMapping("garage/persons/{personId}/cars/{carId}/createAutoPart")
-    public String createAutoPart(@RequestBody AutoPart autoPart, @PathVariable int personId, @PathVariable int carId) {
+    public String deleteAutoPart(@RequestBody AutoPart autoPart, @PathVariable int personId, @PathVariable int carId) {
         autoPartService.save(autoPart, carId);
         return "redirect:/garage/persons/" + personId + "/cars";
+    }
+//    @PostMapping("garage/persons/{personId}/cars/{carId}/createAutoPart")
+//    @ResponseBody
+//    public String createAutoPart(@RequestBody AutoPart autoPart, @PathVariable int personId, @PathVariable int carId) {
+//        autoPartService.save(autoPart, carId);
+//        return "redirect:/garage/persons/" + personId + "/cars";
+//    }
+
+    @DeleteMapping ("garage/persons/{personId}/cars/{carId}/autoPart/{autoPartId}/delete")
+//    @ResponseBody
+    public String deleteAutoPart(@PathVariable int personId, @PathVariable int carId, @PathVariable int autoPartId) {
+        autoPartService.deleteAutoPartById(autoPartId);
+        return "redirect:/garage/persons/" + personId + "/cars/" + carId;
     }
 
 //    @DeleteMapping("/autopart/{autoPartName}")
