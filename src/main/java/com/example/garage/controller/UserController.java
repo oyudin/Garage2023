@@ -43,9 +43,8 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-
     @DeleteMapping("users/{userId}")
-    public void deleteUser(@PathVariable Integer userId) {
+    public @ResponseBody void deleteUser(@PathVariable int userId) {
         userService.deleteUser(userId);
     }
 }
