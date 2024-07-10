@@ -1,7 +1,7 @@
 package com.example.garage.repository;
 
+import com.example.garage.exception.CarNotFound;
 import com.example.garage.model.Car;
-import com.example.garage.model.Person;
 import com.example.garage.repository.dao.CarRepository;
 import com.example.garage.repository.mapper.CarMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,6 +23,11 @@ public class CarImpl implements CarRepository {
     @Override
     public List<Car> findAllCars() {
         return jdbcTemplate.query(SELECT_ALL_CARS.query, new CarMapper());
+    }
+
+    @Override
+    public Car getCarById(int carId) throws CarNotFound {
+        return jdbcTemplate.queryForObject(SELECT_CAR_BY_ID + "" + carId, new CarMapper());
     }
 
     @Override

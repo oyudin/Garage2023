@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class UserController {
 
@@ -18,10 +20,15 @@ public class UserController {
         this.userService = userService;
     }
 
+//    @GetMapping("/users")
+//    public String getAllUsers(Model model) {
+//        model.addAttribute("users", userService.getAllUsers());
+//        return "Users";
+//    }
+
     @GetMapping("/users")
-    public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "Users";
+    public @ResponseBody Iterable<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping("users/{username}")
@@ -31,10 +38,11 @@ public class UserController {
         return "User";
     }
 
-    @PutMapping
-    public User saveNewUser(@RequestBody User user) {
+    @PutMapping("users")
+    public @ResponseBody User saveNewUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
+
 
     @DeleteMapping("users/{userId}")
     public void deleteUser(@PathVariable Integer userId) {

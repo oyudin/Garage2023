@@ -1,5 +1,6 @@
 package com.example.garage.repository.dao;
 
+import com.example.garage.exception.CarNotFound;
 import com.example.garage.model.Car;
 import com.example.garage.model.Person;
 
@@ -9,6 +10,8 @@ import java.util.List;
 public interface CarRepository {
 
     List<Car> findAllCars();
+
+    Car getCarById(int carId) throws CarNotFound;
 
     Car saveCar(int personId, Car car);
 

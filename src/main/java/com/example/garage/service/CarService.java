@@ -21,6 +21,12 @@ public class CarService {
         return carRepository.findAllCars();
     }
 
+    public Car getCar(int carId) throws CarNotFound {
+        Car car = carRepository.getCarById(carId);
+        if (car == null) throw new CarNotFound(carId);
+        return car;
+    }
+
     public Car addCar(int personId, Car car) {
         carRepository.saveCar(personId, car);
         return car;

@@ -19,6 +19,8 @@ public enum SQLQueries {
 
     SELECT_ALL_CARS("SELECT * FROM cars"),
 
+    SELECT_CAR_BY_ID("SELECT * FROM cars WHERE car_id = "),
+
     SAVE_CAR("INSERT INTO cars (number, vincode, brand, model, person_id) VALUES ( ?, ?, ?, ?, ?)"),
 
     UPDATE_CAR("UPDATE cars SET number = ?, vincode = ?, brand = ?, model = ? WHERE car_id = "),
