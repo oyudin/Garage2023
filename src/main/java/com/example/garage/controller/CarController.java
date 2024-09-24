@@ -29,9 +29,14 @@ public class CarController {
         return this.carService.getCar(carId);
     }
 
-    @PostMapping("/cars/{carId}")
+    @PutMapping("/cars/{carId}")
     public @ResponseBody void updateCar(@PathVariable int carId, @RequestBody Car car) throws CarNotFound {
         this.carService.updateCar(car, carId);
+    }
+
+    @PatchMapping("/cars/{carId}")
+    public @ResponseBody Car updateCarByPatch(@PathVariable int carId, @RequestBody Car car) throws CarNotFound {
+        return this.carService.updateCar(car, carId);
     }
 
     @GetMapping("/persons/{personId}/newCar")
