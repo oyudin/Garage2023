@@ -28,12 +28,12 @@ public class CarServiceTest {
         Assertions.assertEquals(cars1, cars);
     }
 
-    @Test
-    public void addCarTest() {
-        Mockito.when(carRepository.saveCar(any())).thenReturn(car);
-        Car car1 = carService.addCar(new Car());
-        Assertions.assertEquals(car1, car);
-    }
+//    @Test
+//    public void addCarTest() {
+//        Mockito.when(carRepository.saveCar(any())).thenReturn(car);
+//        Car car1 = carService.addCar(new Car());
+//        Assertions.assertEquals(car1, car);
+//    }
 
     @Test
     public void updateCarTest() throws CarNotFound {

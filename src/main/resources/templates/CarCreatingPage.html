@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Create a Car</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" id="carForm">
+        <h2 class="form-signin-heading">Create a Car</h2>
+        <input type="hidden" id="personId" value="">
+        <p>
+            <label class="form-label" for="number">Number</label>
+            <input class="form-control" id="number" name="number" type="text" placeholder="Enter number" required>
+        </p>
+        <p>
+            <label class="form-label" for="brand">Brand</label>
+            <input class="form-control" id="brand" name="brand" type="text" placeholder="Enter brand" required>
+        </p>
+        <p>
+            <label class="form-label" for="model">Model</label>
+            <input class="form-control" id="model" name="model" type="text" placeholder="Enter model" required>
+        </p>
+        <p>
+            <label class="form-label" for="color">Color</label>
+            <input class="form-control" id="color" name="color" type="text" placeholder="Enter color" required>
+        </p>
+        <button class="btn btn-primary mb-3" type="submit">Create</button>
+    </form>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function() {
+        var urlParts = window.location.pathname.split('/');
+        var personId = urlParts[urlParts.length - 2]; // Извлечь значение personId из текущего URL
+        var carForm = document.querySelector('#carForm'); // Найти форму по идентификатору
+        var personIdField = document.querySelector('#personId'); // Найти поле personId по идентификатору
+
+        // Установить значение personId в поле personId формы
+        personIdField.value = personId;
+
+        // Перехватывать событие отправки формы
+        carForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Отменить стандартное действие отправки формы
+
+            var formData = new FormData(carForm); // Создать объект FormData для сбора данных формы
+            var xhr = new XMLHttpRequest(); // Создать объект XMLHttpRequest
+
+            xhr.open('POST', '/garage/persons/' + personId + '/addCar'); // Установить URL и метод запроса
+            xhr.setRequestHeader('Content-Type', 'application/json'); // Установить заголовок Content-Type
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Действия при успешной отправке формы
+                    console.log('Car created successfully!');
+                    showSuccessMessage();
+                    setTimeout(redirectToCarsPage, 3000);
+                }
+            };
+            xhr.send(JSON.stringify(Object.fromEntries(formData)));
+        });
+
+        // Функция для показа всплывающего окна с сообщением "Успешно создано"
+        function showSuccessMessage() {
+            var successAlert = document.createElement('div');
+            successAlert.classList.add('alert', 'alert-success');
+            successAlert.textContent = 'A new car added';
+
+            var container = document.querySelector('.container');
+            container.insertBefore(successAlert, carForm);
+        }
+
+        // Функция для перенаправления на страницу со списком автомобилей
+        function redirectToCarsPage() {
+            window.location.href = '/garage/persons/' + personId + '/cars';
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -8,21 +8,25 @@ public enum SQLQueries {
 
     SELECT_PERSON_BY_ID("SELECT * FROM persons WHERE id = "),
 
-    SAVE_PERSON("INSERT INTO persons (name, surname) VALUES (?, ?)"),
+    SAVE_PERSON("INSERT INTO persons (name, surname, phoneNumber) VALUES (?, ?, ?)"),
 
     DELETE_PERSON("DELETE FROM persons WHERE id = "),
 
-    UPDATE_PERSON("UPDATE persons SET name = ?, surname = ? WHERE id = "),
+    UPDATE_PERSON("UPDATE persons SET name = ?, surname = ?, phoneNumber WHERE id = "),
 
+//    ADD_CAR_TO_PERSON("UPDATE cars SET person_id = ? WHERE car_id = ?"),
     ADD_CAR_TO_PERSON("UPDATE cars SET person_id = ? WHERE car_id = ?"),
 
     SELECT_ALL_CARS("SELECT * FROM cars"),
 
-    SAVE_CAR("INSERT INTO cars (number, brand, model, color) VALUES (?, ?, ?, ?)"),
+    SAVE_CAR("INSERT INTO cars (number, brand, model, color, person_id) VALUES (?, ?, ?, ?, ?)"),
 
     UPDATE_CAR("UPDATE cars SET number = ?, brand = ?, model = ?, color = ? WHERE car_id = "),
+    CHANGE_CAR_OWNER("UPDATE cars SET person_id = ? WHERE car_id = "),
 
-    DELETE_CAR("DELETE FROM cars WHERE car_id = ");
+    DELETE_CAR("DELETE FROM cars WHERE car_id = "),
+
+    PERSON_CARS("SELECT FROM cars WHERE person_id = ");
 
     public final String query;
 

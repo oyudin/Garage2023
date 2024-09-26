@@ -1,6 +1,7 @@
 package com.example.garage.repository;
 
 import com.example.garage.model.Car;
+import com.example.garage.model.Person;
 import com.example.garage.repository.dao.CarRepository;
 import com.example.garage.repository.mapper.CarMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,8 +26,8 @@ public class CarImpl implements CarRepository {
     }
 
     @Override
-    public Car saveCar(Car car) {
-        jdbcTemplate.update(SAVE_CAR.query, car.getNumber(), car.getBrand(), car.getModel(), car.getColor());
+    public Car saveCar(int personId, Car car) {
+        jdbcTemplate.update(SAVE_CAR.query, car.getNumber(), car.getBrand(), car.getModel(), car.getColor(), personId);
         return car;
     }
 
@@ -36,6 +37,7 @@ public class CarImpl implements CarRepository {
                 car.getNumber(), car.getBrand(), car.getModel(), car.getColor());
         return car;
     }
+
 
     @Override
     public Car deleteCar(int carId) {

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars for Person</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .list-group {
+            max-height: 550px;
+            overflow-y: auto;
+        }
+
+        .list-group-item {
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .list-group-item-heading {
+            font-weight: bold;
+        }
+
+        .list-group-item-text {
+            color: #6c757d;
+        }
+
+        .create-car-button {
+            margin-top: 20px;
+        }
+
+        .float-end {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3 class="form-title">Cars for Person</h3>
+
+    <div class="list-group">
+        <!-- Loop through the list of cars and display them -->
+        <div th:each="car : ${carByPerson}" class="list-group-item">
+            <h5 class="list-group-item-heading" th:text="${car.id}"></h5>
+            <p class="list-group-item-text">
+                <span th:text="${car.number}"></span>
+                <span th:text="${car.brand}"></span>
+                <span th:text="${car.model}"></span>
+                <span th:text="${car.color}"></span>
+            </p>
+            <a th:href="@{/garage/persons/{personId}/cars/{carId}(personId=${personId}, carId=${car.Id})}"
+               class="btn btn-primary create-car-button float-end">View Details</a>
+        </div>
+    </div>
+
+    <a th:href="@{'/garage/persons'}" class="btn btn-primary create-car-button">Clients List</a>
+    <a th:href="@{/garage/persons/{personId}/newCar(personId=${personId})}" class="btn btn-primary create-car-button">Create Car</a>
+</div>
+</body>
+</html>

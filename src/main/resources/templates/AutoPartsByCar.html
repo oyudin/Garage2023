@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auto Parts List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mb-4">Auto Parts List</h1>
+    <div id="partsList">
+        <div th:each="part : ${autoPart}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${part.autoPartName}"></h5>
+                    <p class="card-text" th:text="'Price: $' + ${part.autoPartPrice}"></p>
+                    <p class="card-text" th:text="${part.autoPartDescription}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<a th:href="@{'/garage/persons/' + ${personId} + '/cars'}" class="btn btn-primary create-car-button">Back to Cars</a>
+
+<script>
+    window.addEventListener("load", function () {
+        // No need to make an additional request to fetch parts list, as the data is already passed from the controller.
+        // The parts list will be rendered directly on the page.
+    });
+</script>
+
+</body>
+</html>

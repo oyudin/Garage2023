@@ -1,6 +1,7 @@
 package com.example.garage.service;
 
 import com.example.garage.exception.PersonNotFound;
+import com.example.garage.model.Car;
 import com.example.garage.model.Person;
 import com.example.garage.model.Garage;
 import com.example.garage.repository.dao.PersonRepository;
@@ -47,14 +48,17 @@ public class PersonService {
         return person;
     }
 
-
     public Person deletePerson(int id) {
         personRepository.deletePerson(id);
         return null;
     }
 
 
-    public void addCarToPerson(int personId, int carId) {
-        personRepository.addCarToPerson(personId, carId);
+    public List<Car> getListOfPersonCars(int personId) {
+        return personRepository.getListOfPersonCars(personId);
+    }
+
+    public Person getTheLastCreatedPerson(){
+        return personRepository.getTheLastCreatedPerson();
     }
 }

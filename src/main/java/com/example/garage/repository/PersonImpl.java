@@ -1,8 +1,10 @@
 package com.example.garage.repository;
 
+import com.example.garage.model.Car;
 import com.example.garage.model.Person;
 import com.example.garage.model.Garage;
 import com.example.garage.repository.dao.PersonRepository;
+import com.example.garage.repository.mapper.CarMapper;
 import com.example.garage.repository.mapper.GarageMapper;
 import com.example.garage.repository.mapper.PersonMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,7 +40,7 @@ public class PersonImpl implements PersonRepository {
 
     @Override
     public Person savePerson(Person person) {
-        jdbcTemplate.update(SAVE_PERSON.query, person.getName(), person.getSurname());
+        jdbcTemplate.update(SAVE_PERSON.query, person.getName(), person.getSurname(), person.getPhoneNumber());
         return person;
     }
 
@@ -51,13 +53,19 @@ public class PersonImpl implements PersonRepository {
 
     @Override
     public Person updatePerson(Person person, int personId) {
-        jdbcTemplate.update(UPDATE_PERSON.query + personId, person.getName(), person.getSurname());
+        jdbcTemplate.update(UPDATE_PERSON.query + personId, person.getName(), person.getSurname(), person.getPhoneNumber());
         return person;
     }
 
+
     @Override
-    public Person addCarToPerson(int personId, int carId) {
-        jdbcTemplate.update(ADD_CAR_TO_PERSON.query, personId, carId);
-        return null;
+    public List<Car> getListOfPersonCars(int personId) {
+        String sql = "SELECT * FROM cars WHERE person_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{personId}, new CarMapper());
+    }
+
+    @Override
+    public Person getTheLastCreatedPerson() {
+        return jdbcTemplate.queryForObject("SELECT * FROM persons ORDER BY id DESC LIMIT 1", new PersonMapper());
     }
 }

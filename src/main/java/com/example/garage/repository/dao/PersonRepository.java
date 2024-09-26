@@ -1,5 +1,6 @@
 package com.example.garage.repository.dao;
 
+import com.example.garage.model.Car;
 import com.example.garage.model.Person;
 import com.example.garage.model.Garage;
 
@@ -19,5 +20,7 @@ public interface PersonRepository {
 
     Person updatePerson(Person person, int id);
 
-    Person addCarToPerson(int carId, int personId);
+    List<Car> getListOfPersonCars(int personId);
+
+    Person getTheLastCreatedPerson();
 }
