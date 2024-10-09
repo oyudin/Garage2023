@@ -15,6 +15,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("auto_parts")
 public class AutoPart {
     @Id
+    @Column("id")
     private Integer id;
     @Column("repairmentdate")
     private String repairmentDate;
