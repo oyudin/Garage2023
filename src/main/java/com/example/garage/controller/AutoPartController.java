@@ -24,20 +24,28 @@ public class AutoPartController {
         return "AutoPartsByCar";
     }
 
-    @GetMapping("garage/persons/{personId}/cars/{carId}/create")
-    public String showAutoPartCreatingPage(@PathVariable int personId, @PathVariable int carId) {
-        return "CreateAutoPart";
+    /**
+     * This methods are commented to disable UI creating functionality. Will be used API below (for testing)
+     *
+     * @GetMapping("garage/persons/{personId}/cars/{carId}/create") public String showAutoPartCreatingPage(@PathVariable int personId, @PathVariable int carId) {
+     * return "CreateAutoPart";
+     * }
+     * @PostMapping("garage/persons/{personId}/cars/{carId}/createAutoPart") public String createAutoPart(@RequestBody AutoPart autoPart, @PathVariable int personId, @PathVariable int carId) {
+     * autoPartService.save(autoPart, carId);
+     * return "redirect:/garage/persons/" + personId + "/cars";
+     * }
+     */
+
+    @PostMapping("garage/persons/{personId}/cars/{carId}")
+    @ResponseBody
+    public AutoPart createAutoPart(@RequestBody AutoPart autoPart, @PathVariable int personId, @PathVariable int carId) {
+        return autoPartService.save(autoPart, carId);
     }
 
-    @PostMapping("garage/persons/{personId}/cars/{carId}/createAutoPart")
-    public String createAutoPart(@RequestBody AutoPart autoPart, @PathVariable int personId, @PathVariable int carId) {
-        autoPartService.save(autoPart, carId);
-        return "redirect:/garage/persons/" + personId + "/cars";
-    }
 
     @DeleteMapping("garage/persons/{personId}/cars/{carId}/autoPart/{autoPartId}/delete")
 //    @ResponseBody
-    public String createAutoPart(@PathVariable int personId, @PathVariable int carId, @PathVariable int autoPartId) {
+    public String deleteAutoPart(@PathVariable int personId, @PathVariable int carId, @PathVariable int autoPartId) {
         autoPartService.deleteAutoPartById(autoPartId);
         return "redirect:/garage/persons/" + personId + "/cars/" + carId;
     }
