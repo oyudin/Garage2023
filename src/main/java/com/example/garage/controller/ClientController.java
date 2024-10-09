@@ -47,31 +47,31 @@ public class ClientController {
     }
 
 
-    @GetMapping("persons/{personId}/cars")
+    @GetMapping("/persons/{personId}/cars")
     public String findCarsByPerson(Model model, @PathVariable int personId) {
         model.addAttribute("carByPerson", clientService.getListOfPersonCars(personId));
         return "ClientCars";
     }
 
-    @GetMapping("persons/{personId}")
+    @GetMapping("/persons/{personId}")
     @Cacheable(value = "persons", key = "#personId")
     public @ResponseBody Person getPersonById(@PathVariable int personId) throws PersonNotFound {
         return this.clientService.getPersonById(personId);
     }
 
 
-    @GetMapping("persons/registration")
+    @GetMapping("/persons/registration")
     public String showRegistrationClientPage() {
         return "RegisterClient";
     }
 
-    @PostMapping("persons")
+    @PostMapping("/persons")
     public String savePerson(@ModelAttribute Person person) {
         clientService.addPerson(person);
         return "redirect:/garage/persons/" + lastCreatedPerson() + "/cars";
     }
 
-    @DeleteMapping("persons/{personId}")
+    @DeleteMapping("/persons/{personId}")
     public @ResponseBody void deletePerson(@PathVariable int personId) {
         this.clientService.deletePerson(personId);
     }
