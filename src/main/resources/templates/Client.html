@@ -64,7 +64,7 @@
     <h1 class="text-center mb-4">Мої клієнти</h1>
 
     <div class="search-container">
-        <form class="search-form" th:action="@{/garage/persons}" method="get">
+        <form class="search-form" th:action="@{/garage/clients/}" method="get">
             <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search"
                    name="search">
             <button class="btn btn-outline-primary search-button" type="submit">Пошук</button>
@@ -73,21 +73,22 @@
 
     <div id="partsList">
         <!-- Loop through the list of cars and display them -->
-        <div th:each="person : ${persons}" class="card">
+        <div th:each="client : ${clients}" class="card">
             <div class="card-body">
-                <h5 class="card-title" th:text="${person.name}"></h5>
-                <p class="card-text" th:text="'Прізвище: ' + ${person.surname}"></p>
+                <h5 class="card-title" th:text="${client.name}"></h5>
+                <p class="card-text" th:text="'Прізвище: ' + ${client.surname}"></p>
+                <p class="card-text" th:text="'ID: ' + ${client.id}"></p>
                 <div class="float-right">
-                    <a th:href="@{/garage/persons/{personId}/cars(personId=${person.id})}"
+                    <a th:href="@{/garage/clients/{id}(id=${client.id})}"
                        class="btn btn-primary create-car-button stretched-link">Авто</a>
                 </div>
-                <p class="card-text" th:text="'Номер телефону: ' + ${person.phoneNumber}"></p>
+                <p class="card-text" th:text="'Номер телефону: ' + ${client.phoneNumber}"></p>
             </div>
         </div>
     </div>
 
     <div class="float-right">
-        <a th:href="@{/garage/persons/registration}" class="btn btn-primary create-car-button">Новий клієнт</a>
+        <a th:href="@{/garage/clients/registration}" class="btn btn-primary create-car-button">Новий клієнт</a>
     </div>
 </div>
 </body>

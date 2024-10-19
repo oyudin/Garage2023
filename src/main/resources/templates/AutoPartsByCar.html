@@ -44,7 +44,7 @@
                     <p class="card-text" th:text="'Деталі: ' + ${part.autoPartDescription}"></p>
                     <p class="card-text" th:text="'Ціна: ' + ${part.autoPartPrice} + ' грн'"></p>
 
-                    <form th:action="@{'/garage/persons/' + ${personId} + '/cars/' + ${carId} + '/autoPart/' + ${part.id} + '/delete'}"
+                    <form th:action="@{'/garage/clients/' + ${personId} + '/cars/' + ${carId} + '/autoPart/' + ${part.id} + '/delete'}"
                           method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цю деталь?')">
                         <!-- Add the hidden input to override the method to DELETE -->
                         <input type="hidden" th:name="_method" th:value="DELETE" />
@@ -55,10 +55,10 @@
             </div>
         </div>
     </div>
-    <a th:href="@{'/garage/persons/' + ${personId} + '/cars'}" class="btn btn-primary create-car-button">Повернутися до
+    <a th:href="@{'/garage/clients/' + ${personId} + '/cars'}" class="btn btn-primary create-car-button">Повернутися до
         списку авто</a>
     <div class="float-right">
-        <a th:href="@{/garage/persons/{personId}/cars/{carId}/create(personId=${personId}, carId=${carId})}"
+        <a th:href="@{/garage/clients/{personId}/cars/{carId}/create(personId=${personId}, carId=${carId})}"
            class="btn btn-primary create-car-button">Нове обслуговування</a>
     </div>
 

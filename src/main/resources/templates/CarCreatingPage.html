@@ -52,7 +52,7 @@
             var formData = new FormData(carForm); // Создать объект FormData для сбора данных формы
             var xhr = new XMLHttpRequest(); // Создать объект XMLHttpRequest
 
-            xhr.open('POST', '/garage/persons/' + personId + '/addCar'); // Установить URL и метод запроса
+            xhr.open('POST', '/garage/clients/' + personId + '/addCar'); // Установить URL и метод запроса
             xhr.setRequestHeader('Content-Type', 'application/json'); // Установить заголовок Content-Type
 
             xhr.onreadystatechange = function() {
@@ -78,7 +78,7 @@
 
         // Функция для перенаправления на страницу со списком автомобилей
         function redirectToCarsPage() {
-            window.location.href = '/garage/persons/' + personId + '/cars';
+            window.location.href = '/garage/clients/' + personId + '/cars';
         }
     });
 </script>

@@ -1,68 +1,52 @@
 package com.example.garage.service;
 
-import com.example.garage.exception.PersonNotFound;
-import com.example.garage.model.Car;
-import com.example.garage.model.Person;
-import com.example.garage.model.Garage;
-import com.example.garage.repository.dao.ClientRepository;
+import com.example.garage.model.Client;
+import com.example.garage.repository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
 
     private final ClientRepository clientRepository;
 
+    @Autowired
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
-
-    public List<Garage> getAllPersonsAndCars() {
-        return clientRepository.getPersonsWithCars();
+    public List<Client> getAllClients() {
+        return clientRepository.findAll();
     }
 
-
-    public List<Person> getAllPersons() {
-        return clientRepository.getAllPersons();
+    public Optional<Client> getClientById(int id) {
+        return clientRepository.findById(Long.valueOf(id));
     }
 
-
-    public Person getPersonById(int personId) throws PersonNotFound {
-        Person person = clientRepository.getPersonById(personId);
-        if (person == null) throw new PersonNotFound(personId);
-        return person;
+    public Client saveClient(Client client) {
+        return clientRepository.save(client);
     }
 
-
-    public Person addPerson(Person person) {
-        clientRepository.savePerson(person);
-        return person;
+    public void deleteClient(int id) {
+        clientRepository.deleteById(Long.valueOf(id));
     }
 
-
-    public Person updatePerson(Person person, int personId) throws PersonNotFound {
-        clientRepository.updatePerson(person, personId);
-        if (person == null) throw new PersonNotFound(personId);
-        return person;
+    public Client getLastClient() {
+        List<Client> theListOfClients = getAllClients();
+        return theListOfClients.get(theListOfClients.size() - 1);
     }
 
-    public Person deletePerson(int id) {
-        clientRepository.deletePerson(id);
-        return null;
-    }
+    public List<Client> searchClients(String searchParameter) {
+        List<Client> theListOfClients = getAllClients();
+        String lowerCaseSearchParam = searchParameter.toLowerCase();
 
-
-    public List<Car> getListOfPersonCars(int personId) {
-        return clientRepository.getListOfPersonCars(personId);
-    }
-
-    public Person getTheLastCreatedPerson() {
-        return clientRepository.getTheLastCreatedPerson();
-    }
-
-    public List<Person> searchByPersonName(String personName) {
-        return clientRepository.searchPersonByName(personName);
+        return theListOfClients.stream()
+                .filter(client -> client.getName().toLowerCase().contains(lowerCaseSearchParam) ||
+                        client.getSurname().toLowerCase().contains(lowerCaseSearchParam))
+                .collect(Collectors.toList());
     }
 }

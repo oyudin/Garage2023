@@ -51,7 +51,7 @@
                 <p class="card-text" th:text="'VIN-код: ' + ${car.vinCode}"></p>
                 <p class="card-text" th:text="'Бренд: ' + ${car.brand}"></p>
                 <div class="float-right">
-                    <a th:href="@{/garage/persons/{personId}/cars/{carId}(personId=${personId}, carId=${car.Id})}"
+                    <a th:href="@{/garage/clients/{personId}/cars/{carId}(personId=${personId}, carId=${car.Id})}"
                        class="btn btn-primary create-car-button stretched-link">Деталі</a>
                 </div>
                 <p class="card-text" th:text="'Модель: ' + ${car.model}"></p>
@@ -60,10 +60,10 @@
         </div>
     </div>
     <div class="float-right">
-        <a th:href="@{/garage/persons/{personId}/newCar(personId=${personId})}"
+        <a th:href="@{/garage/clients/{personId}/newCar(personId=${personId})}"
            class="btn btn-primary create-car-button">Додати авто</a>
     </div>
-    <a th:href="@{'/garage/persons'}" class="btn btn-primary create-car-button">Повернутися до списку клієнтів</a>
+    <a th:href="@{'/garage/clients'}" class="btn btn-primary create-car-button">Повернутися до списку клієнтів</a>
 </div>
 </body>
 </html>

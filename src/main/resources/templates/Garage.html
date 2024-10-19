@@ -42,21 +42,21 @@
             <th>Color</th>
         </tr>
         </thead>
-        <tbody th:each="person: ${personsWithCars}">
+        <tbody th:each="client: ${personsWithCars}">
         <tr>
         <tr style="color: lightslategray">
-            <td th:text="${person.personId}"></td>
-            <td th:text="${person.name}"></td>
-            <td th:text="${person.surname}"></td>
-            <td th:text="${person.number}"></td>
-            <td th:text="${person.brand}"></td>
-            <td th:text="${person.model}"></td>
-            <td th:text="${person.color}"></td>
+            <td th:text="${client.personId}"></td>
+            <td th:text="${client.name}"></td>
+            <td th:text="${client.surname}"></td>
+            <td th:text="${client.number}"></td>
+            <td th:text="${client.brand}"></td>
+            <td th:text="${client.model}"></td>
+            <td th:text="${client.color}"></td>
         </tr>
         </tbody>
         <tr>
             <td>
-                <a href="http://localhost:8080/garage/persons" target="_self">All Persons</a>
+                <a href="http://localhost:8080/garage/clients" target="_self">All Persons</a>
                 <a href="http://localhost:8080/garage/cars" target="_self">All Cars</a>
                 <a style="color: #91c5ff" class="link-primary" th:href="@{/logout}">Logout </a>
             </td>
