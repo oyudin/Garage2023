@@ -14,7 +14,10 @@
 <div class="container">
     <form class="form-signin" id="carForm">
         <h2 class="form-signin-heading">Нове авто</h2>
-        <input type="hidden" id="personId" value="">
+
+        <!-- Добавим скрытое поле для clientId -->
+        <input type="hidden" id="clientId" name="clientId" value="">
+
         <p>
             <label class="form-label" for="number">Номер авто</label>
             <input class="form-control" id="number" name="number" type="text" placeholder="Enter number" required>
@@ -38,35 +41,50 @@
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         var urlParts = window.location.pathname.split('/');
-        var personId = urlParts[urlParts.length - 2]; // Извлечь значение personId из текущего URL
-        var carForm = document.querySelector('#carForm'); // Найти форму по идентификатору
-        var personIdField = document.querySelector('#personId'); // Найти поле personId по идентификатору
+        var clientId = urlParts[urlParts.length - 2]; // Извлекаем значение clientId из URL
+        var carForm = document.querySelector('#carForm'); // Находим форму по идентификатору
+        var clientIdField = document.querySelector('#clientId'); // Находим скрытое поле clientId
 
-        // Установить значение personId в поле personId формы
-        personIdField.value = personId;
+        // Устанавливаем значение clientId в скрытом поле формы
+        clientIdField.value = clientId;
 
-        // Перехватывать событие отправки формы
+        // Перехватываем событие отправки формы
         carForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Отменить стандартное действие отправки формы
+            event.preventDefault(); // Отменяем стандартное поведение формы
+            console.log('Форма отправляется...'); // Логирование для проверки события отправки
 
-            var formData = new FormData(carForm); // Создать объект FormData для сбора данных формы
-            var xhr = new XMLHttpRequest(); // Создать объект XMLHttpRequest
+            var formData = new FormData(carForm); // Собираем данные формы
+            var data = {}; // Создаем объект для JSON
+            formData.forEach((value, key) => {
+                data[key] = value; // Заполняем объект данными из формы
+            });
 
-            xhr.open('POST', '/garage/clients/' + personId + '/addCar'); // Установить URL и метод запроса
-            xhr.setRequestHeader('Content-Type', 'application/json'); // Установить заголовок Content-Type
+            console.log('Данные для отправки:', data); // Логируем данные формы
+
+            var xhr = new XMLHttpRequest(); // Создаем новый объект XMLHttpRequest
+            xhr.open('POST', '/garage/clients/' + clientId + '/cars', true); // Устанавливаем метод и URL для запроса
+            xhr.setRequestHeader('Content-Type', 'application/json'); // Устанавливаем тип данных - JSON
 
             xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    // Действия при успешной отправке формы
-                    console.log('Car created successfully!');
-                    showSuccessMessage();
-                    setTimeout(redirectToCarsPage, 1500);
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Car created successfully!'); // Успех
+                        showSuccessMessage(); // Показываем сообщение об успешном добавлении
+                        setTimeout(redirectToCarsPage, 1500); // Перенаправляем на страницу с машинами через 1.5 сек
+                    } else {
+                        console.error('Ошибка при отправке:', xhr.status, xhr.statusText); // Логируем ошибку
+                    }
                 }
             };
-            xhr.send(JSON.stringify(Object.fromEntries(formData)));
+
+            xhr.onerror = function() {
+                console.error('Произошла ошибка сети при отправке формы.'); // Логирование сетевой ошибки
+            };
+
+            xhr.send(JSON.stringify(data)); // Отправляем данные в формате JSON
         });
 
-        // Функция для показа всплывающего окна с сообщением "Успешно создано"
+        // Функция для показа всплывающего сообщения об успехе
         function showSuccessMessage() {
             var successAlert = document.createElement('div');
             successAlert.classList.add('alert', 'alert-success');
@@ -76,12 +94,13 @@
             container.insertBefore(successAlert, carForm);
         }
 
-        // Функция для перенаправления на страницу со списком автомобилей
+        // Функция для перенаправления на страницу со списком машин
         function redirectToCarsPage() {
-            window.location.href = '/garage/clients/' + personId + '/cars';
+            window.location.href = '/garage/clients/' + clientId + '/cars';
         }
     });
 </script>
+
 
 </body>
 </html>

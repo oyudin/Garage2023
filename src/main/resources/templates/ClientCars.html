@@ -43,27 +43,31 @@
 <body>
 <div class="container">
     <h1 class="text-center mb-4">Авто клієнта</h1>
+
     <div id="partsList">
-        <!-- Loop through the list of cars and display them -->
-        <div th:each="car : ${carByPerson}" class="card">
+        <!-- Проходим по списку машин клиента -->
+        <div th:each="car : ${cars}" class="card">
             <div class="card-body">
                 <h5 class="card-title" th:text="${car.number}"></h5>
-                <p class="card-text" th:text="'VIN-код: ' + ${car.vinCode}"></p>
                 <p class="card-text" th:text="'Бренд: ' + ${car.brand}"></p>
                 <div class="float-right">
-                    <a th:href="@{/garage/clients/{personId}/cars/{carId}(personId=${personId}, carId=${car.Id})}"
+                    <!-- Формируем ссылку на детали машины -->
+                    <a th:href="@{/garage/clients/{clientId}/cars/{carId}(clientId=${client.id}, carId=${car.id})}"
                        class="btn btn-primary create-car-button stretched-link">Деталі</a>
                 </div>
                 <p class="card-text" th:text="'Модель: ' + ${car.model}"></p>
-
             </div>
         </div>
     </div>
+
     <div class="float-right">
-        <a th:href="@{/garage/clients/{personId}/newCar(personId=${personId})}"
+        <!-- Ссылка на добавление новой машины -->
+        <a th:href="@{/garage/clients/{clientId}/cars/add(clientId=${client.id})}"
            class="btn btn-primary create-car-button">Додати авто</a>
     </div>
-    <a th:href="@{'/garage/clients'}" class="btn btn-primary create-car-button">Повернутися до списку клієнтів</a>
+
+    <!-- Ссылка на возврат к списку клиентов -->
+    <a th:href="@{/garage/clients}" class="btn btn-primary create-car-button">Повернутися до списку клієнтів</a>
 </div>
 </body>
 </html>

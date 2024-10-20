@@ -79,7 +79,7 @@
                 <p class="card-text" th:text="'Прізвище: ' + ${client.surname}"></p>
                 <p class="card-text" th:text="'ID: ' + ${client.id}"></p>
                 <div class="float-right">
-                    <a th:href="@{/garage/clients/{id}(id=${client.id})}"
+                    <a th:href="@{/garage/clients/{clientId}/cars(clientId=${client.id})}"
                        class="btn btn-primary create-car-button stretched-link">Авто</a>
                 </div>
                 <p class="card-text" th:text="'Номер телефону: ' + ${client.phoneNumber}"></p>

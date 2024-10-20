@@ -1,11 +1,14 @@
 package com.example.garage.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "clients")  // Ссылка на таблицу в базе данных
@@ -28,4 +31,8 @@ public class Client {
 
     @Column(name = "phone_number")  // Поле phoneNumber соответствует типу bigint
     private Long phoneNumber;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true) // Связь один ко многим
+    @JsonManagedReference
+    private List<Car> cars; // Список машин
 }
