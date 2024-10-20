@@ -28,6 +28,11 @@ public class ServiceHistoryService {
         return serviceHistoryRepository.findAll();
     }
 
+    public List<ServiceHistory> getServiceHistoryByCar(Long carId) {
+        return serviceHistoryRepository.findByCarId(carId);
+    }
+
+
     public ServiceHistory saveServiceHistory(ServiceHistory serviceHistory) {
         return serviceHistoryRepository.save(serviceHistory);
     }

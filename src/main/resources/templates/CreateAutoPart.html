@@ -15,11 +15,11 @@
     <form class="form-signin" id="autoPartForm">
         <h2 class="form-signin-heading">Нове обслуговування</h2>
         <input type="hidden" id="carId" value="">
-        <input type="hidden" id="personId" value="">
+        <input type="hidden" id="clientId" value="">
         <p>
         </p>
-        <label class="form-label" for="repairmentDate">Дата ремонту авто</label>
-        <input class="form-control" id="repairmentDate" name="repairmentDate" type="text"
+        <label class="form-label" for="service_date">Дата ремонту авто</label>
+        <input class="form-control" id="service_date" name="service_date" type="text"
                placeholder="Enter date">
         </p>
         <label class="form-label" for="millage">Пробіг авто</label>
@@ -27,16 +27,21 @@
                placeholder="Enter car millage">
         </p>
         <p>
-            <label class="form-label" for="autoPartDescription">Детальна інформація про ремонт</label>
-            <input class="form-control" id="autoPartDescription" name="autoPartDescription" type="text"
-                   placeholder="Enter auto part description" required>
+            <label class="form-label" for="description">Детальна інформація про ремонт</label>
+            <input class="form-control" id="description" name="description" type="text"
+                   placeholder="Enter service description" required>
         </p>
         <p>
-            <label class="form-label" for="autoPartPrice">Ціна</label>
-            <input class="form-control" id="autoPartPrice" name="autoPartPrice" type="number"
+            <label class="form-label" for="next_service_date">Рекомендована дата наступного обслуговування</label>
+            <input class="form-control" id="next_service_date" name="next_service_date" type="text"
+                   placeholder="Enter service next date" required>
+        </p>
+        <p>
+            <label class="form-label" for="price">Ціна</label>
+            <input class="form-control" id="price" name="price" type="number"
                    placeholder="Enter auto part price">
         </p>
-        <button class="btn btn-primary mb-3" id="backToAutoPartsBtn">Повернутися до списку авто</button>
+        <button class="btn btn-primary mb-3" id="backToServiceHistoryBtn">Повернутися до списку авто</button>
         <button class="btn btn-primary mb-3" type="submit">Створити</button>
     </form>
 </div>
@@ -45,13 +50,13 @@
     window.addEventListener('DOMContentLoaded', function () {
         var urlParts = window.location.pathname.split('/');
         var carId = parseInt(urlParts[urlParts.length - 2]);
-        var personId = parseInt(urlParts[urlParts.length - 4]);
+        var clientId = parseInt(urlParts[urlParts.length - 4]);
         var autoPartForm = document.querySelector('#autoPartForm');
         var carIdField = document.querySelector('#carId');
-        var personIdField = document.querySelector('#personId');
+        var clientIdField = document.querySelector('#clientId');
 
         carIdField.value = carId;
-        personIdField.value = personId;
+        clientIdField.value = clientId;
 
         autoPartForm.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -91,7 +96,7 @@
         }
 
         function redirectToAutoPartsPage() {
-            window.location.href = '/garage/clients/' + personId + '/cars/' + carId;
+            window.location.href = '/garage/clients/' + clientId + '/cars/' + carId;
         }
 
         var backToAutoPartsBtn = document.querySelector('#backToAutoPartsBtn');

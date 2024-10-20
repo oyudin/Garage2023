@@ -1,19 +1,26 @@
 package com.example.garage.controller;
 
+import com.example.garage.model.Car;
+import com.example.garage.model.Client;
 import com.example.garage.model.ServiceHistory;
 import com.example.garage.service.CarService;
 import com.example.garage.service.ClientService;
 import com.example.garage.service.ServiceHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * change Garage to CarService
  */
 
-@RestController
-//@Controller
+//@RestController
+@Controller
 @RequestMapping("garage/clients/{clientId}/cars/{carId}/service-history")
 public class ServiceHistoryController {
 
@@ -37,7 +44,27 @@ public class ServiceHistoryController {
 //        return ResponseEntity.ok(serviceHistories);
 //    }
 
-    @PostMapping
+
+    @GetMapping()
+    public String findServiceHistoryByCar(Model model, @PathVariable int clientId, @PathVariable Long carId) {
+        Optional<Car> car = carService.getCarById(carId);
+        List<ServiceHistory> serviceHistories = serviceHistoryService.getServiceHistoryByCar(carId);
+
+
+        car.ifPresent(value -> model.addAttribute("car", value));
+        model.addAttribute("service_history", serviceHistories); // Добавляем машины клиента в модель
+
+        return "AutoPartsByCar";
+    }
+
+
+    @GetMapping("/add")
+    public String showServiceHistoryCreatingPage() {
+        return "CreateAutoPart";
+    }
+
+
+    @PostMapping("/")
     @ResponseBody
     public ResponseEntity<ServiceHistory> createServiceHistory(@PathVariable int clientId, @PathVariable long carId,
                                                                @RequestBody ServiceHistory serviceHistory) {
