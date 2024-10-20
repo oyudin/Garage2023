@@ -24,12 +24,10 @@ public class ClientService {
     }
 
     public Optional<Client> getClientById(long id) {
-//        System.out.println("!!!!!!!!!!!!!!!!!!!!      " + clientRepository.findById((long)id));
         return clientRepository.findById(Long.valueOf(id));
     }
 
     public Client saveClient(Client client) {
-//        System.out.println(client.getCars());
         return clientRepository.save(client);
     }
 

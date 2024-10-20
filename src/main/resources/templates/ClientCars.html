@@ -52,7 +52,7 @@
                 <p class="card-text" th:text="'Бренд: ' + ${car.brand}"></p>
                 <div class="float-right">
                     <!-- Формируем ссылку на детали машины -->
-                    <a th:href="@{/garage/clients/{clientId}/cars/{carId}(clientId=${client.id}, carId=${car.id})}"
+                    <a th:href="@{/garage/clients/{clientId}/cars/{carId}/service-history/add(clientId=${client.id}, carId=${car.id})}"
                        class="btn btn-primary create-car-button stretched-link">Деталі</a>
                 </div>
                 <p class="card-text" th:text="'Модель: ' + ${car.model}"></p>

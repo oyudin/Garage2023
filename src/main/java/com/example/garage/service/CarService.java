@@ -54,4 +54,8 @@ public class CarService {
         car.setClient(client); // Устанавливаем связь между машиной и клиентом
         return carRepository.save(car);
     }
+
+    public Optional<Car> findById(long id) {
+        return carRepository.findById(id);
+    }
 }

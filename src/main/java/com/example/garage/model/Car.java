@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "cars")  // Ссылка на таблицу в базе данных
 @Builder
@@ -31,4 +33,7 @@ public class Car {
     @JoinColumn(name = "client_id", nullable = false) // Внешний ключ в таблице cars
     @JsonBackReference
     private Client client;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    private List<ServiceHistory> serviceHistories;
 }
