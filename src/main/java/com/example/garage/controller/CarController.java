@@ -88,14 +88,25 @@ public class CarController {
 //        }
 //    }
 
+//    @PostMapping("/{clientId}/cars")
+//    public ResponseEntity<Car> createCar(@PathVariable int clientId, @RequestBody Car car) {
+//        if (clientService.getClientById(clientId).isPresent()) {
+//            Car createdCar = carService.createCarForClient(clientId, car);
+//            return ResponseEntity.ok().body(createdCar);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+
     @PostMapping("/{clientId}/cars")
-    public ResponseEntity<Car> createCar(@PathVariable int clientId, @RequestBody Car car) {
-        if (clientService.getClientById(clientId).isPresent()) {
+    public String createCar(@PathVariable int clientId, @RequestBody Car car) {
+//        if (clientService.getClientById(clientId).isPresent()) {
             Car createdCar = carService.createCarForClient(clientId, car);
-            return ResponseEntity.ok().body(createdCar);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+            return "redirect:/garage/clients/" + clientId + "/cars";
+//            return ResponseEntity.ok().body(createdCar);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
     }
 
     //

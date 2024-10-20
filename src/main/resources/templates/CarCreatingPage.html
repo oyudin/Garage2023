@@ -14,21 +14,22 @@
 <div class="container">
     <form class="form-signin" id="carForm">
         <h2 class="form-signin-heading">Нове авто</h2>
-
-        <!-- Добавим скрытое поле для clientId -->
-        <input type="hidden" id="clientId" name="clientId" value="">
-
+        <input type="hidden" id="clientId" value="">
         <p>
             <label class="form-label" for="number">Номер авто</label>
             <input class="form-control" id="number" name="number" type="text" placeholder="Enter number" required>
         </p>
-        <p>
-            <label class="form-label" for="vinCode">Він код</label>
-            <input class="form-control" id="vinCode" name="vinCode" type="text" placeholder="Enter vin code" required>
-        </p>
+<!--        <p>-->
+<!--            <label class="form-label" for="vinCode">Він код</label>-->
+<!--            <input class="form-control" id="vinCode" name="vinCode" type="text" placeholder="Enter vin code" required>-->
+<!--        </p>-->
         <p>
             <label class="form-label" for="brand">Бренд</label>
             <input class="form-control" id="brand" name="brand" type="text" placeholder="Enter brand" required>
+        </p>
+        <p>
+            <label class="form-label" for="color">Колір</label>
+            <label for="color"></label><input class="form-control" id="color" name="color" type="text" placeholder="Enter color" required>
         </p>
         <p>
             <label class="form-label" for="model">Модель</label>
@@ -41,50 +42,35 @@
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         var urlParts = window.location.pathname.split('/');
-        var clientId = urlParts[urlParts.length - 2]; // Извлекаем значение clientId из URL
-        var carForm = document.querySelector('#carForm'); // Находим форму по идентификатору
-        var clientIdField = document.querySelector('#clientId'); // Находим скрытое поле clientId
+        var clientId = urlParts[urlParts.length - 3]; // Извлечь значение clientId из текущего URL
+        var carForm = document.querySelector('#carForm'); // Найти форму по идентификатору
+        var clientIdField = document.querySelector('#clientId'); // Найти поле clientId по идентификатору
 
-        // Устанавливаем значение clientId в скрытом поле формы
+        // Установить значение clientId в поле clientId формы
         clientIdField.value = clientId;
 
-        // Перехватываем событие отправки формы
+        // Перехватывать событие отправки формы
         carForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Отменяем стандартное поведение формы
-            console.log('Форма отправляется...'); // Логирование для проверки события отправки
+            event.preventDefault(); // Отменить стандартное действие отправки формы
 
-            var formData = new FormData(carForm); // Собираем данные формы
-            var data = {}; // Создаем объект для JSON
-            formData.forEach((value, key) => {
-                data[key] = value; // Заполняем объект данными из формы
-            });
+            var formData = new FormData(carForm); // Создать объект FormData для сбора данных формы
+            var xhr = new XMLHttpRequest(); // Создать объект XMLHttpRequest
 
-            console.log('Данные для отправки:', data); // Логируем данные формы
-
-            var xhr = new XMLHttpRequest(); // Создаем новый объект XMLHttpRequest
-            xhr.open('POST', '/garage/clients/' + clientId + '/cars', true); // Устанавливаем метод и URL для запроса
-            xhr.setRequestHeader('Content-Type', 'application/json'); // Устанавливаем тип данных - JSON
+            xhr.open('POST', '/garage/clients/' + clientId + '/cars'); // Установить URL и метод запроса
+            xhr.setRequestHeader('Content-Type', 'application/json'); // Установить заголовок Content-Type
 
             xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        console.log('Car created successfully!'); // Успех
-                        showSuccessMessage(); // Показываем сообщение об успешном добавлении
-                        setTimeout(redirectToCarsPage, 1500); // Перенаправляем на страницу с машинами через 1.5 сек
-                    } else {
-                        console.error('Ошибка при отправке:', xhr.status, xhr.statusText); // Логируем ошибку
-                    }
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Действия при успешной отправке формы
+                    console.log('Car created successfully!');
+                    showSuccessMessage();
+                    setTimeout(redirectToCarsPage, 1500);
                 }
             };
-
-            xhr.onerror = function() {
-                console.error('Произошла ошибка сети при отправке формы.'); // Логирование сетевой ошибки
-            };
-
-            xhr.send(JSON.stringify(data)); // Отправляем данные в формате JSON
+            xhr.send(JSON.stringify(Object.fromEntries(formData)));
         });
 
-        // Функция для показа всплывающего сообщения об успехе
+        // Функция для показа всплывающего окна с сообщением "Успешно создано"
         function showSuccessMessage() {
             var successAlert = document.createElement('div');
             successAlert.classList.add('alert', 'alert-success');
@@ -94,13 +80,12 @@
             container.insertBefore(successAlert, carForm);
         }
 
-        // Функция для перенаправления на страницу со списком машин
+        // Функция для перенаправления на страницу со списком автомобилей
         function redirectToCarsPage() {
             window.location.href = '/garage/clients/' + clientId + '/cars';
         }
     });
 </script>
-
 
 </body>
 </html>
