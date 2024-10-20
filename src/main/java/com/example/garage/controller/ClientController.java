@@ -47,7 +47,7 @@ public class ClientController {
     @PostMapping
     public String createClient(@ModelAttribute Client client) {
         clientService.saveClient(client);
-        return "redirect:/garage/clients/" + lastCreatedClient();
+        return "redirect:/garage/clients/" + lastCreatedClient() + "/cars";
     }
 //    @PostMapping
 //    @ResponseBody
@@ -61,7 +61,7 @@ public class ClientController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/registration")
+    @GetMapping("/add")
     public String showRegistrationClientPage() {
         return "RegisterClient";
     }
