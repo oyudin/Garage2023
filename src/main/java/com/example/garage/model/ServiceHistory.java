@@ -7,10 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-
 @Entity
-@Table(name = "service_history")  // Ссылка на таблицу в базе данных
+@Table(name = "service_history")
 @Builder
 @Data
 @AllArgsConstructor
@@ -19,17 +17,17 @@ public class ServiceHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")  // Указание на колонку id
+    @Column(name = "id")
     private Long id;
-    @Column(name = "service_date", nullable = false)  // Поле model не может быть NULL
+    @Column(name = "service_date", nullable = false)
     private String service_date;
-    @Column(name = "description", nullable = true)  // Поле license_plate не может быть NULL
+    @Column(name = "description")
     private String description;
-    @Column(name = "mileage", nullable = false)  // Поле model не может быть NULL
+    @Column(name = "mileage", nullable = false)
     private Integer mileage;
-    @Column(name = "price", nullable = false)  // Поле license_plate не может быть NULL
+    @Column(name = "price", nullable = false)
     private double price;
-    @Column(name = "next_service_date", nullable = true)  // Поле model не может быть NULL
+    @Column(name = "next_service_date")
     private String next_service_date;
     @ManyToOne
     @JoinColumn(name = "car_id", nullable = false)

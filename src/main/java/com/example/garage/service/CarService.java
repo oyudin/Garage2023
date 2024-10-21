@@ -22,40 +22,20 @@ public class CarService {
         this.clientRepository = clientRepository;
     }
 
-    // Метод для получения всех машин
-    public List<Car> getAllCars() {
-        return carRepository.findAll();
-    }
-
-    // Метод для получения машины по id
     public Optional<Car> getCarById(Long id) {
         return carRepository.findById(id);
     }
 
-    // Метод для создания или обновления машины
-    public Car saveCar(Car car) {
-        return carRepository.save(car);
-    }
-
-    // Метод для удаления машины по id
-    public void deleteCar(Long id) {
-        carRepository.deleteById(id);
-    }
-
-    // Метод для получения всех машин клиента
     public List<Car> getCarsByClientId(Long clientId) {
         return carRepository.findByClientId(clientId);
     }
 
-    public Car createCarForClient(int clientId, Car car) {
-        Client client = clientRepository.findById(Long.valueOf(clientId))
+    public Car createCarForClient(Long clientId, Car car) {
+        Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new RuntimeException("Client not found with id " + clientId));
 
-        car.setClient(client); // Устанавливаем связь между машиной и клиентом
+        car.setClient(client);
         return carRepository.save(car);
     }
 
-    public Optional<Car> findById(long id) {
-        return carRepository.findById(id);
-    }
 }

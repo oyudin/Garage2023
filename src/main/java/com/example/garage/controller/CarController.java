@@ -15,8 +15,6 @@ import java.util.Optional;
 /**
  * change Garage to CarService
  */
-
-//@RestController
 @Controller
 @RequestMapping("garage/clients")
 public class CarController {
@@ -30,89 +28,25 @@ public class CarController {
         this.clientService = clientService;
     }
 
-    // Получение всех машин
-//    @GetMapping
-//    public ResponseEntity<List<Car>> getAllCars() {
-//        List<Car> cars = carService.getAllCars();
-//        return ResponseEntity.ok(cars);
-//    }
-
     @GetMapping("/{clientId}/cars")
     public String findCarsByClient(Model model, @PathVariable("clientId") long clientId) {
-        Optional<Client> client = clientService.getClientById(clientId); // Получаем клиента
-        List<Car> cars = carService.getCarsByClientId(clientId); // Получаем машины клиента
+        Optional<Client> client = clientService.getClientById(clientId);
+        List<Car> cars = carService.getCarsByClientId(clientId);
 
         client.ifPresent(value -> model.addAttribute("client", value));
-        model.addAttribute("cars", cars); // Добавляем машины клиента в модель
+        model.addAttribute("cars", cars);
 
         return "ClientCars";
     }
 
-    // Получение машины по id
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Car> getCarById(@PathVariable Long id) {
-//        Optional<Car> car = carService.getCarById(id);
-//        return car.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//    }
-
-
-    // Создание новой машины
-//    @PostMapping
-//    public ResponseEntity<Car> createCar(@RequestBody Car car) {
-//        Car savedCar = carService.saveCar(car);
-//        return ResponseEntity.ok(savedCar);
-//    }
-
-    // Обновление информации о машине
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car updatedCar) {
-//        Optional<Car> existingCar = carService.getCarById(id);
-//        if (existingCar.isPresent()) {
-//            updatedCar.setId(id); // Устанавливаем ID, чтобы обновить правильную машину
-//            Car savedCar = carService.saveCar(updatedCar);
-//            return ResponseEntity.ok(savedCar);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
-    // Удаление машины
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
-//        if (carService.getCarById(id).isPresent()) {
-//            carService.deleteCar(id);
-//            return ResponseEntity.noContent().build();
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
-//    @PostMapping("/{clientId}/cars")
-//    public ResponseEntity<Car> createCar(@PathVariable int clientId, @RequestBody Car car) {
-//        if (clientService.getClientById(clientId).isPresent()) {
-//            Car createdCar = carService.createCarForClient(clientId, car);
-//            return ResponseEntity.ok().body(createdCar);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
     @PostMapping("/{clientId}/cars")
-    public String createCar(@PathVariable int clientId, @RequestBody Car car) {
-//        if (clientService.getClientById(clientId).isPresent()) {
-            Car createdCar = carService.createCarForClient(clientId, car);
-            return "redirect:/garage/clients/" + clientId + "/cars";
-//            return ResponseEntity.ok().body(createdCar);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
+    public String createCar(@PathVariable Long clientId, @RequestBody Car car) {
+        carService.createCarForClient(clientId, car);
+        return String.format("redirect:/garage/clients/%d/cars", clientId);
     }
 
-    //
-    @GetMapping("{clientId}/cars/add")
-    public String showCarCreatingPage() {
+    @GetMapping("{ignoredClientId}/cars/add")
+    public String showCarCreatingPage(@PathVariable Long ignoredClientId) {
         return "CarCreatingPage";
     }
-
-
 }

@@ -72,7 +72,6 @@
     </div>
 
     <div id="partsList">
-        <!-- Loop through the list of cars and display them -->
         <div th:each="client : ${clients}" class="card">
             <div class="card-body">
                 <h5 class="card-title" th:text="${client.name}"></h5>

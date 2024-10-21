@@ -45,14 +45,12 @@
     <h1 class="text-center mb-4">Авто клієнта</h1>
 
     <div id="partsList">
-        <!-- Проходим по списку машин клиента -->
         <div th:each="car : ${cars}" class="card">
             <div class="card-body">
                 <h5 class="card-title" th:text="${car.number}"></h5>
                 <p class="card-text" th:text="'Vin номер: ' + ${car.vin_code}"></p>
                 <p class="card-text" th:text="'Бренд: ' + ${car.brand}"></p>
                 <div class="float-right">
-                    <!-- Формируем ссылку на детали машины -->
                     <a th:href="@{/garage/clients/{clientId}/cars/{carId}/service-history(clientId=${client.id}, carId=${car.id})}"
                        class="btn btn-primary create-car-button stretched-link">Деталі</a>
                 </div>
@@ -62,12 +60,9 @@
     </div>
 
     <div class="float-right">
-        <!-- Ссылка на добавление новой машины -->
         <a th:href="@{/garage/clients/{clientId}/cars/add(clientId=${client.id})}"
            class="btn btn-primary create-car-button">Додати авто</a>
     </div>
-
-    <!-- Ссылка на возврат к списку клиентов -->
     <a th:href="@{/garage/clients}" class="btn btn-primary create-car-button">Повернутися до списку клієнтів</a>
 </div>
 </body>

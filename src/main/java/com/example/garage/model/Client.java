@@ -1,7 +1,6 @@
 package com.example.garage.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "clients")  // Ссылка на таблицу в базе данных
+@Table(name = "clients")
 @Builder
 @Data
 @AllArgsConstructor
@@ -20,19 +19,19 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")  // Указание на колонку id
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false)  // Поле name не может быть NULL
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "surname", nullable = false)  // Поле surname не может быть NULL
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "phone_number")  // Поле phoneNumber соответствует типу bigint
+    @Column(name = "phone_number")
     private Long phoneNumber;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true) // Связь один ко многим
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Car> cars; // Список машин
+    private List<Car> cars;
 }

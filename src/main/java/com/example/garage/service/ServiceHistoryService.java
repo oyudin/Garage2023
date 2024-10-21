@@ -1,16 +1,13 @@
 package com.example.garage.service;
 
 import com.example.garage.model.Car;
-import com.example.garage.model.Client;
 import com.example.garage.model.ServiceHistory;
 import com.example.garage.repository.CarRepository;
-import com.example.garage.repository.ClientRepository;
 import com.example.garage.repository.ServiceHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceHistoryService {
@@ -24,17 +21,8 @@ public class ServiceHistoryService {
         this.carRepository = carRepository;
     }
 
-    public List<ServiceHistory> getAllServiceHistory() {
-        return serviceHistoryRepository.findAll();
-    }
-
     public List<ServiceHistory> getServiceHistoryByCar(Long carId) {
         return serviceHistoryRepository.findByCarId(carId);
-    }
-
-
-    public ServiceHistory saveServiceHistory(ServiceHistory serviceHistory) {
-        return serviceHistoryRepository.save(serviceHistory);
     }
 
     public ServiceHistory saveServiceHistoryForCar(long carId, ServiceHistory serviceHistory) {

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "cars")  // Ссылка на таблицу в базе данных
+@Table(name = "cars")
 @Builder
 @Data
 @AllArgsConstructor
@@ -19,18 +19,23 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")  // Указание на колонку id
+    @Column(name = "id")
     private Long id;
-    @Column(name = "number", nullable = false)  // Поле model не может быть NULL
+
+    @Column(name = "number", nullable = false)
     private String number;
-    @Column(name = "vin_code", nullable = false)  // Поле license_plate не может быть NULL
+
+    @Column(name = "vin_code", nullable = false)
     private String vin_code;
-    @Column(name = "brand", nullable = false)  // Поле license_plate не может быть NULL
+
+    @Column(name = "brand", nullable = false)
     private String brand;
-    @Column(name = "model", nullable = false)  // Поле model не может быть NULL
+
+    @Column(name = "model", nullable = false)
     private String model;
+
     @ManyToOne // Указываем связь многие к одному
-    @JoinColumn(name = "client_id", nullable = false) // Внешний ключ в таблице cars
+    @JoinColumn(name = "client_id", nullable = false)
     @JsonBackReference
     private Client client;
 

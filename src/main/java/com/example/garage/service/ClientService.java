@@ -23,16 +23,16 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Optional<Client> getClientById(long id) {
-        return clientRepository.findById(Long.valueOf(id));
+    public Optional<Client> getClientById(Long id) {
+        return clientRepository.findById(id);
     }
 
     public Client saveClient(Client client) {
         return clientRepository.save(client);
     }
 
-    public void deleteClient(int id) {
-        clientRepository.deleteById(Long.valueOf(id));
+    public void deleteClient(Long id) {
+        clientRepository.deleteById(id);
     }
 
     public Client getLastClient() {
