@@ -50,12 +50,12 @@ public class ServiceHistoryController {
         Optional<Car> car = carService.getCarById(carId);
         List<ServiceHistory> serviceHistories = serviceHistoryService.getServiceHistoryByCar(carId);
 
-
         car.ifPresent(value -> model.addAttribute("car", value));
-        model.addAttribute("service_history", serviceHistories); // Добавляем машины клиента в модель
+        model.addAttribute("serviceHistories", serviceHistories); // Изменил название атрибута для списка историй
 
         return "AutoPartsByCar";
     }
+
 
 
     @GetMapping("/add")
@@ -64,7 +64,7 @@ public class ServiceHistoryController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("/add")
     @ResponseBody
     public ResponseEntity<ServiceHistory> createServiceHistory(@PathVariable int clientId, @PathVariable long carId,
                                                                @RequestBody ServiceHistory serviceHistory) {
@@ -72,6 +72,7 @@ public class ServiceHistoryController {
         ServiceHistory savedServiceHistory = serviceHistoryService.saveServiceHistoryForCar(carId, serviceHistory);
 
         if (clientService.getClientById(clientId).isPresent() && carService.getCarById(carId).isPresent()) {
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  " + savedServiceHistory.getMileage());
             return ResponseEntity.ok().body(savedServiceHistory);
         } else {
             return ResponseEntity.notFound().build();

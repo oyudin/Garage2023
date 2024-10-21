@@ -5,28 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Create an Auto Part</title>
+    <title>Create a Service History</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
-    <form class="form-signin" id="autoPartForm">
+    <form class="form-signin" id="serviceHistoryForm">
         <h2 class="form-signin-heading">Нове обслуговування</h2>
         <input type="hidden" id="carId" value="">
         <input type="hidden" id="clientId" value="">
-        <p>
-        </p>
+
         <label class="form-label" for="service_date">Дата ремонту авто</label>
         <input class="form-control" id="service_date" name="service_date" type="text"
                placeholder="Enter date">
-        </p>
-        <label class="form-label" for="millage">Пробіг авто</label>
-        <input class="form-control" id="millage" name="millage" type="number"
-               placeholder="Enter car millage">
+
+        <p>
+            <label class="form-label" for="mileage">Пробіг авто</label>
+            <input class="form-control" id="mileage" name="mileage" type="number"
+                   placeholder="Enter car mileage">
         </p>
         <p>
+
             <label class="form-label" for="description">Детальна інформація про ремонт</label>
             <input class="form-control" id="description" name="description" type="text"
                    placeholder="Enter service description" required>
@@ -34,14 +35,16 @@
         <p>
             <label class="form-label" for="next_service_date">Рекомендована дата наступного обслуговування</label>
             <input class="form-control" id="next_service_date" name="next_service_date" type="text"
-                   placeholder="Enter service next date" required>
+                   placeholder="Enter next service date" required>
         </p>
         <p>
             <label class="form-label" for="price">Ціна</label>
             <input class="form-control" id="price" name="price" type="number"
-                   placeholder="Enter auto part price">
+                   placeholder="Enter service price">
         </p>
-        <button class="btn btn-primary mb-3" id="backToServiceHistoryBtn">Повернутися до списку авто</button>
+        <button class="btn btn-primary mb-3" id="backToServiceHistoryBtn" type="button">Повернутися до історії
+            обслуговування
+        </button>
         <button class="btn btn-primary mb-3" type="submit">Створити</button>
     </form>
 </div>
@@ -49,28 +52,27 @@
 <script>
     window.addEventListener('DOMContentLoaded', function () {
         var urlParts = window.location.pathname.split('/');
-        var carId = parseInt(urlParts[urlParts.length - 2]);
-        var clientId = parseInt(urlParts[urlParts.length - 4]);
-        var autoPartForm = document.querySelector('#autoPartForm');
+        var carId = parseInt(urlParts[urlParts.length - 3]);
+        var clientId = parseInt(urlParts[urlParts.length - 5]);
+        var serviceHistoryForm = document.querySelector('#serviceHistoryForm');
         var carIdField = document.querySelector('#carId');
         var clientIdField = document.querySelector('#clientId');
 
         carIdField.value = carId;
         clientIdField.value = clientId;
 
-        autoPartForm.addEventListener('submit', function (event) {
+        serviceHistoryForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
             function trimURL() {
                 var currentURL = window.location.pathname;
-                var trimmedURL = currentURL;
-                return trimmedURL;
+                return currentURL;
             }
 
-            var trimmedPath = trimURL().replace('create', "createAutoPart");
+            var trimmedPath = trimURL().replace('create', "createServiceHistory");
             console.log(trimmedPath);
 
-            var formData = new FormData(autoPartForm);
+            var formData = new FormData(serviceHistoryForm);
             var xhr = new XMLHttpRequest();
 
             xhr.open('POST', trimmedPath);
@@ -78,9 +80,9 @@
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    console.log('Auto part created successfully!');
+                    console.log('Service history created successfully!');
                     showSuccessMessage();
-                    setTimeout(redirectToAutoPartsPage, 2000);
+                    setTimeout(redirectToServiceHistoryPage, 2000);
                 }
             };
             xhr.send(JSON.stringify(Object.fromEntries(formData)));
@@ -89,19 +91,19 @@
         function showSuccessMessage() {
             var successAlert = document.createElement('div');
             successAlert.classList.add('alert', 'alert-success');
-            successAlert.textContent = 'A new auto part added';
+            successAlert.textContent = 'A new service history entry has been added';
 
             var container = document.querySelector('.container');
-            container.insertBefore(successAlert, autoPartForm.nextSibling);
+            container.insertBefore(successAlert, serviceHistoryForm.nextSibling);
         }
 
-        function redirectToAutoPartsPage() {
-            window.location.href = '/garage/clients/' + clientId + '/cars/' + carId;
+        function redirectToServiceHistoryPage() {
+            window.location.href = '/garage/clients/' + clientId + '/cars/' + carId + "/service-history";
         }
 
-        var backToAutoPartsBtn = document.querySelector('#backToAutoPartsBtn');
-        backToAutoPartsBtn.addEventListener('click', function () {
-            redirectToAutoPartsPage();
+        var backToServiceHistoryBtn = document.querySelector('#backToServiceHistoryBtn');
+        backToServiceHistoryBtn.addEventListener('click', function () {
+            redirectToServiceHistoryPage();
         });
     });
 </script>

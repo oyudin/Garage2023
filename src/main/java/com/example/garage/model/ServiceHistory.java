@@ -25,7 +25,7 @@ public class ServiceHistory {
     private String service_date;
     @Column(name = "description", nullable = true)  // Поле license_plate не может быть NULL
     private String description;
-    @Column(name = "mileage", nullable = true)  // Поле model не может быть NULL
+    @Column(name = "mileage", nullable = false)  // Поле model не может быть NULL
     private Integer mileage;
     @Column(name = "price", nullable = false)  // Поле license_plate не может быть NULL
     private double price;
