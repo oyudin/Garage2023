@@ -1,4 +1,4 @@
-CREATE TABLE Service_History
+CREATE TABLE IF NOT EXISTS Service_History
 (
     id                BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     service_date      TEXT   NOT NULL,

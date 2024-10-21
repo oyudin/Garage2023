@@ -19,17 +19,13 @@
             <label class="form-label" for="number">Номер авто</label>
             <input class="form-control" id="number" name="number" type="text" placeholder="Enter number" required>
         </p>
-<!--        <p>-->
-<!--            <label class="form-label" for="vinCode">Він код</label>-->
-<!--            <input class="form-control" id="vinCode" name="vinCode" type="text" placeholder="Enter vin code" required>-->
-<!--        </p>-->
+        <p>
+            <label class="form-label" for="vin_code">Він код</label>
+            <input class="form-control" id="vin_code" name="vin_code" type="text" placeholder="Enter vin code" required>
+        </p>
         <p>
             <label class="form-label" for="brand">Бренд</label>
             <input class="form-control" id="brand" name="brand" type="text" placeholder="Enter brand" required>
-        </p>
-        <p>
-            <label class="form-label" for="color">Колір</label>
-            <label for="color"></label><input class="form-control" id="color" name="color" type="text" placeholder="Enter color" required>
         </p>
         <p>
             <label class="form-label" for="model">Модель</label>
@@ -40,7 +36,7 @@
 </div>
 
 <script>
-    window.addEventListener('DOMContentLoaded', function() {
+    window.addEventListener('DOMContentLoaded', function () {
         var urlParts = window.location.pathname.split('/');
         var clientId = urlParts[urlParts.length - 3]; // Извлечь значение clientId из текущего URL
         var carForm = document.querySelector('#carForm'); // Найти форму по идентификатору
@@ -50,7 +46,7 @@
         clientIdField.value = clientId;
 
         // Перехватывать событие отправки формы
-        carForm.addEventListener('submit', function(event) {
+        carForm.addEventListener('submit', function (event) {
             event.preventDefault(); // Отменить стандартное действие отправки формы
 
             var formData = new FormData(carForm); // Создать объект FormData для сбора данных формы
@@ -59,7 +55,7 @@
             xhr.open('POST', '/garage/clients/' + clientId + '/cars'); // Установить URL и метод запроса
             xhr.setRequestHeader('Content-Type', 'application/json'); // Установить заголовок Content-Type
 
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     // Действия при успешной отправке формы
                     console.log('Car created successfully!');

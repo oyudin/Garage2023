@@ -1,7 +1,6 @@
 package com.example.garage.controller;
 
 import com.example.garage.model.Car;
-import com.example.garage.model.Client;
 import com.example.garage.model.ServiceHistory;
 import com.example.garage.service.CarService;
 import com.example.garage.service.ClientService;
@@ -53,14 +52,14 @@ public class ServiceHistoryController {
         car.ifPresent(value -> model.addAttribute("car", value));
         model.addAttribute("serviceHistories", serviceHistories); // Изменил название атрибута для списка историй
 
-        return "AutoPartsByCar";
+        return "ServiceHistoryByCar";
     }
 
 
 
     @GetMapping("/add")
     public String showServiceHistoryCreatingPage() {
-        return "CreateAutoPart";
+        return "CreateServiceHistory";
     }
 
 
@@ -72,7 +71,6 @@ public class ServiceHistoryController {
         ServiceHistory savedServiceHistory = serviceHistoryService.saveServiceHistoryForCar(carId, serviceHistory);
 
         if (clientService.getClientById(clientId).isPresent() && carService.getCarById(carId).isPresent()) {
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  " + savedServiceHistory.getMileage());
             return ResponseEntity.ok().body(savedServiceHistory);
         } else {
             return ResponseEntity.notFound().build();
