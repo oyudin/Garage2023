@@ -30,4 +30,10 @@ public class ServiceHistoryService {
         serviceHistory.setCar(car);
         return serviceHistoryRepository.save(serviceHistory);
     }
+
+    public void deleteServiceHistory(long id) {
+        ServiceHistory serviceHistory = serviceHistoryRepository.findById(id).orElseThrow(()
+                -> new RuntimeException("Service History not found with id " + id));
+        serviceHistoryRepository.delete(serviceHistory);
+    }
 }

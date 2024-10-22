@@ -43,22 +43,28 @@
                     <p class="card-text" th:text="'Пробіг авто: ' + ${serviceHistory.mileage} + ' км'"></p>
                     <p class="card-text" th:text="'Деталі: ' + ${serviceHistory.description}"></p>
                     <p class="card-text" th:text="'Ціна: ' + ${serviceHistory.price} + ' грн'"></p>
-                    <p class="card-text" th:text="'Наступне обслуговування: ' + ${serviceHistory.next_service_date}"></p>
+                    <p class="card-text"
+                       th:text="'Наступне обслуговування: ' + ${serviceHistory.next_service_date}"></p>
 
-                    <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${carId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
+                    <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
                           method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
-                        <!-- Add hidden input to override the method to DELETE -->
                         <input type="hidden" name="_method" value="DELETE"/>
-                        <!-- Use the DELETE method for the form -->
                         <button type="submit" class="btn btn-danger">Видалити</button>
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
-    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars'}" class="btn btn-primary create-car-button">Повернутися до списку авто</a>
+    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars'} " class="btn btn-primary create-car-button">Повернутися
+        до списку авто</a>
+    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/print-service-report'}"
+       class="btn btn-primary">Распечатать отчет</a>
+
+
     <div class="float-right">
-        <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${carId} + '/service-history/add'}" class="btn btn-primary create-car-button">Нове обслуговування</a>
+        <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
+           class="btn btn-primary create-car-button">Нове обслуговування</a>
     </div>
 </div>
 </body>

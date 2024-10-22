@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface ServiceHistoryRepository extends JpaRepository<ServiceHistory, Long> {
     List<ServiceHistory> findByCarId(Long clientId);
-
 }

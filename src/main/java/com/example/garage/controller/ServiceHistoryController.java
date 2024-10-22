@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 
 @Controller
-@RequestMapping("garage/clients/{ignoredClientId}/cars/{carId}/service-history")
+@RequestMapping("garage/clients/{ignoredClientId}/cars/{ignoredCarId}/service-history")
 public class ServiceHistoryController {
 
     private final ServiceHistoryService serviceHistoryService;
@@ -36,9 +36,9 @@ public class ServiceHistoryController {
     }
 
     @GetMapping()
-    public String findServiceHistoryByCar(Model model, @PathVariable int ignoredClientId, @PathVariable Long carId) {
-        Optional<Car> car = carService.getCarById(carId);
-        List<ServiceHistory> serviceHistories = serviceHistoryService.getServiceHistoryByCar(carId);
+    public String findServiceHistoryByCar(Model model, @PathVariable int ignoredClientId, @PathVariable Long ignoredCarId) {
+        Optional<Car> car = carService.getCarById(ignoredCarId);
+        List<ServiceHistory> serviceHistories = serviceHistoryService.getServiceHistoryByCar(ignoredCarId);
 
         car.ifPresent(value -> model.addAttribute("car", value));
         model.addAttribute("serviceHistories", serviceHistories);
@@ -53,14 +53,21 @@ public class ServiceHistoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public ResponseEntity<ServiceHistory> createServiceHistory(@PathVariable Long ignoredClientId, @PathVariable Long carId,
+    public ResponseEntity<ServiceHistory> createServiceHistory(@PathVariable Long ignoredClientId, @PathVariable Long ignoredCarId,
                                                                @RequestBody ServiceHistory serviceHistory) {
-        ServiceHistory savedServiceHistory = serviceHistoryService.saveServiceHistoryForCar(carId, serviceHistory);
+        ServiceHistory savedServiceHistory = serviceHistoryService.saveServiceHistoryForCar(ignoredCarId, serviceHistory);
 
-        if (clientService.getClientById(ignoredClientId).isPresent() && carService.getCarById(carId).isPresent()) {
+        if (clientService.getClientById(ignoredClientId).isPresent() && carService.getCarById(ignoredCarId).isPresent()) {
             return ResponseEntity.ok().body(savedServiceHistory);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}/delete")
+    public String deleteServiceHistory(@PathVariable Long id, @PathVariable String ignoredClientId, @PathVariable String ignoredCarId) {
+        serviceHistoryService.deleteServiceHistory(id);
+        return String.format("redirect:/garage/clients/%s/cars/%s/service-history", ignoredClientId, ignoredCarId);
+    }
+
 }
