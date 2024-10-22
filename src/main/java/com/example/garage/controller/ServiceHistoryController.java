@@ -48,7 +48,7 @@ public class ServiceHistoryController {
 
     @GetMapping("/add")
     public String showServiceHistoryCreatingPage() {
-        return "CreateServiceHistory";
+        return "ServiceHistoryCreatingPage";
     }
 
     @PostMapping("/add")

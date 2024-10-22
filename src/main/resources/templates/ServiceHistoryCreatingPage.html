@@ -9,6 +9,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+
 </head>
 <body>
 <div class="container">
@@ -18,7 +19,7 @@
         <input type="hidden" id="clientId" value="">
 
         <label class="form-label" for="service_date">Дата ремонту авто</label>
-        <input class="form-control" id="service_date" name="service_date" type="text"
+        <input class="form-control" id="service_date" name="service_date" type="date"
                placeholder="Enter date">
 
         <p>
@@ -34,7 +35,7 @@
         </p>
         <p>
             <label class="form-label" for="next_service_date">Рекомендована дата наступного обслуговування</label>
-            <input class="form-control" id="next_service_date" name="next_service_date" type="text"
+            <input class="form-control" id="next_service_date" name="next_service_date" type="date"
                    placeholder="Enter next service date" required>
         </p>
         <p>
@@ -64,9 +65,29 @@
         serviceHistoryForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
+            var serviceDate = new Date(document.querySelector('#service_date').value);
+            var nextServiceDate = new Date(document.querySelector('#next_service_date').value);
+            var price = parseFloat(document.querySelector('#price').value);
+
+            var today = new Date();
+
+            if (serviceDate > today) {
+                alert("Дата ремонту не може бути в майбутньому.");
+                return;
+            }
+
+            if (nextServiceDate <= today) {
+                alert("Дата наступного обслуговування має бути в майбутньому.");
+                return;
+            }
+
+            if (price <= 0) {
+                alert("Ціна повинна бути позитивним числом.");
+                return;
+            }
+
             function trimURL() {
-                var currentURL = window.location.pathname;
-                return currentURL;
+                return window.location.pathname;
             }
 
             var trimmedPath = trimURL().replace('create', "createServiceHistory");
