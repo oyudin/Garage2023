@@ -47,7 +47,7 @@
                        th:text="'Наступне обслуговування: ' + ${serviceHistory.next_service_date}"></p>
 
                     <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/print'}"
-                        method="get" onsubmit="return confirm('Ви впевнені, що хочете згенерувати звіт?')">
+                        method="get">
                         <button type="submit" class="btn btn-primary">Згенерувати звіт</button>
                     </form>
 

@@ -66,13 +66,14 @@ public class ServiceHistoryService {
 
         table.append("<tbody>");
 
+        //                .append("<td>").append(serviceHistory.getId()).append("</td>")
         table.append("<tr>")
                 .append("<td>").append(serviceHistory.getCar().getId()).append("</td>")
 //                .append("<td>").append(serviceHistory.getId()).append("</td>")
                 .append("<td>").append(serviceHistory.getService_date()).append("</td>")
                 .append("<td>").append(serviceHistory.getMileage()).append("</td>")
                 .append("<td>").append(serviceHistory.getDescription() == null ? "N/A" : serviceHistory.getDescription()).append("</td>")
-                .append("<td>").append(serviceHistory.getPrice()).append("</td>")
+                .append("<td>").append(serviceHistory.getPrice()).append(" грн").append("</td>")
                 .append("<td>").append(serviceHistory.getNext_service_date() == null ? "N/A" : serviceHistory.getNext_service_date()).append("</td>")
                 .append("</tr>");
 
