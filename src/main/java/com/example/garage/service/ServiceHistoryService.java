@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceHistoryService {
@@ -25,6 +26,10 @@ public class ServiceHistoryService {
         return serviceHistoryRepository.findByCarId(carId);
     }
 
+    public Optional<ServiceHistory> getServiceHistoryById(Long serviceHistoryId) {
+        return serviceHistoryRepository.findServiceHistoryById(serviceHistoryId);
+    }
+
     public ServiceHistory saveServiceHistoryForCar(long carId, ServiceHistory serviceHistory) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("Car not found with id " + carId));
         serviceHistory.setCar(car);
@@ -36,4 +41,5 @@ public class ServiceHistoryService {
                 -> new RuntimeException("Service History not found with id " + id));
         serviceHistoryRepository.delete(serviceHistory);
     }
+
 }

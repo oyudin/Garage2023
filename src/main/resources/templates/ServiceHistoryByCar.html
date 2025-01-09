@@ -46,6 +46,11 @@
                     <p class="card-text"
                        th:text="'Наступне обслуговування: ' + ${serviceHistory.next_service_date}"></p>
 
+                    <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/print'}"
+                        method="get" onsubmit="return confirm('Ви впевнені, що хочете згенерувати звіт?')">
+                        <button type="submit" class="btn btn-primary">Згенерувати звіт</button>
+                    </form>
+
                     <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
                           method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
                         <input type="hidden" name="_method" value="DELETE"/>
@@ -58,8 +63,6 @@
     </div>
     <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars'} " class="btn btn-primary create-car-button">Повернутися
         до списку авто</a>
-    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/print-service-report'}"
-       class="btn btn-primary">Распечатать отчет</a>
 
 
     <div class="float-right">
