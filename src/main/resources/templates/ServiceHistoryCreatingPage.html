@@ -28,13 +28,36 @@
                    placeholder="Enter car mileage">
         </p>
         <p>
-
             <label class="form-label" for="description">Детальна інформація про ремонт</label>
-            <input class="form-control" id="description" name="description" type="text"
-                   placeholder="Enter service description" required>
+            <textarea class="form-control" id="description" name="description" placeholder="Enter service description" required rows="3"></textarea>
         </p>
-        <p>
-            <label class="form-label" for="next_service_date">Рекомендована дата наступного обслуговування</label>
+
+        <style>
+            textarea {
+                width: 100%;
+                resize: vertical;
+            }
+        </style>
+
+        <script>
+            const textarea = document.getElementById('description');
+
+            // Функция для обновления нумерации
+            function updateLineNumbers() {
+                const lines = textarea.value.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    if (i % 2 === 0) {
+                        lines[i] = (i / 2 + 1) + '. ' + lines[i].substring(lines[i].indexOf(' ') + 1);
+                    }
+                }
+                textarea.value = lines.join('\n');
+            }
+
+            // Обработчик события ввода
+            textarea.addEventListener('input', updateLineNumbers);
+        </script>
+
+        <label class="form-label" for="next_service_date">Рекомендована дата наступного обслуговування</label>
             <input class="form-control" id="next_service_date" name="next_service_date" type="date"
                    placeholder="Enter next service date" required>
         </p>

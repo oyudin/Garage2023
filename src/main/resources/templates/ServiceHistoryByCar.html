@@ -30,6 +30,15 @@
         .float-right {
             float: right;
         }
+
+        .generate-report {
+            margin-right: 10px; /* Отступ между кнопками */
+            margin-bottom: 10px; /* Отступ снизу */
+        }
+
+        .generate-full-report {
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -47,8 +56,8 @@
                        th:text="'Наступне обслуговування: ' + ${serviceHistory.next_service_date}"></p>
 
                     <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/print'}"
-                        method="get">
-                        <button type="submit" class="btn btn-primary">Згенерувати звіт</button>
+                          method="get">
+                        <button type="submit" class="btn btn-primary generate-report">Згенерувати звіт</button>
                     </form>
 
                     <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
@@ -61,9 +70,15 @@
             </div>
         </div>
     </div>
-    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars'} " class="btn btn-primary create-car-button">Повернутися
-        до списку авто</a>
 
+    <!-- Кнопка для генерации полного отчета после карточек -->
+    <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + 'printAll'}"
+          method="get">
+        <button type="submit" class="btn btn-primary generate-full-report">Згенерувати повний звіт</button>
+    </form>
+
+    <!-- Кнопка для возврата к списку авто -->
+    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars'} " class="btn btn-primary create-car-button">Повернутися до списку авто</a>
 
     <div class="float-right">
         <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
