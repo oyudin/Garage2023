@@ -64,6 +64,27 @@ public class ServiceHistoryController {
         }
     }
 
+    @GetMapping("/{serviceHistoryId}/update")
+    public String showServiceHistoryUpdatingPage() {
+        return "ServiceHistoryUpdatePage";
+    }
+
+    @PutMapping("/{serviceHistoryId}/update")
+    @ResponseBody
+    public ResponseEntity<ServiceHistory> updateServiceHistory(@PathVariable Long ignoredClientId, @PathVariable Long ignoredCarId,
+                                                               @PathVariable Long serviceHistoryId,
+                                                               @RequestBody ServiceHistory servicehistory) {
+        Optional<ServiceHistory> updatedServiceHistory = serviceHistoryService.updateServiceHistory(serviceHistoryId, servicehistory);
+
+        if (clientService.getClientById(ignoredClientId).isPresent()
+                && carService.getCarById(ignoredCarId).isPresent()
+                && updatedServiceHistory.isPresent()) {
+            return ResponseEntity.ok().body(updatedServiceHistory.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @DeleteMapping("/{id}/delete")
     public String deleteServiceHistory(@PathVariable Long id, @PathVariable String ignoredClientId, @PathVariable String ignoredCarId) {
         serviceHistoryService.deleteServiceHistory(id);

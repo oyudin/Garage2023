@@ -66,6 +66,11 @@
                         <button type="submit" class="btn btn-danger">Видалити</button>
                     </form>
 
+                    <div class="float-right">
+                        <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/update'}"
+                           class="btn btn-primary create-car-button">Update</a>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -78,7 +83,8 @@
     </form>
 
     <!-- Кнопка для возврата к списку авто -->
-    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars'} " class="btn btn-primary create-car-button">Повернутися до списку авто</a>
+    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars'} " class="btn btn-primary create-car-button">Повернутися
+        до списку авто</a>
 
     <div class="float-right">
         <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"

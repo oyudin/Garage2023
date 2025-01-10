@@ -36,6 +36,26 @@ public class ServiceHistoryService {
         return serviceHistoryRepository.save(serviceHistory);
     }
 
+    public Optional<ServiceHistory> updateServiceHistory(Long serviceHistoryId, ServiceHistory serviceHistory) {
+        Optional<ServiceHistory> updatedServiceHistory = getServiceHistoryById(serviceHistoryId);
+
+        if (updatedServiceHistory.isPresent()) {
+            ServiceHistory existingServiceHistory = updatedServiceHistory.get();
+            existingServiceHistory.setService_date(serviceHistory.getService_date());
+            existingServiceHistory.setNext_service_date(serviceHistory.getNext_service_date());
+            existingServiceHistory.setMileage(serviceHistory.getMileage());
+            existingServiceHistory.setPrice(serviceHistory.getPrice());
+            existingServiceHistory.setDescription(serviceHistory.getDescription());
+
+            serviceHistoryRepository.save(existingServiceHistory);
+
+            return Optional.of(existingServiceHistory);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+
     public void deleteServiceHistory(long id) {
         ServiceHistory serviceHistory = serviceHistoryRepository.findById(id).orElseThrow(()
                 -> new RuntimeException("Service History not found with id " + id));

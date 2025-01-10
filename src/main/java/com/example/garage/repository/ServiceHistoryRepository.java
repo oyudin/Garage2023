@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ServiceHistoryRepository extends JpaRepository<ServiceHistory, Long> {
     List<ServiceHistory> findByCarId(Long clientId);
+
     Optional<ServiceHistory> findServiceHistoryById(Long serviceHistoryId);
 }
