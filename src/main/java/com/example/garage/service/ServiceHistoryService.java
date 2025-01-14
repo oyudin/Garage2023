@@ -47,7 +47,7 @@ public class ServiceHistoryService {
             existingServiceHistory.setPrice(serviceHistory.getPrice());
             existingServiceHistory.setDescription(serviceHistory.getDescription());
 
-//            serviceHistoryRepository.save(existingServiceHistory);
+            serviceHistoryRepository.save(existingServiceHistory);
 
             return Optional.of(existingServiceHistory);
         } else {
