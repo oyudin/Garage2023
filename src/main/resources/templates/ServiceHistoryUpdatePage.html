@@ -60,9 +60,9 @@
 <script>
     window.addEventListener('DOMContentLoaded', function () {
         var urlParts = window.location.pathname.split('/');
-        var carId = parseInt(urlParts[urlParts.length - 3]);
-        var clientId = parseInt(urlParts[urlParts.length - 5]);
-        var serviceHistoryId = parseInt(urlParts[urlParts.length - 1]);
+        var carId = parseInt(urlParts[urlParts.length - 4]);
+        var clientId = parseInt(urlParts[urlParts.length - 6]);
+        var serviceHistoryId = parseInt(urlParts[urlParts.length - 2]);
         var serviceHistoryForm = document.querySelector('#serviceHistoryForm');
         var carIdField = document.querySelector('#carId');
         var clientIdField = document.querySelector('#clientId');
@@ -72,8 +72,13 @@
         clientIdField.value = clientId;
         serviceHistoryIdField.value = serviceHistoryId;
 
+        console.log("carId = " + carId);
+        console.log("clientId = " + clientId);
+        console.log("serviceHistoryId = " + serviceHistoryId);
+
+
         // Предварительное заполнение формы
-        fetch(`/api/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}`)
+        fetch(`/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}/update`)
             .then(response => response.json())
             .then(data => {
                 document.querySelector('#service_date').value = data.service_date;
@@ -88,7 +93,7 @@
 
             var formData = new FormData(serviceHistoryForm);
             var xhr = new XMLHttpRequest();
-            var updateUrl = `/api/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}/update`;
+            var updateUrl = `/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}/update`;
 
             xhr.open('PUT', updateUrl);
             xhr.setRequestHeader('Content-Type', 'application/json');
