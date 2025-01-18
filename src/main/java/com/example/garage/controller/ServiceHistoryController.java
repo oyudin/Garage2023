@@ -46,6 +46,17 @@ public class ServiceHistoryController {
         return "ServiceHistoryByCar";
     }
 
+    @GetMapping("/{serviceHistoryId}")
+    public ResponseEntity<ServiceHistory> getServiceHistory(@PathVariable Long ignoredClientId,
+                                                            @PathVariable Long ignoredCarId,
+                                                            @PathVariable Long serviceHistoryId) {
+        Optional<ServiceHistory> serviceHistoryById = serviceHistoryService.getServiceHistoryById(serviceHistoryId);
+
+        return serviceHistoryById.map(serviceHistory -> ResponseEntity.ok().body(serviceHistory))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
     @GetMapping("/add")
     public String showServiceHistoryCreatingPage() {
         return "ServiceHistoryCreatingPage";
@@ -53,7 +64,8 @@ public class ServiceHistoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public ResponseEntity<ServiceHistory> createServiceHistory(@PathVariable Long ignoredClientId, @PathVariable Long ignoredCarId,
+    public ResponseEntity<ServiceHistory> createServiceHistory(@PathVariable Long
+                                                                       ignoredClientId, @PathVariable Long ignoredCarId,
                                                                @RequestBody ServiceHistory serviceHistory) {
         ServiceHistory savedServiceHistory = serviceHistoryService.saveServiceHistoryForCar(ignoredCarId, serviceHistory);
 
@@ -71,7 +83,8 @@ public class ServiceHistoryController {
 
     @PutMapping("/{serviceHistoryId}/update")
     @ResponseBody
-    public ResponseEntity<ServiceHistory> updateServiceHistory(@PathVariable Long ignoredClientId, @PathVariable Long ignoredCarId,
+    public ResponseEntity<ServiceHistory> updateServiceHistory(@PathVariable Long
+                                                                       ignoredClientId, @PathVariable Long ignoredCarId,
                                                                @PathVariable Long serviceHistoryId,
                                                                @RequestBody ServiceHistory servicehistory) {
         Optional<ServiceHistory> updatedServiceHistory = serviceHistoryService.updateServiceHistory(serviceHistoryId, servicehistory);
@@ -86,7 +99,8 @@ public class ServiceHistoryController {
     }
 
     @DeleteMapping("/{id}/delete")
-    public String deleteServiceHistory(@PathVariable Long id, @PathVariable String ignoredClientId, @PathVariable String ignoredCarId) {
+    public String deleteServiceHistory(@PathVariable Long id, @PathVariable String
+            ignoredClientId, @PathVariable String ignoredCarId) {
         serviceHistoryService.deleteServiceHistory(id);
         return String.format("redirect:/garage/clients/%s/cars/%s/service-history", ignoredClientId, ignoredCarId);
     }

@@ -41,10 +41,12 @@
         <input class="form-control" id="service_date" name="service_date" type="date" required>
 
         <label class="form-label" for="mileage">Пробіг авто</label>
-        <input class="form-control" id="mileage" name="mileage" type="number" placeholder="Введіть пробіг авто" required>
+        <input class="form-control" id="mileage" name="mileage" type="number" placeholder="Введіть пробіг авто"
+               required>
 
         <label class="form-label" for="description">Детальна інформація про ремонт</label>
-        <textarea class="form-control" id="description" name="description" placeholder="Введіть опис ремонту" required rows="3"></textarea>
+        <textarea class="form-control" id="description" name="description" placeholder="Введіть опис ремонту" required
+                  rows="3"></textarea>
 
         <label class="form-label" for="next_service_date">Рекомендована дата наступного обслуговування</label>
         <input class="form-control" id="next_service_date" name="next_service_date" type="date" required>
@@ -52,7 +54,9 @@
         <label class="form-label" for="price">Ціна</label>
         <input class="form-control" id="price" name="price" type="number" placeholder="Введіть ціну" required>
 
-        <button class="btn btn-secondary mb-3" id="backToServiceHistoryBtn" type="button">Повернутися до історії обслуговування</button>
+        <button class="btn btn-secondary mb-3" id="backToServiceHistoryBtn" type="button">Повернутися до історії
+            обслуговування
+        </button>
         <button class="btn btn-primary" type="submit">Оновити</button>
     </form>
 </div>
@@ -72,21 +76,22 @@
         clientIdField.value = clientId;
         serviceHistoryIdField.value = serviceHistoryId;
 
-        console.log("carId = " + carId);
-        console.log("clientId = " + clientId);
-        console.log("serviceHistoryId = " + serviceHistoryId);
-
-
-        // Предварительное заполнение формы
-        fetch(`/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}/update`)
-            .then(response => response.json())
+        fetch(`/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network error: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
             .then(data => {
-                document.querySelector('#service_date').value = data.service_date;
-                document.querySelector('#mileage').value = data.mileage;
-                document.querySelector('#description').value = data.description;
-                document.querySelector('#next_service_date').value = data.next_service_date;
-                document.querySelector('#price').value = data.price;
-            });
+                document.querySelector('#service_date').value = data.service_date || '';
+                document.querySelector('#mileage').value = data.mileage || '';
+                document.querySelector('#description').value = data.description || '';
+                document.querySelector('#next_service_date').value = data.next_service_date || '';
+                document.querySelector('#price').value = data.price || '';
+            })
+            .catch(error => console.error('Getting data error', error));
+
 
         serviceHistoryForm.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -99,22 +104,31 @@
             xhr.setRequestHeader('Content-Type', 'application/json');
 
             xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        alert('Історію обслуговування оновлено успішно.');
-                        window.location.href = `/garage/clients/${clientId}/cars/${carId}/service-history`;
-                    } else {
-                        alert('Помилка при оновленні історії обслуговування.');
-                    }
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    console.log('Service history updated successfully!');
+                    showSuccessMessage();
+                    setTimeout(redirectToServiceHistoryPage, 2000);
                 }
             };
-
             xhr.send(JSON.stringify(Object.fromEntries(formData)));
         });
 
+        function showSuccessMessage() {
+            var successAlert = document.createElement('div');
+            successAlert.classList.add('alert', 'alert-success');
+            successAlert.textContent = 'A new service history entry has been updated';
+
+            var container = document.querySelector('.container');
+            container.insertBefore(successAlert, serviceHistoryForm.nextSibling);
+        }
+
+        function redirectToServiceHistoryPage() {
+            window.location.href = '/garage/clients/' + clientId + '/cars/' + carId + "/service-history";
+        }
+
         var backToServiceHistoryBtn = document.querySelector('#backToServiceHistoryBtn');
         backToServiceHistoryBtn.addEventListener('click', function () {
-            window.location.href = `/garage/clients/${clientId}/cars/${carId}/service-history`;
+            redirectToServiceHistoryPage();
         });
     });
 </script>
