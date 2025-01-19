@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/garage/clients")
@@ -37,10 +38,36 @@ public class ClientController {
         return clientService.getAllClients();
     }
 
+    @GetMapping("/{clientId}")
+    @ResponseBody
+    public ResponseEntity<Client> getClientById(@PathVariable Long clientId) {
+        Optional<Client> clientById = clientService.getClientById(clientId);
+        return clientById.map(client -> ResponseEntity.ok().body(client))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{clientId}/update")
+    public String showClientUpdatingPage(@PathVariable Long clientId) {
+        return "UpdateClientPage";
+    }
+
     @PostMapping
     public String createClient(@ModelAttribute Client client) {
         clientService.saveClient(client);
         return String.format("redirect:/garage/clients/%d/cars", lastCreatedClient());
+    }
+
+    @PutMapping("/{clientId}/update")
+    @ResponseBody
+    public ResponseEntity<Client> updateClient(@PathVariable Long clientId, @RequestBody Client client) {
+        Optional<Client> updatedClient = clientService.getClientById(clientId);
+
+        if (updatedClient.isPresent()) {
+            clientService.updateClient(clientId, client);
+            return ResponseEntity.ok().body(client);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
