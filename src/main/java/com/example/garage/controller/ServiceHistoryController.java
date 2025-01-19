@@ -81,7 +81,7 @@ public class ServiceHistoryController {
         return "ServiceHistoryUpdatePage";
     }
 
-    @PutMapping("/{serviceHistoryId}/update")
+    @PatchMapping("/{serviceHistoryId}/update")
     @ResponseBody
     public ResponseEntity<ServiceHistory> updateServiceHistory(@PathVariable Long
                                                                        ignoredClientId, @PathVariable Long ignoredCarId,

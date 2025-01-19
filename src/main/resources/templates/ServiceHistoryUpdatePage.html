@@ -100,7 +100,7 @@
             var xhr = new XMLHttpRequest();
             var updateUrl = `/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}/update`;
 
-            xhr.open('PUT', updateUrl);
+            xhr.open('PATCH', updateUrl);
             xhr.setRequestHeader('Content-Type', 'application/json');
 
             xhr.onreadystatechange = function () {

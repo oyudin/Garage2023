@@ -57,7 +57,7 @@ public class ClientController {
         return String.format("redirect:/garage/clients/%d/cars", lastCreatedClient());
     }
 
-    @PutMapping("/{clientId}/update")
+    @PatchMapping("/{clientId}/update")
     @ResponseBody
     public ResponseEntity<Client> updateClient(@PathVariable Long clientId, @RequestBody Client client) {
         Optional<Client> updatedClient = clientService.getClientById(clientId);
