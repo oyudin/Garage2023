@@ -5,6 +5,7 @@ import com.example.garage.model.Client;
 import com.example.garage.service.CarService;
 import com.example.garage.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +49,31 @@ public class CarController {
     @GetMapping("{ignoredClientId}/cars/add")
     public String showCarCreatingPage(@PathVariable Long ignoredClientId) {
         return "CarCreatingPage";
+    }
+
+    @GetMapping("{ignoredClientId}/cars/{carId}/update")
+    public String showCarUpdatingPage(@PathVariable Long ignoredClientId) {
+        return "UpdateCarPage";
+    }
+
+    @GetMapping("{ignoredClientId}/cars/{carId}")
+    @ResponseBody
+    public ResponseEntity<Car> getCar(@PathVariable Long ignoredClientId, @PathVariable Long carId) {
+        Optional<Car> foundCar = carService.getCarById(carId);
+
+        return foundCar.map(returnedCar -> ResponseEntity.ok().body(returnedCar))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("{ignoredClientId}/cars/{carId}/update")
+    public ResponseEntity<Car> updateCar(@PathVariable Long ignoredClientId, @PathVariable Long carId, @RequestBody Car car) {
+        Optional<Car> foundCar = carService.getCarById(carId);
+
+        if (foundCar.isPresent()) {
+            carService.updateCar(carId, car);
+            return ResponseEntity.ok().body(foundCar.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

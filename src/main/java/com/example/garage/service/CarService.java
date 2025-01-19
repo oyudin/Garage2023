@@ -38,4 +38,19 @@ public class CarService {
         return carRepository.save(car);
     }
 
+    public Optional<Car> updateCar(Long carId, Car car) {
+        Optional<Car> updatedCar = carRepository.findById(carId);
+
+        if (updatedCar.isPresent()) {
+            updatedCar.get().setBrand(car.getBrand());
+            updatedCar.get().setModel(car.getModel());
+            updatedCar.get().setNumber(car.getNumber());
+            updatedCar.get().setVin_code(car.getVin_code());
+            carRepository.save(updatedCar.get());
+            return updatedCar;
+        } else {
+            return Optional.empty();
+        }
+    }
+
 }
