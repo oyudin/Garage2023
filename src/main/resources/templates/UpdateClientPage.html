@@ -60,7 +60,7 @@
         clientIdField.value = clientId;
 
         // Fetch existing client data
-        fetch(`/garage/clients/${clientId}`)
+        fetch(`/carservice/clients/${clientId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Network error: ${response.status} ${response.statusText}`);
@@ -80,7 +80,7 @@
 
             const formData = new FormData(clientForm);
             const xhr = new XMLHttpRequest();
-            const updateUrl = `/garage/clients/${clientId}/update`;
+            const updateUrl = `/carservice/clients/${clientId}/update`;
 
             xhr.open('PATCH', updateUrl);
             xhr.setRequestHeader('Content-Type', 'application/json');
@@ -105,7 +105,7 @@
         }
 
         function redirectToClientsPage() {
-            window.location.href = '/garage/clients';
+            window.location.href = '/carservice/clients';
         }
 
         // Back button logic

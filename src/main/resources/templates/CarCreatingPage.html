@@ -50,7 +50,7 @@
             var formData = new FormData(carForm);
             var xhr = new XMLHttpRequest();
 
-            xhr.open('POST', '/garage/clients/' + clientId + '/cars');
+            xhr.open('POST', '/carservice/clients/' + clientId + '/cars');
             xhr.setRequestHeader('Content-Type', 'application/json');
 
             xhr.onreadystatechange = function () {
@@ -73,7 +73,7 @@
         }
 
         function redirectToCarsPage() {
-            window.location.href = '/garage/clients/' + clientId + '/cars';
+            window.location.href = '/carservice/clients/' + clientId + '/cars';
         }
     });
 </script>

@@ -62,7 +62,7 @@
     <h1 class="text-center mb-4">Мої клієнти</h1>
 
     <div class="search-container">
-        <form class="search-form" th:action="@{/garage/clients/}" method="get">
+        <form class="search-form" th:action="@{/carservice/clients/}" method="get">
             <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search"
                    name="search">
             <button class="btn btn-outline-primary search-button" type="submit">Пошук</button>
@@ -71,7 +71,7 @@
 
     <div id="clientsList">
         <div th:each="client : ${clients}" class="card"
-             th:onclick="|window.location='@{/garage/clients/{clientId}/cars(clientId=${client.id})}'|">
+             th:onclick="|window.location='@{/carservice/clients/{clientId}/cars(clientId=${client.id})}'|">
             <div class="card-body">
                 <h5 class="card-title" th:text="${client.name}"></h5>
                 <p class="card-text" th:text="'Прізвище: ' + ${client.surname}"></p>
@@ -79,9 +79,9 @@
                 <p class="card-text" th:text="'Номер телефону: ' + ${client.phoneNumber}"></p>
 
                 <div class="d-flex justify-content-between">
-                    <a th:href="@{/garage/clients/{clientId}/update(clientId=${client.id})}"
+                    <a th:href="@{/carservice/clients/{clientId}/update(clientId=${client.id})}"
                        class="btn btn-secondary update-car-button">Update</a>
-                    <a th:href="@{/garage/clients/{clientId}/cars(clientId=${client.id})}"
+                    <a th:href="@{/carservice/clients/{clientId}/cars(clientId=${client.id})}"
                        class="btn btn-primary create-car-button">Авто</a>
                 </div>
             </div>
@@ -89,7 +89,7 @@
     </div>
 
     <div class="text-end">
-        <a th:href="@{/garage/clients/add}" class="btn btn-primary create-client-button">Новий клієнт</a>
+        <a th:href="@{/carservice/clients/add}" class="btn btn-primary create-client-button">Новий клієнт</a>
     </div>
 </div>
 

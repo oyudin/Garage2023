@@ -61,11 +61,11 @@
                 <p class="card-text" th:text="'Бренд: ' + ${car.brand}"></p>
                 <p class="card-text" th:text="'Модель: ' + ${car.model}"></p>
                 <div class="float-left">
-                    <a th:href="@{/garage/clients/{clientId}/cars/{carId}/update(clientId=${client.id}, carId=${car.id})}"
+                    <a th:href="@{/carservice/clients/{clientId}/cars/{carId}/update(clientId=${client.id}, carId=${car.id})}"
                        class="btn btn-secondary update-car-button">Update</a>
                 </div>
                 <div class="float-right">
-                    <a th:href="@{/garage/clients/{clientId}/cars/{carId}/service-history(clientId=${client.id}, carId=${car.id})}"
+                    <a th:href="@{/carservice/clients/{clientId}/cars/{carId}/service-history(clientId=${client.id}, carId=${car.id})}"
                        class="btn btn-primary create-car-button">Деталі</a>
                 </div>
             </div>
@@ -73,10 +73,10 @@
     </div>
 
     <div class="float-right">
-        <a th:href="@{/garage/clients/{clientId}/cars/add(clientId=${client.id})}"
+        <a th:href="@{/carservice/clients/{clientId}/cars/add(clientId=${client.id})}"
            class="btn btn-primary create-car-button">Додати авто</a>
     </div>
-    <a th:href="@{/garage/clients}" class="btn btn-primary create-car-button">Повернутися до списку клієнтів</a>
+    <a th:href="@{/carservice/clients}" class="btn btn-primary create-car-button">Повернутися до списку клієнтів</a>
 </div>
 </body>
 </html>

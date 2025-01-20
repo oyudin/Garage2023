@@ -17,7 +17,7 @@ import java.util.Optional;
  * change Garage to CarService
  */
 @Controller
-@RequestMapping("garage/clients")
+@RequestMapping("/carservice/clients")
 public class CarController {
 
     private final CarService carService;

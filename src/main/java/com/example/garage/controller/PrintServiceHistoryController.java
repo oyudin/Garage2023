@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("garage/clients/{ignoredClientId}/cars/{ignoredCarId}/service-history")
+@RequestMapping("/carservice/clients/{ignoredClientId}/cars/{ignoredCarId}/service-history")
 public class PrintServiceHistoryController {
 
     private final ServiceHistoryService serviceHistoryService;

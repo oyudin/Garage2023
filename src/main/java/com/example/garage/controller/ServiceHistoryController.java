@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 
 @Controller
-@RequestMapping("garage/clients/{ignoredClientId}/cars/{ignoredCarId}/service-history")
+@RequestMapping("/carservice/clients/{ignoredClientId}/cars/{ignoredCarId}/service-history")
 public class ServiceHistoryController {
 
     private final ServiceHistoryService serviceHistoryService;

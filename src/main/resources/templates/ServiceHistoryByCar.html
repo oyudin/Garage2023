@@ -55,19 +55,19 @@
                     <p class="card-text"
                        th:text="'Наступне обслуговування: ' + ${serviceHistory.next_service_date}"></p>
 
-                    <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/print'}"
+                    <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/print'}"
                           method="get">
                         <button type="submit" class="btn btn-primary generate-report">Згенерувати звіт</button>
                     </form>
 
-                    <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
+                    <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
                           method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button type="submit" class="btn btn-danger">Видалити</button>
                     </form>
 
                     <div class="float-right">
-                        <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/update'}"
+                        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/update'}"
                            class="btn btn-primary create-car-button">Update</a>
                     </div>
 
@@ -77,17 +77,17 @@
     </div>
 
     <!-- Кнопка для генерации полного отчета после карточек -->
-    <form th:action="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + 'printAll'}"
+    <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + 'printAll'}"
           method="get">
         <button type="submit" class="btn btn-primary generate-full-report">Згенерувати повний звіт</button>
     </form>
 
     <!-- Кнопка для возврата к списку авто -->
-    <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars'} " class="btn btn-primary create-car-button">Повернутися
+    <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'} " class="btn btn-primary create-car-button">Повернутися
         до списку авто</a>
 
     <div class="float-right">
-        <a th:href="@{'/garage/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
+        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
            class="btn btn-primary create-car-button">Нове обслуговування</a>
     </div>
 </div>

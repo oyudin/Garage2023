@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/garage/clients")
+@RequestMapping("/carservice/clients")
 public class ClientController {
 
     private final ClientService clientService;

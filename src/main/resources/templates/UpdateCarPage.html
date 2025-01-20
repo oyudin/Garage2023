@@ -61,7 +61,7 @@
         carIdField.value = carId;
 
         // Загрузка данных авто
-        fetch(`/garage/clients/${clientId}/cars/${carId}`)
+        fetch(`/carservice/clients/${clientId}/cars/${carId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Network error: ${response.status} ${response.statusText}`);
@@ -82,7 +82,7 @@
 
             var formData = new FormData(carUpdateForm);
             var xhr = new XMLHttpRequest();
-            var updateUrl = `/garage/clients/${clientId}/cars/${carId}/update`;
+            var updateUrl = `/carservice/clients/${clientId}/cars/${carId}/update`;
 
             xhr.open('PATCH', updateUrl);
             xhr.setRequestHeader('Content-Type', 'application/json');
@@ -107,7 +107,7 @@
         }
 
         function redirectToCarsPage() {
-            window.location.href = `/garage/clients/${clientId}/cars`;
+            window.location.href = `/carservice/clients/${clientId}/cars`;
         }
 
         var backToCarsBtn = document.querySelector('#backToCarsBtn');
