@@ -26,6 +26,16 @@ public class ClientController {
         return clientService.getLastClient().getId();
     }
 
+    @GetMapping("/{clientId}/update")
+    public String showClientUpdatingPage(@PathVariable Long clientId) {
+        return "UpdateClientPage";
+    }
+
+    @GetMapping("/add")
+    public String showRegistrationClientPage() {
+        return "RegisterClient";
+    }
+
     @GetMapping()
     public String getAllClients(Model model) {
         model.addAttribute("clients", clientService.getAllClients());
@@ -46,9 +56,16 @@ public class ClientController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{clientId}/update")
-    public String showClientUpdatingPage(@PathVariable Long clientId) {
-        return "UpdateClientPage";
+    @GetMapping("/")
+    public String searchClient(@RequestParam(name = "search", required = false) String searchTerm, Model model) {
+        List<Client> clients;
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            clients = clientService.searchClients(searchTerm);
+        } else {
+            clients = clientService.getAllClients();
+        }
+        model.addAttribute("clients", clients);
+        return "Client";
     }
 
     @PostMapping
@@ -76,20 +93,4 @@ public class ClientController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/add")
-    public String showRegistrationClientPage() {
-        return "RegisterClient";
-    }
-
-    @GetMapping("/")
-    public String searchClient(@RequestParam(name = "search", required = false) String searchTerm, Model model) {
-        List<Client> clients;
-        if (searchTerm != null && !searchTerm.isEmpty()) {
-            clients = clientService.searchClients(searchTerm);
-        } else {
-            clients = clientService.getAllClients();
-        }
-        model.addAttribute("clients", clients);
-        return "Client";
-    }
 }

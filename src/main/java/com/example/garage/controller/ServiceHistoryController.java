@@ -21,8 +21,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/carservice/clients/{ignoredClientId}/cars/{ignoredCarId}/service-history")
 public class ServiceHistoryController {
-
     private final ServiceHistoryService serviceHistoryService;
+
     private final CarService carService;
     private final ClientService clientService;
 
@@ -35,15 +35,14 @@ public class ServiceHistoryController {
         this.carService = carService;
     }
 
-    @GetMapping()
-    public String findServiceHistoryByCar(Model model, @PathVariable int ignoredClientId, @PathVariable Long ignoredCarId) {
-        Optional<Car> car = carService.getCarById(ignoredCarId);
-        List<ServiceHistory> serviceHistories = serviceHistoryService.getServiceHistoryByCar(ignoredCarId);
+    @GetMapping("/add")
+    public String showServiceHistoryCreatingPage() {
+        return "ServiceHistoryCreatingPage";
+    }
 
-        car.ifPresent(value -> model.addAttribute("car", value));
-        model.addAttribute("serviceHistories", serviceHistories);
-
-        return "ServiceHistoryByCar";
+    @GetMapping("/{serviceHistoryId}/update")
+    public String showServiceHistoryUpdatingPage() {
+        return "ServiceHistoryUpdatePage";
     }
 
     @GetMapping("/{serviceHistoryId}")
@@ -56,10 +55,15 @@ public class ServiceHistoryController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping()
+    public String findServiceHistoryByCar(Model model, @PathVariable int ignoredClientId, @PathVariable Long ignoredCarId) {
+        Optional<Car> car = carService.getCarById(ignoredCarId);
+        List<ServiceHistory> serviceHistories = serviceHistoryService.getServiceHistoryByCar(ignoredCarId);
 
-    @GetMapping("/add")
-    public String showServiceHistoryCreatingPage() {
-        return "ServiceHistoryCreatingPage";
+        car.ifPresent(value -> model.addAttribute("car", value));
+        model.addAttribute("serviceHistories", serviceHistories);
+
+        return "ServiceHistoryByCar";
     }
 
     @PostMapping("/add")
@@ -74,11 +78,6 @@ public class ServiceHistoryController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @GetMapping("/{serviceHistoryId}/update")
-    public String showServiceHistoryUpdatingPage() {
-        return "ServiceHistoryUpdatePage";
     }
 
     @PatchMapping("/{serviceHistoryId}/update")

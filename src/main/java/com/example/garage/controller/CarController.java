@@ -29,23 +29,6 @@ public class CarController {
         this.clientService = clientService;
     }
 
-    @GetMapping("/{clientId}/cars")
-    public String findCarsByClient(Model model, @PathVariable("clientId") long clientId) {
-        Optional<Client> client = clientService.getClientById(clientId);
-        List<Car> cars = carService.getCarsByClientId(clientId);
-
-        client.ifPresent(value -> model.addAttribute("client", value));
-        model.addAttribute("cars", cars);
-
-        return "ClientCars";
-    }
-
-    @PostMapping("/{clientId}/cars")
-    public String createCar(@PathVariable Long clientId, @RequestBody Car car) {
-        carService.createCarForClient(clientId, car);
-        return String.format("redirect:/garage/clients/%d/cars", clientId);
-    }
-
     @GetMapping("{ignoredClientId}/cars/add")
     public String showCarCreatingPage(@PathVariable Long ignoredClientId) {
         return "CarCreatingPage";
@@ -65,6 +48,23 @@ public class CarController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{clientId}/cars")
+    public String findCarsByClient(Model model, @PathVariable("clientId") long clientId) {
+        Optional<Client> client = clientService.getClientById(clientId);
+        List<Car> cars = carService.getCarsByClientId(clientId);
+
+        client.ifPresent(value -> model.addAttribute("client", value));
+        model.addAttribute("cars", cars);
+
+        return "ClientCars";
+    }
+
+    @PostMapping("/{clientId}/cars")
+    public String createCar(@PathVariable Long clientId, @RequestBody Car car) {
+        carService.createCarForClient(clientId, car);
+        return String.format("redirect:/carservice/clients/%d/cars", clientId);
+    }
+
     @PatchMapping("{ignoredClientId}/cars/{carId}/update")
     public ResponseEntity<Car> updateCar(@PathVariable Long ignoredClientId, @PathVariable Long carId, @RequestBody Car car) {
         Optional<Car> foundCar = carService.getCarById(carId);
@@ -72,6 +72,19 @@ public class CarController {
         if (foundCar.isPresent()) {
             carService.updateCar(carId, car);
             return ResponseEntity.ok().body(foundCar.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("{ignoredClientId}/cars/{carId}/delete")
+    @ResponseBody
+    public ResponseEntity<Car> deleteCar(@PathVariable Long ignoredClientId, @PathVariable Long carId) {
+        Optional<Car> carToDelete = carService.getCarById(carId);
+
+        if (carToDelete.isPresent()) {
+            carService.deleteCar(carId);
+            return ResponseEntity.ok().body(carToDelete.get());
         } else {
             return ResponseEntity.notFound().build();
         }
