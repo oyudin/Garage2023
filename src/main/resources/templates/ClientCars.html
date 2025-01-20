@@ -35,8 +35,17 @@
             width: 120px;
         }
 
+        .update-car-button {
+            margin-top: 20px;
+            width: 120px;
+        }
+
         .float-right {
             float: right;
+        }
+
+        .float-left {
+            float: left;
         }
     </style>
 </head>
@@ -50,11 +59,15 @@
                 <h5 class="card-title" th:text="${car.number}"></h5>
                 <p class="card-text" th:text="'Vin номер: ' + ${car.vin_code}"></p>
                 <p class="card-text" th:text="'Бренд: ' + ${car.brand}"></p>
+                <p class="card-text" th:text="'Модель: ' + ${car.model}"></p>
+                <div class="float-left">
+                    <a th:href="@{/garage/clients/{clientId}/cars/{carId}/update(clientId=${client.id}, carId=${car.id})}"
+                       class="btn btn-secondary update-car-button">Update</a>
+                </div>
                 <div class="float-right">
                     <a th:href="@{/garage/clients/{clientId}/cars/{carId}/service-history(clientId=${client.id}, carId=${car.id})}"
-                       class="btn btn-primary create-car-button stretched-link">Деталі</a>
+                       class="btn btn-primary create-car-button">Деталі</a>
                 </div>
-                <p class="card-text" th:text="'Модель: ' + ${car.model}"></p>
             </div>
         </div>
     </div>

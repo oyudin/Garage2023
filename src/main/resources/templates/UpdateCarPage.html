@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Update Car Information</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <style>
+        .form-update {
+            max-width: 400px;
+            margin: auto;
+            padding: 15px;
+        }
+
+        .form-update .form-control {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form class="form-update" id="carUpdateForm">
+        <h2 class="form-update-heading text-center mb-4">Оновити інформацію про авто</h2>
+        <input type="hidden" id="carId" value="">
+        <input type="hidden" id="clientId" value="">
+
+        <label class="form-label" for="number">Номер авто</label>
+        <input class="form-control" id="number" name="number" type="text" placeholder="Введіть номер авто" required>
+
+        <label class="form-label" for="vin_code">Він код</label>
+        <input class="form-control" id="vin_code" name="vin_code" type="text" placeholder="Введіть він код" required>
+
+        <label class="form-label" for="brand">Бренд</label>
+        <input class="form-control" id="brand" name="brand" type="text" placeholder="Введіть бренд" required>
+
+        <label class="form-label" for="model">Модель</label>
+        <input class="form-control" id="model" name="model" type="text" placeholder="Введіть модель" required>
+
+        <button class="btn btn-secondary mb-3" id="backToCarsBtn" type="button">Повернутися до списку авто</button>
+        <button class="btn btn-primary" type="submit">Оновити</button>
+    </form>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var urlParts = window.location.pathname.split('/');
+        var clientId = parseInt(urlParts[urlParts.length - 4]);
+        var carId = parseInt(urlParts[urlParts.length - 2]);
+        var carUpdateForm = document.querySelector('#carUpdateForm');
+        var clientIdField = document.querySelector('#clientId');
+        var carIdField = document.querySelector('#carId');
+
+        clientIdField.value = clientId;
+        carIdField.value = carId;
+
+        // Загрузка данных авто
+        fetch(`/garage/clients/${clientId}/cars/${carId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network error: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.querySelector('#number').value = data.number || '';
+                document.querySelector('#vin_code').value = data.vin_code || '';
+                document.querySelector('#brand').value = data.brand || '';
+                document.querySelector('#model').value = data.model || '';
+            })
+            .catch(error => console.error('Getting data error', error));
+
+        // Обработка отправки формы
+        carUpdateForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var formData = new FormData(carUpdateForm);
+            var xhr = new XMLHttpRequest();
+            var updateUrl = `/garage/clients/${clientId}/cars/${carId}/update`;
+
+            xhr.open('PATCH', updateUrl);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    console.log('Car information updated successfully!');
+                    showSuccessMessage();
+                    setTimeout(redirectToCarsPage, 2000);
+                }
+            };
+            xhr.send(JSON.stringify(Object.fromEntries(formData)));
+        });
+
+        function showSuccessMessage() {
+            var successAlert = document.createElement('div');
+            successAlert.classList.add('alert', 'alert-success');
+            successAlert.textContent = 'Інформація про авто оновлена успішно';
+
+            var container = document.querySelector('.container');
+            container.insertBefore(successAlert, carUpdateForm.nextSibling);
+        }
+
+        function redirectToCarsPage() {
+            window.location.href = `/garage/clients/${clientId}/cars`;
+        }
+
+        var backToCarsBtn = document.querySelector('#backToCarsBtn');
+        backToCarsBtn.addEventListener('click', function () {
+            redirectToCarsPage();
+        });
+    });
+</script>
+</body>
+</html>
