@@ -71,7 +71,7 @@ public class ClientController {
     @PostMapping
     public String createClient(@ModelAttribute Client client) {
         clientService.saveClient(client);
-        return String.format("redirect:/garage/clients/%d/cars", lastCreatedClient());
+        return String.format("redirect:/carservice/clients/%d/cars", lastCreatedClient());
     }
 
     @PatchMapping("/{clientId}/update")
