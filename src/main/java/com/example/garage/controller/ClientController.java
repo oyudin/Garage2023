@@ -94,10 +94,15 @@ public class ClientController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
-        clientService.deleteClient(id);
-        return ResponseEntity.ok().build();
-    }
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<Client> deleteClient(@PathVariable Long id) {
+        Optional<Client> client = clientService.getClientById(id);
 
+        if (client.isPresent()) {
+            clientService.deleteClient(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
