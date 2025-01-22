@@ -69,9 +69,16 @@ public class ClientController {
     }
 
     @PostMapping
-    public String createClient(@ModelAttribute Client client) {
-        clientService.saveClient(client);
-        return String.format("redirect:/carservice/clients/%d/cars", lastCreatedClient());
+    public ResponseEntity<Client> createClient(@RequestBody Client client) {
+        Client newClient = clientService.saveClient(client);
+
+        if (newClient != null) {
+            clientService.saveClient(client);
+//            String.format("redirect:/carservice/clients/%d/cars", lastCreatedClient());
+            return ResponseEntity.status(201).body(client);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PatchMapping("/{clientId}/update")
