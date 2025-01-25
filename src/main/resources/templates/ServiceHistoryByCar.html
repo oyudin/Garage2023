@@ -30,55 +30,13 @@
             color: #6c757d;
         }
 
-        /* Унифицированный стиль для всех кнопок */
-        /*.generate-report, .generate-full-report, .custom-back-button {*/
-        /*    width: auto; !* Убираем фиксированную ширину *!*/
-        /*    white-space: nowrap; !* Запрещаем перенос текста *!*/
-        /*    margin-top: 10px;*/
-        /*    margin-left: 5px;*/
-        /*    height: 40px;*/
-        /*    padding: 1rem;*/
-
-        /*    !* Центрируем текст *!*/
-        /*    display: flex;*/
-        /*    align-items: center;  !* Вертикальное выравнивание *!*/
-        /*    justify-content: center;  !* Горизонтальное выравнивание *!*/
-        /*}*/
-
-
-
         .generate-full-report {
             margin-top: 15px;
         }
 
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+        .generate-report {
+            margin-top: 15px;
         }
-
-        /* Кнопка возврата без подчеркивания */
-        /*.custom-back-button {*/
-        /*    text-decoration: none;*/
-        /*    border: 2px solid #007bff;*/
-        /*    color: #007bff;*/
-        /*    padding: 1rem;*/
-        /*    font-size: 16px;*/
-        /*    font-weight: normal;*/
-        /*    border-radius: 5px;*/
-        /*    transition: background-color 0.3s, color 0.3s, border-color 0.3s;*/
-
-        /*    !* Центрируем текст *!*/
-        /*    display: flex;*/
-        /*    align-items: center;  !* Вертикальное выравнивание *!*/
-        /*    justify-content: center;  !* Горизонтальное выравнивание *!*/
-        /*}*/
-
-        /*.custom-back-button:hover {*/
-        /*    background-color: #007bff;*/
-        /*    color: white;*/
-        /*    border-color: #007bff;*/
-        /*}*/
 
     </style>
 
@@ -122,31 +80,27 @@
                     <p class="card-text"
                        th:text="'Наступне обслуговування: ' + ${serviceHistory.next_service_date}"></p>
 
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/update'}"
+                           class="btn btn-secondary update-car-button">Update</a>
+
+                        <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
+                              method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <button type="submit" class="btn btn-danger custom-delete">Видалити</button>
+                        </form>
+                    </div>
+
                     <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/print'}"
                           method="get">
                         <button type="submit" class="btn btn-primary generate-report">Згенерувати звіт</button>
                     </form>
-
-                    <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
-                          method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
-                        <input type="hidden" name="_method" value="DELETE"/>
-                        <button type="submit" class="btn btn-danger">Видалити</button>
-                    </form>
-
-                    <div class="float-right">
-                        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/update'}"
-                           class="btn btn-primary create-car-button">Update</a>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Кнопка для генерации полного отчета после карточек -->
-
-    <!-- Кнопки для возврата к списку авто и нового обслуговування -->
-    <div class="d-flex justify-content-between mt-3">
+    <div class="d-flex justify-content-between mt-4">
         <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'}"
            class="btn btn-outline-primary custom-back-button">Повернутися до списку авто</a>
         <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
