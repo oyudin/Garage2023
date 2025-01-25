@@ -10,7 +10,7 @@
         }
 
         .container {
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         .card {
@@ -22,57 +22,6 @@
             overflow-y: auto;
         }
 
-        .create-car-button {
-            width: 180px;
-            margin-top: 10px;
-        }
-
-        .generate-report {
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-
-        .generate-full-report {
-            margin-top: 15px;
-        }
-
-        /* Flexbox для выравнивания кнопок */
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        /* Стиль кнопок, одинаковые размеры и эффекты */
-        .custom-back-button {
-            border: 2px solid #007bff;
-            color: #007bff;
-            width: 180px;
-            margin-top: 10px;
-            text-align: center;
-            padding: 10px 15px;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-        .custom-back-button:hover {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .create-car-button {
-            width: 180px;
-            margin-top: 10px;
-            text-align: center;
-            padding: 10px 15px;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 5px;
-        }
-
         .card-title {
             font-weight: bold;
         }
@@ -81,7 +30,58 @@
             color: #6c757d;
         }
 
+        /* Унифицированный стиль для всех кнопок */
+        /*.generate-report, .generate-full-report, .custom-back-button {*/
+        /*    width: auto; !* Убираем фиксированную ширину *!*/
+        /*    white-space: nowrap; !* Запрещаем перенос текста *!*/
+        /*    margin-top: 10px;*/
+        /*    margin-left: 5px;*/
+        /*    height: 40px;*/
+        /*    padding: 1rem;*/
+
+        /*    !* Центрируем текст *!*/
+        /*    display: flex;*/
+        /*    align-items: center;  !* Вертикальное выравнивание *!*/
+        /*    justify-content: center;  !* Горизонтальное выравнивание *!*/
+        /*}*/
+
+
+
+        .generate-full-report {
+            margin-top: 15px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* Кнопка возврата без подчеркивания */
+        /*.custom-back-button {*/
+        /*    text-decoration: none;*/
+        /*    border: 2px solid #007bff;*/
+        /*    color: #007bff;*/
+        /*    padding: 1rem;*/
+        /*    font-size: 16px;*/
+        /*    font-weight: normal;*/
+        /*    border-radius: 5px;*/
+        /*    transition: background-color 0.3s, color 0.3s, border-color 0.3s;*/
+
+        /*    !* Центрируем текст *!*/
+        /*    display: flex;*/
+        /*    align-items: center;  !* Вертикальное выравнивание *!*/
+        /*    justify-content: center;  !* Горизонтальное выравнивание *!*/
+        /*}*/
+
+        /*.custom-back-button:hover {*/
+        /*    background-color: #007bff;*/
+        /*    color: white;*/
+        /*    border-color: #007bff;*/
+        /*}*/
+
     </style>
+
 </head>
 <body>
 
@@ -102,7 +102,7 @@
                     <a class="nav-link" href="#">Авто</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="'/carservice/clients/' + ${ignoredClientId} + '/cars/'">Обслуговування</a>
+                    <a class="nav-link" href="#">Обслуговування</a>
                 </li>
             </ul>
         </div>
@@ -144,17 +144,20 @@
     </div>
 
     <!-- Кнопка для генерации полного отчета после карточек -->
+
+    <!-- Кнопки для возврата к списку авто и нового обслуговування -->
+    <div class="d-flex justify-content-between mt-3">
+        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'}"
+           class="btn btn-outline-primary custom-back-button">Повернутися до списку авто</a>
+        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
+           class="btn btn-primary create-car-button">Нове обслуговування</a>
+    </div>
+
     <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + 'printAll'}"
           method="get">
         <button type="submit" class="btn btn-primary generate-full-report">Згенерувати повний звіт</button>
     </form>
 
-    <!-- Кнопки для возврата к списку авто и нового обслуговування -->
-    <div class="button-container">
-        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'} " class="custom-back-button">Повернутися до списку авто</a>
-        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
-           class="btn btn-primary create-car-button">Нове обслуговування</a>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
