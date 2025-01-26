@@ -77,7 +77,8 @@
     <h1 class="text-center mb-4">Авто клієнта</h1>
 
     <div id="partsList">
-        <div th:each="car : ${cars}" class="card">
+        <div th:each="car : ${cars}" class="card"
+             th:onclick="|window.location='@{/carservice/clients/{clientId}/cars/{carId}/service-history(clientId=${client.id}, carId=${car.id})}'|">
             <div class="card-body">
                 <h5 class="card-title" th:text="${car.number}">Номер авто</h5>
                 <p class="card-text" th:text="'Vin номер: ' + ${car.vin_code}">Vin номер</p>
