@@ -96,18 +96,19 @@
             <div class="card-body">
                 <h5 class="card-title" th:text="${client.name}"></h5>
                 <p class="card-text" th:text="'Прізвище: ' + ${client.surname}"></p>
-<!--                <p class="card-text" th:text="'ID: ' + ${client.id}"></p>-->
+                <!--                <p class="card-text" th:text="'ID: ' + ${client.id}"></p>-->
                 <p class="card-text" th:text="'Номер телефону: ' + ${client.phoneNumber}"></p>
 
                 <div class="d-flex justify-content-between">
                     <a th:href="@{/carservice/clients/{clientId}/update(clientId=${client.id})}"
                        class="btn btn-secondary">Редагувати</a>
 
-                    <form th:action="@{/carservice/clients/{clientId}/delete(clientId=${client.id})}"
+                    <form th:action="@{/carservice/{clientId}/delete(clientId=${client.id})}"
                           method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button type="submit" class="btn btn-danger">Видалити</button>
                     </form>
+
                 </div>
 
                 <div>
@@ -117,16 +118,6 @@
             </div>
         </div>
     </div>
-
-    <!--    <nav aria-label="Page navigation example">-->
-    <!--        <ul class="pagination">-->
-    <!--            <li class="page-item"><a class="page-link" href="#">Попередня</a></li>-->
-    <!--            <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-    <!--            <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-    <!--            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-    <!--            <li class="page-item"><a class="page-link" href="#">Наступна</a></li>-->
-    <!--        </ul>-->
-    <!--    </nav>-->
 
     <div class="text-end mt-4">
         <a th:href="@{/carservice/clients/add}" class="btn btn-primary create-client-button">Новий клієнт</a>

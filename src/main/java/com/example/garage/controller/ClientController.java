@@ -94,15 +94,27 @@ public class ClientController {
         }
     }
 
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Client> deleteClient(@PathVariable Long id) {
-        Optional<Client> client = clientService.getClientById(id);
+    //    @DeleteMapping("/{id}/delete")
+//    public ResponseEntity<Client> deleteClient(@PathVariable Long id) {
+//        Optional<Client> client = clientService.getClientById(id);
+//
+//        if (client.isPresent()) {
+//            clientService.deleteClient(id);
+//            return ResponseEntity.ok().build();
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+    @DeleteMapping("/{clientId}/delete")
+    public String deleteClient(@PathVariable Long clientId) {
+        Optional<Client> client = clientService.getClientById(clientId);
 
         if (client.isPresent()) {
-            clientService.deleteClient(id);
-            return ResponseEntity.ok().build();
+            clientService.deleteClient(clientId);
+            ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.notFound().build();
+            ResponseEntity.notFound().build();
         }
+        return "redirect:/carservice/clients";
     }
 }
