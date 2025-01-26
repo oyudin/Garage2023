@@ -15,7 +15,6 @@
 
         .card {
             margin-bottom: 20px;
-            cursor: pointer;
         }
 
         #partsList {
@@ -27,11 +26,12 @@
             font-weight: bold;
         }
 
-        .card-text {
-            color: #6c757d;
+        .custom-details {
+            margin-top: 20px;
         }
 
-        .create-car-button, .update-car-button {
+        .create-car-button,
+        .update-car-button {
             margin-top: 20px;
             width: 120px;
         }
@@ -41,7 +41,6 @@
             margin-top: 20px;
         }
 
-        /* Фиксируем кнопки внизу */
         .fixed-buttons {
             position: fixed;
             bottom: 20px;
@@ -54,7 +53,6 @@
 </head>
 <body>
 
-<!-- Навигационный бар -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">CarService</a>
@@ -75,49 +73,41 @@
     </div>
 </nav>
 
-<!-- Контент -->
 <div class="container">
     <h1 class="text-center mb-4">Авто клієнта</h1>
 
     <div id="partsList">
-        <div th:each="car : ${cars}" class="card"
-             th:onclick="|window.location='@{/carservice/clients/{clientId}/cars/{carId}/service-history(clientId=${client.id}, carId=${car.id})}'|">
+        <div th:each="car : ${cars}" class="card">
             <div class="card-body">
-                <h5 class="card-title" th:text="${car.number}"></h5>
-                <p class="card-text" th:text="'Vin номер: ' + ${car.vin_code}"></p>
-                <p class="card-text" th:text="'Бренд: ' + ${car.brand}"></p>
-                <p class="card-text" th:text="'Модель: ' + ${car.model}"></p>
+                <h5 class="card-title" th:text="${car.number}">Номер авто</h5>
+                <p class="card-text" th:text="'Vin номер: ' + ${car.vin_code}">Vin номер</p>
+                <p class="card-text" th:text="'Бренд: ' + ${car.brand}">Бренд</p>
+                <p class="card-text" th:text="'Модель: ' + ${car.model}">Модель</p>
                 <div class="d-flex justify-content-between">
                     <a th:href="@{/carservice/clients/{clientId}/cars/{carId}/update(clientId=${client.id}, carId=${car.id})}"
-                       class="btn btn-secondary update-car-button">Update</a>
+                       class="btn btn-secondary">Редагувати</a>
+
+                    <form th:action="@{/carservice/clients/{clientId}/cars/{carId}/delete(clientId=${client.id}, carId=${car.id})}"
+                          method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit" class="btn btn-danger">Видалити</button>
+                    </form>
+                </div>
+
+                <div>
                     <a th:href="@{/carservice/clients/{clientId}/cars/{carId}/service-history(clientId=${client.id}, carId=${car.id})}"
-                       class="btn btn-primary create-car-button">Деталі</a>
+                       class="btn btn-primary custom-details">Деталі обслуговування</a>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="d-flex justify-content-between mt-4">
-        <a th:href="@{/carservice/clients}" class="btn btn-outline-primary custom-back-button">Повернутися до списку
+        <a th:href="@{/carservice/clients}" class="btn btn-outline-primary">Повернутися до списку
             клієнтів</a>
         <a th:href="@{/carservice/clients/{clientId}/cars/add(clientId=${client.id})}"
            class="btn btn-primary">Додати авто</a>
     </div>
-
-    <style>
-        .custom-back-button {
-            border: 2px solid #007bff;
-            color: #007bff;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-        .custom-back-button:hover {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-    </style>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

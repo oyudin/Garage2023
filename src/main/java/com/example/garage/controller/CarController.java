@@ -78,15 +78,15 @@ public class CarController {
     }
 
     @DeleteMapping("{ignoredClientId}/cars/{carId}/delete")
-    @ResponseBody
-    public ResponseEntity<Car> deleteCar(@PathVariable Long ignoredClientId, @PathVariable Long carId) {
+    public String deleteCar(@PathVariable Long ignoredClientId, @PathVariable Long carId) {
         Optional<Car> carToDelete = carService.getCarById(carId);
 
         if (carToDelete.isPresent()) {
             carService.deleteCar(carId);
-            return ResponseEntity.ok().body(carToDelete.get());
+            ResponseEntity.ok().body(carToDelete.get());
         } else {
-            return ResponseEntity.notFound().build();
+            ResponseEntity.notFound().build();
         }
+        return String.format("redirect:/carservice/clients/%s/cars", ignoredClientId);
     }
 }

@@ -101,7 +101,7 @@ public class ServiceHistoryController {
     public String deleteServiceHistory(@PathVariable Long id, @PathVariable String
             ignoredClientId, @PathVariable String ignoredCarId) {
         serviceHistoryService.deleteServiceHistory(id);
-        return String.format("redirect:/garage/clients/%s/cars/%s/service-history", ignoredClientId, ignoredCarId);
+        return String.format("redirect:/carservice/clients/%s/cars/%s/service-history", ignoredClientId, ignoredCarId);
     }
 
 }
