@@ -33,8 +33,8 @@
 
         .create-car-button, .update-car-button {
             margin-top: 10px;
-            margin-left: 5px;
-            width: 120px;
+            /*margin-left: 5px;*/
+            /*width: 120px;*/
         }
 
         .search-container {
@@ -101,9 +101,18 @@
 
                 <div class="d-flex justify-content-between">
                     <a th:href="@{/carservice/clients/{clientId}/update(clientId=${client.id})}"
-                       class="btn btn-secondary update-car-button">Update</a>
+                       class="btn btn-secondary">Редагувати</a>
+
+                    <form th:action="@{/carservice/clients/{clientId}/delete(clientId=${client.id})}"
+                          method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit" class="btn btn-danger">Видалити</button>
+                    </form>
+                </div>
+
+                <div>
                     <a th:href="@{/carservice/clients/{clientId}/cars(clientId=${client.id})}"
-                       class="btn btn-primary create-car-button">Авто</a>
+                       class="btn btn-primary create-car-button">Авто клієнта</a>
                 </div>
             </div>
         </div>

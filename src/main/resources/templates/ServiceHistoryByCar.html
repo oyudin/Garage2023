@@ -58,7 +58,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'}">Авто</a>
-<!--                    сделай сдесь ссылку на -->
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Обслуговування</a>
@@ -83,7 +82,7 @@
 
                     <div class="d-flex justify-content-between">
                         <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/update'}"
-                           class="btn btn-secondary update-car-button">Update</a>
+                           class="btn btn-secondary update-car-button">Редагувати</a>
 
                         <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
                               method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
