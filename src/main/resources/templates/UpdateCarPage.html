@@ -38,6 +38,10 @@
             margin-top: 10px;
         }
 
+        .custom-back {
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -84,10 +88,11 @@
         <label class="form-label" for="model">Модель</label>
         <input class="form-control" id="model" name="model" type="text" placeholder="Введіть модель" required>
 
-        <div class="d-flex justify-content-between mt-3">
-            <a th:href="@{/carservice/clients}" class="btn btn-outline-primary">Повернутися до списку
-                клієнтів</a>
+        <div id="backToCarsBtn" class="btn btn-outline-primary custom-back">Повернутися до списку
+            авто</a>
         </div>
+        <!--        <button class="btn btn-secondary mb-3 custom-back" id="backToCarsBtn" type="button">Повернутися до списку авто-->
+        </button>
         <button class="btn btn-primary custom-update" type="submit">Оновити</button>
     </form>
 </div>
