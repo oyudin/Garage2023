@@ -1,66 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Update Car Information</title>
+    <title>Update Car</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <style>
-        .form-update {
-            max-width: 400px;
-            margin: auto;
-            padding: 15px;
+        body {
+            background-color: #f8f9fa;
         }
 
-        .form-update .form-control {
+        .container {
+            margin-top: 30px;
+        }
+
+        .form-wrapper {
+            max-width: 500px;
+            margin: auto;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-wrapper .form-control {
             margin-bottom: 15px;
         }
 
         .btn {
             width: 100%;
         }
+
+        .navbar {
+            margin-bottom: 30px;
+        }
+
+        .form-wrapper h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-secondary, .btn-primary {
+            margin-top: 10px;
+        }
+
+        .btn-secondary {
+            width: auto;
+            margin-right: 10px;
+        }
     </style>
 </head>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">CarService</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/carservice/clients">Мої клієнти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">Редагування авто</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <body>
 <div class="container">
-    <form class="form-update" id="carUpdateForm">
-        <h2 class="form-update-heading text-center mb-4">Оновити інформацію про авто</h2>
-        <input type="hidden" id="carId" value="">
-        <input type="hidden" id="clientId" value="">
+    <div class="form-wrapper">
+        <form id="updateCarForm">
+            <h2>Оновити інформацію про авто</h2>
+            <input type="hidden" id="carId" value="">
+            <input type="hidden" id="clientId" value="">
 
-        <label class="form-label" for="number">Номер авто</label>
-        <input class="form-control" id="number" name="number" type="text" placeholder="Введіть номер авто" required>
+            <label for="number">Номер авто:</label>
+            <input type="text" class="form-control" id="number" name="number" placeholder="Введіть номер авто" required>
 
-        <label class="form-label" for="vin_code">Він код</label>
-        <input class="form-control" id="vin_code" name="vin_code" type="text" placeholder="Введіть він код" required>
+            <label for="vin_code">Він код:</label>
+            <input type="text" class="form-control" id="vin_code" name="vin_code" placeholder="Введіть він код" required>
 
-        <label class="form-label" for="brand">Бренд</label>
-        <input class="form-control" id="brand" name="brand" type="text" placeholder="Введіть бренд" required>
+            <label for="brand">Бренд:</label>
+            <input type="text" class="form-control" id="brand" name="brand" placeholder="Введіть бренд" required>
 
-        <label class="form-label" for="model">Модель</label>
-        <input class="form-control" id="model" name="model" type="text" placeholder="Введіть модель" required>
+            <label for="model">Модель:</label>
+            <input type="text" class="form-control" id="model" name="model" placeholder="Введіть модель" required>
 
-        <button class="btn btn-secondary mb-3" id="backToCarsBtn" type="button">Повернутися до списку авто</button>
-        <button class="btn btn-primary" type="submit">Оновити</button>
-    </form>
+            <button class="btn btn-outline-primary" id="backToCarsBtn" type="button">Повернутися до списку авто</button>
+            <button class="btn btn-primary" type="submit">Оновити</button>
+        </form>
+    </div>
 </div>
 
 <script>
     window.addEventListener('DOMContentLoaded', function () {
-        var urlParts = window.location.pathname.split('/');
-        var clientId = parseInt(urlParts[urlParts.length - 4]);
-        var carId = parseInt(urlParts[urlParts.length - 2]);
-        var carUpdateForm = document.querySelector('#carUpdateForm');
-        var clientIdField = document.querySelector('#clientId');
-        var carIdField = document.querySelector('#carId');
+        const urlParts = window.location.pathname.split('/');
+        const clientId = parseInt(urlParts[urlParts.length - 4]);
+        const carId = parseInt(urlParts[urlParts.length - 2]);
+        const carForm = document.querySelector('#updateCarForm');
+        const clientIdField = document.querySelector('#clientId');
+        const carIdField = document.querySelector('#carId');
 
         clientIdField.value = clientId;
         carIdField.value = carId;
 
-        // Загрузка данных авто
+        // Fetch existing car data
         fetch(`/carservice/clients/${clientId}/cars/${carId}`)
             .then(response => {
                 if (!response.ok) {
@@ -74,22 +124,22 @@
                 document.querySelector('#brand').value = data.brand || '';
                 document.querySelector('#model').value = data.model || '';
             })
-            .catch(error => console.error('Getting data error', error));
+            .catch(error => console.error('Getting car data error', error));
 
-        // Обработка отправки формы
-        carUpdateForm.addEventListener('submit', function (event) {
+        // Submit updated car data
+        carForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            var formData = new FormData(carUpdateForm);
-            var xhr = new XMLHttpRequest();
-            var updateUrl = `/carservice/clients/${clientId}/cars/${carId}/update`;
+            const formData = new FormData(carForm);
+            const xhr = new XMLHttpRequest();
+            const updateUrl = `/carservice/clients/${clientId}/cars/${carId}/update`;
 
             xhr.open('PATCH', updateUrl);
             xhr.setRequestHeader('Content-Type', 'application/json');
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    console.log('Car information updated successfully!');
+                    console.log('Car updated successfully!');
                     showSuccessMessage();
                     setTimeout(redirectToCarsPage, 2000);
                 }
@@ -98,19 +148,20 @@
         });
 
         function showSuccessMessage() {
-            var successAlert = document.createElement('div');
-            successAlert.classList.add('alert', 'alert-success');
-            successAlert.textContent = 'Інформація про авто оновлена успішно';
+            const successAlert = document.createElement('div');
+            successAlert.classList.add('alert', 'alert-success', 'mt-3');
+            successAlert.textContent = 'Інформація про авто оновлена успішно.';
 
-            var container = document.querySelector('.container');
-            container.insertBefore(successAlert, carUpdateForm.nextSibling);
+            const formWrapper = document.querySelector('.form-wrapper');
+            formWrapper.appendChild(successAlert);
         }
 
         function redirectToCarsPage() {
             window.location.href = `/carservice/clients/${clientId}/cars`;
         }
 
-        var backToCarsBtn = document.querySelector('#backToCarsBtn');
+        // Back button logic
+        const backToCarsBtn = document.querySelector('#backToCarsBtn');
         backToCarsBtn.addEventListener('click', function () {
             redirectToCarsPage();
         });
