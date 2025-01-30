@@ -109,10 +109,22 @@
                        class="btn btn-secondary update-car-button">Редагувати</a>
 
                     <form th:action="@{/carservice/clients/{clientId}/delete(clientId=${client.id})}"
-                          method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
+                          method="post" onsubmit="return confirmDelete('Ви впевнені, що хочете видалити цей запис?')">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button type="submit" class="btn btn-danger custom-delete">Видалити</button>
                     </form>
+
+                    <script>
+                        function confirmDelete() {
+                            if (confirm('Ви впевнені, що хочете видалити цей запис?')) {
+                                return true;  // Отправка формы
+                            } else {
+                                window.location.href = '/carservice/clients';  // Редирект при отмене
+                                return false;
+                            }
+                        }
+                    </script>
+
                 </div>
                 <div>
 

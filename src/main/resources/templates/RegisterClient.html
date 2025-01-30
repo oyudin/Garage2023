@@ -2,65 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Client</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Create Client</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <style>
         body {
             background-color: #f8f9fa;
         }
 
         .container {
-            max-width: 500px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
+        .form-wrapper {
+            max-width: 500px;
+            margin: auto;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-wrapper .form-control {
+            margin-bottom: 15px;
         }
 
         .btn {
             width: 100%;
         }
 
-        .alert {
-            margin-top: 15px;
+        .navbar {
+            margin-bottom: 30px;
+        }
+
+        .form-wrapper h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-secondary, .btn-primary {
+            margin-top: 10px;
         }
     </style>
 </head>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">CarService</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/carservice/clients">Мої клієнти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">Додавання клієнта</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <body>
 <div class="container">
-    <h2>Новий клієнт</h2>
-    <form id="clientForm">
-        <div class="mb-3">
-            <label for="name" class="form-label">Ім'я</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Введіть ім'я" required>
-        </div>
-        <div class="mb-3">
-            <label for="surname" class="form-label">Прізвище</label>
+    <div class="form-wrapper">
+        <form id="createClientForm">
+            <h2>Створити клієнта</h2>
+
+            <label for="name">Імʼя:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Введіть імʼя" required>
+
+            <label for="surname">Прізвище:</label>
             <input type="text" class="form-control" id="surname" name="surname" placeholder="Введіть прізвище" required>
-        </div>
-        <div class="mb-3">
-            <label for="phoneNumber" class="form-label">Номер телефону</label>
-            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="напр: 380631234567"
+
+            <label for="phoneNumber">Номер телефону:</label>
+            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                   placeholder="Введіть номер телефону у форматі +380631234567"
                    required pattern="^\+?\d{1,3}\d{9}$"
                    title="Формат: 380631234567 або +380631234567">
-        </div>
 
-        <button type="submit" class="btn btn-primary">Додати</button>
-        <div id="successMessage" class="alert alert-success d-none" role="alert">
-            Клієнт успішно створений!
-        </div>
-    </form>
+            <button class="btn btn-outline-primary" id="backToClientsBtn" type="button">Повернутися до списку клієнтів</button>
+            <button class="btn btn-primary" type="submit">Додати</button>
+        </form>
+    </div>
 </div>
 
 <script>
-    document.getElementById('clientForm').addEventListener('submit', async function (event) {
+    document.getElementById('createClientForm').addEventListener('submit', async function (event) {
         event.preventDefault();
 
         const formData = new FormData(event.target);
@@ -76,15 +108,31 @@
             });
 
             if (response.ok) {
-                const successMessage = document.getElementById('successMessage');
-                successMessage.classList.remove('d-none');
-                setTimeout(() => window.location.href = '/carservice/clients', 1500);
+                showSuccessMessage();
+                setTimeout(redirectToClientsPage, 2000);
             } else {
                 alert('Помилка при створенні клієнта.');
             }
         } catch (error) {
-            console.error('Ошибка:', error);
+            console.error('Помилка:', error);
         }
+    });
+
+    function showSuccessMessage() {
+        const successAlert = document.createElement('div');
+        successAlert.classList.add('alert', 'alert-success', 'mt-3');
+        successAlert.textContent = 'Клієнт успішно створений!';
+
+        const formWrapper = document.querySelector('.form-wrapper');
+        formWrapper.appendChild(successAlert);
+    }
+
+    function redirectToClientsPage() {
+        window.location.href = '/carservice/clients';
+    }
+
+    document.getElementById('backToClientsBtn').addEventListener('click', function () {
+        redirectToClientsPage();
     });
 </script>
 </body>
