@@ -65,6 +65,9 @@
                     <a class="nav-link" href="http://localhost:8080/carservice/clients">Мої клієнти</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'}">Авто</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" aria-current="page">Створити авто</a>
                 </li>
             </ul>
@@ -83,7 +86,8 @@
             <input type="text" class="form-control" id="number" name="number" placeholder="Введіть номер авто" required>
 
             <label for="vin_code">Він код:</label>
-            <input type="text" class="form-control" id="vin_code" name="vin_code" placeholder="Введіть він код" required>
+            <input type="text" class="form-control" id="vin_code" name="vin_code" placeholder="Введіть він код"
+                   required>
 
             <label for="brand">Бренд:</label>
             <input type="text" class="form-control" id="brand" name="brand" placeholder="Введіть бренд" required>

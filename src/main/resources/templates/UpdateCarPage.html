@@ -65,6 +65,9 @@
                     <a class="nav-link" href="http://localhost:8080/carservice/clients">Мої клієнти</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'}">Авто</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" aria-current="page">Редагування авто</a>
                 </li>
             </ul>
