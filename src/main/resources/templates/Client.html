@@ -58,6 +58,11 @@
         .pagination {
             justify-content: center;
         }
+
+        .custom-new-client{
+            width: auto;
+        }
+
     </style>
 </head>
 <body>
@@ -96,14 +101,24 @@
             <div class="card-body">
                 <h5 class="card-title" th:text="${client.name}"></h5>
                 <p class="card-text" th:text="'Прізвище: ' + ${client.surname}"></p>
-<!--                <p class="card-text" th:text="'ID: ' + ${client.id}"></p>-->
+                <!--                <p class="card-text" th:text="'ID: ' + ${client.id}"></p>-->
                 <p class="card-text" th:text="'Номер телефону: ' + ${client.phoneNumber}"></p>
 
                 <div class="d-flex justify-content-between">
                     <a th:href="@{/carservice/clients/{clientId}/update(clientId=${client.id})}"
-                       class="btn btn-secondary update-car-button">Update</a>
+                       class="btn btn-secondary update-car-button">Редагувати</a>
+
+                    <form th:action="@{/carservice/clients/{clientId}/delete(clientId=${client.id})}"
+                          method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit" class="btn btn-danger custom-delete">Видалити</button>
+                    </form>
+                </div>
+                <div>
+
                     <a th:href="@{/carservice/clients/{clientId}/cars(clientId=${client.id})}"
-                       class="btn btn-primary create-car-button">Авто</a>
+                       class="btn btn-primary create-car-button custom-new-client">Авто клієнта</a>
+
                 </div>
             </div>
         </div>

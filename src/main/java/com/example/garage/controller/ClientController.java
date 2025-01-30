@@ -2,6 +2,7 @@ package com.example.garage.controller;
 
 import com.example.garage.model.Client;
 import com.example.garage.service.ClientService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 @RequestMapping("/carservice/clients")
 public class ClientController {
 
@@ -95,14 +97,16 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Client> deleteClient(@PathVariable Long id) {
+    public String deleteClient(@PathVariable Long id) {
         Optional<Client> client = clientService.getClientById(id);
 
         if (client.isPresent()) {
             clientService.deleteClient(id);
-            return ResponseEntity.ok().build();
+            ResponseEntity.ok().body(client.get());
         } else {
-            return ResponseEntity.notFound().build();
+            log.error("Error. The client has NOT been deleted");
+            ResponseEntity.notFound().build();
         }
+        return "redirect:/carservice/clients";
     }
 }
