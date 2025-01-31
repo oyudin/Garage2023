@@ -3,36 +3,79 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Please sign in</title>
+    <title>Login</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .form-wrapper {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-wrapper h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    </style>
 </head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand">CarService</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">Авторизація</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <body>
 <div class="container">
-    <form class="form-signin" method="post" th:action="@{/login}">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required=""
-                   autofocus="">
-        </p>
-        <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                   required="">
-        </p>
-        <input name="_csrf" type="hidden"
-               value="tSKSsD2_jnMOYsWXQN3XxFEXO6-2urHUkoVGgfhuMQJ1wzeJjBKrg1vbu0QjUfKnc_Dj_GZxFpbSg4P58bNx4pkLUDQX9ALr">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <div class="form-wrapper">
+        <form class="form-signin" method="post" th:action="@{/login}">
+            <h2>Вхід</h2>
+            <div class="form-group">
+                <label for="username">Ім'я користувача</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Введіть ім'я"
+                       required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Введіть пароль"
+                       required>
+            </div>
 
-        <span> Not registered?
-            <a th:href="@{/registration}">SignUp here</a>
-        </span>
-    </form>
+            <button class="btn btn-primary" type="submit">Увійти</button>
 
+            <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                Невірне ім'я користувача або пароль.
+            </div>
+            <!--            <div class="text-center mt-3">-->
+            <!--                <span>Не зареєстровані? <a href="/registration">Зареєструватися</a></span>-->
+            <!--            </div>-->
+        </form>
+    </div>
 </div>
 </body>
 </html>
