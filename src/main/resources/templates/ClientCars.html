@@ -30,12 +30,6 @@
             margin-top: 20px;
         }
 
-        .create-car-button,
-        .update-car-button {
-            margin-top: 20px;
-            width: 120px;
-        }
-
         .pagination {
             justify-content: center;
             margin-top: 20px;
@@ -85,14 +79,16 @@
                 <p class="card-text" th:text="'Бренд: ' + ${car.brand}">Бренд</p>
                 <p class="card-text" th:text="'Модель: ' + ${car.model}">Модель</p>
                 <div class="d-flex justify-content-between">
-                    <a th:href="@{/carservice/clients/{clientId}/cars/{carId}/update(clientId=${client.id}, carId=${car.id})}"
+                    <a th:if="${userRole == 'ADMIN'}"
+                       th:href="@{/carservice/clients/{clientId}/cars/{carId}/update(clientId=${client.id}, carId=${car.id})}"
                        class="btn btn-secondary">Редагувати</a>
 
-                    <form th:action="@{/carservice/clients/{clientId}/cars/{carId}/delete(clientId=${client.id}, carId=${car.id})}"
-                          method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
+                    <a th:if="${userRole == 'ADMIN'}"
+                       th:action="@{/carservice/clients/{clientId}/cars/{carId}/delete(clientId=${client.id}, carId=${car.id})}"
+                       method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button type="submit" class="btn btn-danger">Видалити</button>
-                    </form>
+                        </form>
                 </div>
 
                 <div>
@@ -106,7 +102,7 @@
     <div class="d-flex justify-content-between mt-4">
         <a th:href="@{/carservice/clients}" class="btn btn-outline-primary">Повернутися до списку
             клієнтів</a>
-        <a th:href="@{/carservice/clients/{clientId}/cars/add(clientId=${client.id})}"
+        <a th:if="${userRole == 'ADMIN'}" th:href="@{/carservice/clients/{clientId}/cars/add(clientId=${client.id})}"
            class="btn btn-primary">Додати авто</a>
     </div>
 </div>

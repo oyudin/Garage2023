@@ -7,6 +7,8 @@ import com.example.garage.service.ClientService;
 import com.example.garage.service.ServiceHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +61,14 @@ public class ServiceHistoryController {
     public String findServiceHistoryByCar(Model model, @PathVariable int ignoredClientId, @PathVariable Long ignoredCarId) {
         Optional<Car> car = carService.getCarById(ignoredCarId);
         List<ServiceHistory> serviceHistories = serviceHistoryService.getServiceHistoryByCar(ignoredCarId);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = auth.getAuthorities().stream()
+                .findFirst()
+                .map(Object::toString)
+                .orElse("USER"); // По умолчанию "USER", если роль не найдена
+
+        model.addAttribute("userRole", role);
 
         car.ifPresent(value -> model.addAttribute("car", value));
         model.addAttribute("serviceHistories", serviceHistories);

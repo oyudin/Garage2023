@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <title>Історія обслуговування авто</title>
@@ -58,10 +58,20 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'}">Авто</a>
-<!--                    сделай сдесь ссылку на -->
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Обслуговування</a>
+                </li>
+                <!-- Только для админов -->
+                <li class="nav-item" th:if="${userRole == 'ADMIN'}">
+                    <a class="nav-link" th:href="@{/carservice/clients/add}">Додати клієнта</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav2">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item ">
+                    <a class="nav-link active" href="/logout">Вийти</a>
                 </li>
             </ul>
         </div>
@@ -82,10 +92,12 @@
                        th:text="'Наступне обслуговування: ' + ${serviceHistory.next_service_date}"></p>
 
                     <div class="d-flex justify-content-between">
-                        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/update'}"
+                        <a th:if="${userRole == 'ADMIN'}"
+                           th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/update'}"
                            class="btn btn-secondary update-car-button">Update</a>
 
-                        <form th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
+                        <form th:if="${userRole == 'ADMIN'}"
+                              th:action="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/' + ${serviceHistory.id} + '/delete'}"
                               method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
                             <input type="hidden" name="_method" value="DELETE"/>
                             <button type="submit" class="btn btn-danger custom-delete">Видалити</button>
@@ -104,7 +116,8 @@
     <div class="d-flex justify-content-between mt-4">
         <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars'}"
            class="btn btn-outline-primary custom-back-button">Повернутися до списку авто</a>
-        <a th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
+        <a th:if="${userRole == 'ADMIN'}"
+           th:href="@{'/carservice/clients/' + ${ignoredClientId} + '/cars/' + ${ignoredCarId} + '/service-history/add'}"
            class="btn btn-primary create-car-button">Нове обслуговування</a>
     </div>
 

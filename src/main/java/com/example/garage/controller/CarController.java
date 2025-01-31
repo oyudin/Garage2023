@@ -6,6 +6,8 @@ import com.example.garage.service.CarService;
 import com.example.garage.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +54,14 @@ public class CarController {
     public String findCarsByClient(Model model, @PathVariable("clientId") long clientId) {
         Optional<Client> client = clientService.getClientById(clientId);
         List<Car> cars = carService.getCarsByClientId(clientId);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = auth.getAuthorities().stream()
+                .findFirst()
+                .map(Object::toString)
+                .orElse("USER"); // По умолчанию "USER", если роль не найдена
+
+        model.addAttribute("userRole", role);
 
         client.ifPresent(value -> model.addAttribute("client", value));
         model.addAttribute("cars", cars);
