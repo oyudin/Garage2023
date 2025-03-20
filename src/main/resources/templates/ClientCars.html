@@ -83,12 +83,12 @@
                        th:href="@{/carservice/clients/{clientId}/cars/{carId}/update(clientId=${client.id}, carId=${car.id})}"
                        class="btn btn-secondary">Редагувати</a>
 
-                    <a th:if="${userRole == 'ADMIN'}"
-                       th:action="@{/carservice/clients/{clientId}/cars/{carId}/delete(clientId=${client.id}, carId=${car.id})}"
-                       method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
+                    <form th:if="${userRole == 'ADMIN'}"
+                          th:action="@{/carservice/clients/{clientId}/cars/{carId}/delete(clientId=${client.id}, carId=${car.id})}"
+                          method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?')">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button type="submit" class="btn btn-danger">Видалити</button>
-                        </form>
+                    </form>
                 </div>
 
                 <div>
