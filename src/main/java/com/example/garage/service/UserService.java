@@ -2,19 +2,29 @@ package com.example.garage.service;
 
 import com.example.garage.model.User;
 import com.example.garage.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAllUsers() {
@@ -26,6 +36,9 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        logger.info("----------------------------- {}", user.getPassword());
         return userRepository.save(user);
     }
 
@@ -33,8 +46,9 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-//    public User updateUser(User user, int userId) {
-//        userRepository.updateUser(user, userId);
-//        return user;
-//    }
+    @PostConstruct
+    public void createUser() {
+        User user = new User(null, "test", "test", "ADMIN");
+        saveUser(user);
+    }
 }

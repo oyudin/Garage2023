@@ -51,6 +51,7 @@ public class ClientController {
         model.addAttribute("userRole", role);
         model.addAttribute("clients", clientService.getAllClients());
         System.out.println(role);
+
         return "Client";
     }
 
