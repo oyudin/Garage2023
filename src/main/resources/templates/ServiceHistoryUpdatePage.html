@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Update Service History</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <style>
+        textarea {
+            width: 100%;
+            resize: vertical;
+        }
+
+        .form-signin {
+            max-width: 400px;
+            margin: auto;
+            padding: 15px;
+        }
+
+        .form-signin .form-control {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" id="serviceHistoryForm">
+        <h2 class="form-signin-heading text-center mb-4">Оновити обслуговування</h2>
+        <input type="hidden" id="carId" value="">
+        <input type="hidden" id="clientId" value="">
+        <input type="hidden" id="serviceHistoryId" value="">
+
+        <label class="form-label" for="service_date">Дата ремонту авто</label>
+        <input class="form-control" id="service_date" name="service_date" type="date" required>
+
+        <label class="form-label" for="mileage">Пробіг авто</label>
+        <input class="form-control" id="mileage" name="mileage" type="number" placeholder="Введіть пробіг авто"
+               required>
+
+        <label class="form-label" for="description">Детальна інформація про ремонт</label>
+        <textarea class="form-control" id="description" name="description" placeholder="Введіть опис ремонту" required
+                  rows="3"></textarea>
+
+        <label class="form-label" for="next_service_date">Рекомендована дата наступного обслуговування</label>
+        <input class="form-control" id="next_service_date" name="next_service_date" type="date" required>
+
+        <label class="form-label" for="price">Ціна</label>
+        <input class="form-control" id="price" name="price" type="number" placeholder="Введіть ціну" required>
+
+        <button class="btn btn-secondary mb-3" id="backToServiceHistoryBtn" type="button">Повернутися до історії
+            обслуговування
+        </button>
+        <button class="btn btn-primary" type="submit">Оновити</button>
+    </form>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var urlParts = window.location.pathname.split('/');
+        var carId = parseInt(urlParts[urlParts.length - 4]);
+        var clientId = parseInt(urlParts[urlParts.length - 6]);
+        var serviceHistoryId = parseInt(urlParts[urlParts.length - 2]);
+        var serviceHistoryForm = document.querySelector('#serviceHistoryForm');
+        var carIdField = document.querySelector('#carId');
+        var clientIdField = document.querySelector('#clientId');
+        var serviceHistoryIdField = document.querySelector('#serviceHistoryId');
+
+        carIdField.value = carId;
+        clientIdField.value = clientId;
+        serviceHistoryIdField.value = serviceHistoryId;
+
+        fetch(`/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network error: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.querySelector('#service_date').value = data.service_date || '';
+                document.querySelector('#mileage').value = data.mileage || '';
+                document.querySelector('#description').value = data.description || '';
+                document.querySelector('#next_service_date').value = data.next_service_date || '';
+                document.querySelector('#price').value = data.price || '';
+            })
+            .catch(error => console.error('Getting data error', error));
+
+
+        serviceHistoryForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var formData = new FormData(serviceHistoryForm);
+            var xhr = new XMLHttpRequest();
+            var updateUrl = `/garage/clients/${clientId}/cars/${carId}/service-history/${serviceHistoryId}/update`;
+
+            xhr.open('PUT', updateUrl);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    console.log('Service history updated successfully!');
+                    showSuccessMessage();
+                    setTimeout(redirectToServiceHistoryPage, 2000);
+                }
+            };
+            xhr.send(JSON.stringify(Object.fromEntries(formData)));
+        });
+
+        function showSuccessMessage() {
+            var successAlert = document.createElement('div');
+            successAlert.classList.add('alert', 'alert-success');
+            successAlert.textContent = 'A new service history entry has been updated';
+
+            var container = document.querySelector('.container');
+            container.insertBefore(successAlert, serviceHistoryForm.nextSibling);
+        }
+
+        function redirectToServiceHistoryPage() {
+            window.location.href = '/garage/clients/' + clientId + '/cars/' + carId + "/service-history";
+        }
+
+        var backToServiceHistoryBtn = document.querySelector('#backToServiceHistoryBtn');
+        backToServiceHistoryBtn.addEventListener('click', function () {
+            redirectToServiceHistoryPage();
+        });
+    });
+</script>
+</body>
+</html>

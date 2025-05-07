@@ -6,7 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class CarNotFound extends Exception {
 
     public CarNotFound(int id) {
-        super("Person with id " + id + " not found!", new ResponseStatusException(
+        super("Car with id " + id + " not found!", new ResponseStatusException(
                 HttpStatus.NOT_FOUND));
     }
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Create a Car</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" id="carForm">
+        <h2 class="form-signin-heading">Нове авто</h2>
+        <input type="hidden" id="clientId" value="">
+        <p>
+            <label class="form-label" for="number">Номер авто</label>
+            <input class="form-control" id="number" name="number" type="text" placeholder="Enter number" required>
+        </p>
+        <p>
+            <label class="form-label" for="vin_code">Він код</label>
+            <input class="form-control" id="vin_code" name="vin_code" type="text" placeholder="Enter vin code" required>
+        </p>
+        <p>
+            <label class="form-label" for="brand">Бренд</label>
+            <input class="form-control" id="brand" name="brand" type="text" placeholder="Enter brand" required>
+        </p>
+        <p>
+            <label class="form-label" for="model">Модель</label>
+            <input class="form-control" id="model" name="model" type="text" placeholder="Enter model" required>
+        </p>
+        <button class="btn btn-primary mb-3" type="submit">Додати</button>
+    </form>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var urlParts = window.location.pathname.split('/');
+        var clientId = urlParts[urlParts.length - 3];
+        var carForm = document.querySelector('#carForm');
+        var clientIdField = document.querySelector('#clientId');
+
+        clientIdField.value = clientId;
+
+        carForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var formData = new FormData(carForm);
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/garage/clients/' + clientId + '/cars');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    console.log('Car created successfully!');
+                    showSuccessMessage();
+                    setTimeout(redirectToCarsPage, 1500);
+                }
+            };
+            xhr.send(JSON.stringify(Object.fromEntries(formData)));
+        });
+
+        function showSuccessMessage() {
+            var successAlert = document.createElement('div');
+            successAlert.classList.add('alert', 'alert-success');
+            successAlert.textContent = 'A new car added';
+
+            var container = document.querySelector('.container');
+            container.insertBefore(successAlert, carForm);
+        }
+
+        function redirectToCarsPage() {
+            window.location.href = '/garage/clients/' + clientId + '/cars';
+        }
+    });
+</script>
+
+</body>
+</html>

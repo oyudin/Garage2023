@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Create a Service History</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" id="serviceHistoryForm">
+        <h2 class="form-signin-heading">Нове обслуговування</h2>
+        <input type="hidden" id="carId" value="">
+        <input type="hidden" id="clientId" value="">
+
+        <label class="form-label" for="service_date">Дата ремонту авто</label>
+        <input class="form-control" id="service_date" name="service_date" type="date"
+               placeholder="Enter date">
+
+        <p>
+            <label class="form-label" for="mileage">Пробіг авто</label>
+            <input class="form-control" id="mileage" name="mileage" type="number"
+                   placeholder="Enter car mileage">
+        </p>
+        <p>
+            <label class="form-label" for="description">Детальна інформація про ремонт</label>
+            <textarea class="form-control" id="description" name="description" placeholder="Enter service description" required rows="3"></textarea>
+        </p>
+
+        <style>
+            textarea {
+                width: 100%;
+                resize: vertical;
+            }
+        </style>
+
+        <script>
+            const textarea = document.getElementById('description');
+
+            // Функция для обновления нумерации
+            function updateLineNumbers() {
+                const lines = textarea.value.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    if (i % 2 === 0) {
+                        lines[i] = (i / 2 + 1) + '. ' + lines[i].substring(lines[i].indexOf(' ') + 1);
+                    }
+                }
+                textarea.value = lines.join('\n');
+            }
+
+            // Обработчик события ввода
+            textarea.addEventListener('input', updateLineNumbers);
+        </script>
+
+        <label class="form-label" for="next_service_date">Рекомендована дата наступного обслуговування</label>
+            <input class="form-control" id="next_service_date" name="next_service_date" type="date"
+                   placeholder="Enter next service date" required>
+        </p>
+        <p>
+            <label class="form-label" for="price">Ціна</label>
+            <input class="form-control" id="price" name="price" type="number"
+                   placeholder="Enter service price">
+        </p>
+        <button class="btn btn-primary mb-3" id="backToServiceHistoryBtn" type="button">Повернутися до історії
+            обслуговування
+        </button>
+        <button class="btn btn-primary mb-3" type="submit">Створити</button>
+    </form>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var urlParts = window.location.pathname.split('/');
+        var carId = parseInt(urlParts[urlParts.length - 3]);
+        var clientId = parseInt(urlParts[urlParts.length - 5]);
+        var serviceHistoryForm = document.querySelector('#serviceHistoryForm');
+        var carIdField = document.querySelector('#carId');
+        var clientIdField = document.querySelector('#clientId');
+
+        carIdField.value = carId;
+        clientIdField.value = clientId;
+
+        serviceHistoryForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var serviceDate = new Date(document.querySelector('#service_date').value);
+            var nextServiceDate = new Date(document.querySelector('#next_service_date').value);
+            var price = parseFloat(document.querySelector('#price').value);
+
+            var today = new Date();
+
+            if (serviceDate > today) {
+                alert("Дата ремонту не може бути в майбутньому.");
+                return;
+            }
+
+            if (nextServiceDate <= today) {
+                alert("Дата наступного обслуговування має бути в майбутньому.");
+                return;
+            }
+
+            if (price <= 0) {
+                alert("Ціна повинна бути позитивним числом.");
+                return;
+            }
+
+            function trimURL() {
+                return window.location.pathname;
+            }
+
+            var trimmedPath = trimURL().replace('create', "createServiceHistory");
+            console.log(trimmedPath);
+
+            var formData = new FormData(serviceHistoryForm);
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', trimmedPath);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    console.log('Service history created successfully!');
+                    showSuccessMessage();
+                    setTimeout(redirectToServiceHistoryPage, 2000);
+                }
+            };
+            xhr.send(JSON.stringify(Object.fromEntries(formData)));
+        });
+
+        function showSuccessMessage() {
+            var successAlert = document.createElement('div');
+            successAlert.classList.add('alert', 'alert-success');
+            successAlert.textContent = 'A new service history entry has been added';
+
+            var container = document.querySelector('.container');
+            container.insertBefore(successAlert, serviceHistoryForm.nextSibling);
+        }
+
+        function redirectToServiceHistoryPage() {
+            window.location.href = '/garage/clients/' + clientId + '/cars/' + carId + "/service-history";
+        }
+
+        var backToServiceHistoryBtn = document.querySelector('#backToServiceHistoryBtn');
+        backToServiceHistoryBtn.addEventListener('click', function () {
+            redirectToServiceHistoryPage();
+        });
+    });
+</script>
+
+</body>
+</html>

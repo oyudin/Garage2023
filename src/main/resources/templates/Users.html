@@ -13,20 +13,20 @@
         <thead>
         <tr>
             <td style="color: #91c5ff">
-                All Persons
+                Only for ADMIN: Users Info
             </td>
         <tr style="color: #91c5ff">
-            <th>Person ID</th>
+            <th>User ID</th>
             <th>Name</th>
-            <th>Surname</th>
+            <th>Role</th>
         </tr>
         </thead>
-        <tbody th:each="person: ${persons}">
+        <tbody th:each="user: ${users}">
         <tr>
         <tr style="color: lightslategray">
-            <td th:text="${person.id}"></td>
-            <td th:text="${person.name}"></td>
-            <td th:text="${person.surname}"></td>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.role}"></td>
         </tr>
         </tbody>
     </table>
